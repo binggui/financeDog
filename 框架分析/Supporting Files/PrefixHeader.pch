@@ -1,0 +1,45 @@
+//
+//  PrefixHeader.pch
+//  框架分析
+//
+//  Created by 丙贵 on 18/5/17.
+//  Copyright © 2018年 Jenocy. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+//全局宏定义
+#import "CommonDefine.h"
+#import "UtilsDefine.h"
+#import "NetworkDefine.h"
+#import "VendorDefine.h"
+#import "FontAndColorDefine.h"
+#import "GFICommonTool.h"
+
+//基础类
+#import "AppDelegate+AppService.h"
+#import "RootViewController.h"
+#import "RootNavigationController.h"
+#import "UIView+Extension.h"
+#import "NSObject+Function.h"
+#import "WRNavigationBar.h"
+#import "HRHTTPTool.h"
+#import "LSDetainViewController.h"
+
+//第三方框架
+#import <YYKit.h>
+#import <MBProgressHUD.h>
+#import <Masonry.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <AFNetworking.h>
+#import <MJRefresh.h>
+#import <MJExtension.h>
+
+
+
+
+#endif /* PrefixHeader_pch */
