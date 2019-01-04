@@ -76,9 +76,6 @@
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <action selector="userEditAction:" destination="-1" eventType="editingDidEnd" id="Rnw-4S-R96"/>
-                    </connections>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z2h-J8-NDQ">
                     <rect key="frame" x="58" y="250" width="150" height="30"/>
@@ -89,9 +86,6 @@
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <action selector="passwordEditAction:" destination="-1" eventType="editingDidEnd" id="Q2a-G1-nOx"/>
-                    </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mCO-xD-BYT">
                     <rect key="frame" x="208" y="250" width="157" height="30"/>
@@ -169,6 +163,9 @@
                         <constraint firstAttribute="width" constant="18" id="VLP-nI-SJK"/>
                     </constraints>
                     <state key="normal" image="密码显示"/>
+                    <connections>
+                        <action selector="changeIsLook:" destination="-1" eventType="touchUpInside" id="4cI-Mo-ndH"/>
+                    </connections>
                 </button>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="设置新密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Quw-lq-dyR">
                     <rect key="frame" x="58" y="298.5" width="220" height="30"/>
@@ -232,7 +229,7 @@
                 <constraint firstItem="WHo-VT-HIn" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="yNp-bx-z41"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
-            <point key="canvasLocation" x="303" y="-450"/>
+            <point key="canvasLocation" x="181" y="-748"/>
         </view>
     </objects>
     <resources>

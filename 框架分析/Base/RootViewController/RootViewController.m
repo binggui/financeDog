@@ -148,7 +148,9 @@
     
     //    self.hud.dimBackground = NO;
     [self.hud show:YES];
-    [self.hud hide:YES afterDelay:duration];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hideHUDLoading];
+    });
     
 }
 - (void)showHUDTip:(NSString *)title{
@@ -192,6 +194,7 @@
     //    self.hud.dimBackground = NO;
     [self.hud show:YES];
     [self.hud hide:YES afterDelay:1.7];
+
 }
 
 - (void)showHUDTipAfterFiveM:(NSString *)title{

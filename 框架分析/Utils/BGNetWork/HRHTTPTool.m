@@ -34,8 +34,7 @@
     //     创建请求管理对象
     HRHTTPClient *manager = [HRHTTPClient shareNetworkTools];
     //     json
-      manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects: @"application/json", @"text/json", @"text/javascript", nil];
-    
+
     //     Cookie
     NSString *cookie = [USER_DEFAULT objectForKey:@"Cookie"];
     if (cookie != nil) {
@@ -82,6 +81,9 @@
         if (error) {
             failure(error);
             NSLog(@"error == %@",error);
+            NSData * data = error.userInfo[@"com.alamofire.serialization.response.error.data"];
+            NSString * str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"服务器的错误原因:%@",str);
         }
     }];
     

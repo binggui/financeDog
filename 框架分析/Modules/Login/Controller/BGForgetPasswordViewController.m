@@ -38,11 +38,13 @@
 
 //发送验证码
 - (IBAction)sendCode:(id)sender {
-    [self countDown];
+    
+    [self postUrl:kJRG_phoneverify_info andType:1];
+    
 }
 - (void)countDown
 {
-    [self postUrl:kJRG_phoneverify_info andType:0];
+    
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     /////////////添加倒计时
@@ -85,10 +87,10 @@
 }
 //确定
 - (IBAction)goToModifiedPassword:(id)sender {
-    NSUserDefaults *defaults = USER_DEFAULT;
-    [defaults removeObjectForKey:kIsLoginScuu];
-    [defaults synchronize];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    [self postUrl:kJRG_phoneverify_info andType:2];
+    
+
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -103,21 +105,41 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    [params setObject:self.userTextfield.text forKey:@"phone"];
+    NSString *urlTemp = nil;
+    if (type == 1) {//验证码
+        [params setObject:self.userTextfield.text forKey:@"phone"];
+        urlTemp = URl;
+    }else if (type == 2){//修改密码
+        [params setObject:self.passwordTextfield.text forKey:@"password"];
+        [params setObject:self.userTextfield.text forKey:@"phone"];
+        [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
+        urlTemp = URl;
+    }
         
 
     [HRHTTPTool postWithURL:URl parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
+            
             if ([json isKindOfClass:[NSDictionary class]]) {
-       
+                
+                if (type == 1) {//验证码
+                   [self countDown];
+                    
+                }else if (type == 2){//修改密码
+                    NSUserDefaults *defaults = USER_DEFAULT;
+                    [defaults removeObjectForKey:kIsLoginScuu];
+                    [defaults synchronize];
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
               
             }
         }else{
-            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            [super showHUDTip:[json objectForKey:@"error_msg"] duration:2.5];
         }
     } failure:^(NSError *error) {
-        [super showHUDTip:@"网络错误"];
+        [super showHUDTip:@"网络错误" duration:2.5];
         NSLog(@"error == %@",error);
     }];
 }

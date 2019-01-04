@@ -10,4 +10,5 @@
 
 @interface TTWeiboCommentTwoCell : UITableViewCell
 
+
 @end

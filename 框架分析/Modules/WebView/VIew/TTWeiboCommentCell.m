@@ -30,6 +30,13 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)recallRecommendButton:(id)sender {
+    
+    if ([_delegate respondsToSelector:@selector(didSelectPeople:)]) {
+        [_delegate didSelectPeople:self.remmentButton.tag];
+    }
+    
+}
 
 -(void)setDataModel:(WeiboCommentModel*)model{
     [self.txImg sd_setImageWithURL:[NSURL URLWithString:model.comment.user_profile_image_url]];

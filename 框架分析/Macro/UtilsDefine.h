@@ -56,6 +56,7 @@
 #define kEncodePhoneNum @"phonenum"//加密手机号
 #define kEncodePW @"passwd"//加密密码
 #define kIsLoginScuu @"islogin"//是否登录成功标志位
+#define KTokenMark @"token" //获取token
 #define finishLogin 1
 #define autoLogin 2
 

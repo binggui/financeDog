@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface popView : UIView
+
+
+
 //需要这个ID来统计
 @property (nonatomic, copy)NSString *ID;
 @property (nonatomic, copy)void (^dismissPopViewBlock)();

@@ -23,9 +23,10 @@
 
 static NSString *const cellfidf=@"TTWeiboCommentCell";
 static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
-@interface LSDetainViewController ()<UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate>
+@interface LSDetainViewController ()<UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate,TTWeiboCommentCellDelegate>
 
 @property (nonatomic,strong) NSMutableArray *datas;//底部tableview的数据
+@property (nonatomic,strong) NSMutableArray *cellDatas;//底部tableview的数据
 @property (nonatomic,weak) LSNewsDetailWebviewContainer *detailWebviewContainer;
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 
@@ -97,12 +98,18 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     [self loadClick:nil];
 }
 
+#pragma mark - CircleCellDelegate,LikeUserCellDelegate
+- (void)didSelectPeople:(NSInteger)dic {
+    [self.cellDatas addObject:@"1"];
+    
+    [self.detailWebviewContainer.tableview reloadData];
+}
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView==self.detailWebviewContainer.scrollview) {
         if (scrollView.contentOffset.y>=self.detailWebviewContainer.webview.scrollView.contentSize.height-self.view.frame.size.height+44+46) {
-            self.title=@"松哥博客";
+            self.title=@"贵哥博客";
         }else{
             self.title=@"";
         }
@@ -119,9 +126,13 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 {
     self.emptyView.hidden=YES;
     self.datas=[NSMutableArray array];
+    self.cellDatas = [NSMutableArray array];
     //一般新闻评论每页数据都是20条
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<4; i++) {
         [self.datas addObject:@"1"];
+    }
+    for (int i=0; i<2; i++) {
+        [self.cellDatas addObject:@"1"];
     }
     [self.detailWebviewContainer.tableview reloadData];
 
@@ -138,7 +149,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 {
     //延迟模拟网络请求
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<2; i++) {
             [self.datas addObject:@"1"];
         }
         if (self.datas.count>=60) {
@@ -151,12 +162,12 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return self.datas.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.datas.count;
+    return self.cellDatas.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -176,6 +187,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
         }
         //    [cell setDataModel:model];
         //    cell.textLabel.text=[NSString stringWithFormat:@"%ld",indexPath.row];
+        cellOne.delegate = self;
+        cellOne.remmentButton.tag = indexPath.section;
         cell = cellOne;
         
     }

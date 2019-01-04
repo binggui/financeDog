@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *isLookButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backImgTopConstrait;
 @property (weak, nonatomic) IBOutlet UIButton *sendCodeButton;
+@property (assign, nonatomic) BOOL  passswordLookFlag;
 
 @end
 
@@ -38,8 +39,10 @@
     self.passwordIcon.hidden = YES;
     self.passwordRegistTextField.hidden = YES;
     _backImgTopConstrait.constant = -NAV_HEIGHT;
-    self.isLookButton.hidden = YES;
     _loginConstraint.constant = 30;
+    _passswordLookFlag = YES;
+    self.isLookButton.hidden = YES;
+    
     [self setupUI];
     
     // Do any additional setup after loading the view from its nib.
@@ -67,6 +70,7 @@
         [_forgetPasswordButton setTitle:@"忘记密码" forState:UIControlStateNormal];
         _sendCodeButton.hidden = YES;
         _forgetPasswordButton.hidden = NO;
+        self.isLookButton.hidden = YES;
         
 
     }else{
@@ -77,12 +81,13 @@
         [_forgetPasswordButton setTitle:@"发送验证码" forState:UIControlStateNormal];
         _sendCodeButton.hidden = NO;
         _forgetPasswordButton.hidden = YES;
+        self.isLookButton.hidden = NO;
     }
     self.passwordRegistTextField.tag = 100;
     self.usersTestField.tag = 200;
     self.passwordTestField.tag = 300;
     
-    self.passwordTestField.secureTextEntry = true;
+
     
     [_usersTestField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 //    [_passwordRegistTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -96,6 +101,7 @@
     [super viewWillDisappear:animated];
     [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:@"#00486b"]];
     [self wr_setNavBarBackgroundAlpha:1];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -104,22 +110,24 @@
     [self wr_setNavBarBackgroundAlpha:0];
 }
 
-//用户
-- (IBAction)userEditAction:(id)sender {
-}
-//密码 // 验证码
-- (IBAction)passwordEditAction:(id)sender {
-    if (self.showFlag) {//密码
-        
-        
-    }else{//验证码
+//密码保密
+- (IBAction)changeIsLook:(id)sender {
+    _passswordLookFlag = !_passswordLookFlag;
+    if(_passswordLookFlag){
+        [self.isLookButton setImage:[UIImage imageNamed:@"密码显示"] forState:UIControlStateNormal];
+        _passwordRegistTextField.secureTextEntry = NO;
+  
+    }else{
+        [self.isLookButton setImage:[UIImage imageNamed:@"密码隐藏"] forState:UIControlStateNormal];
+        _passwordRegistTextField.secureTextEntry = YES;
         
     }
 }
 
 //发送验证码
 - (IBAction)sendCodeAction:(id)sender {
-    [self countDown];
+    [self postUrl:kJRG_phoneverify_info andType:1];
+    
 }
 
 //忘记密码
@@ -140,9 +148,9 @@
         
         
     }else if (theTextField.tag == 100){
-        if (theTextField.text.length == 7){
+        if (theTextField.text.length == 5){
             //验证号码的合理性
-            theTextField.text = [theTextField.text substringToIndex:6];
+            theTextField.text = [theTextField.text substringToIndex:4];
             if (![theTextField.text isTelephoneNum]){
                 theTextField.text = @"";
             }
@@ -153,7 +161,7 @@
 
 - (void)countDown
 {
-    [self postUrl:kJRG_phoneverify_info andType:1];
+    
     /////////////添加倒计时
     __block int timeout= 60; //倒计时时间
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -210,10 +218,10 @@
     if (self.showFlag) {//登录1,注册0
         
         [self postUrl:kJRG_login andType:2];
-        //登录成功,本地保存
-        NSUserDefaults *defaults = USER_DEFAULT;
-        [defaults setBool:YES forKey:kIsLoginScuu];
-        [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+//        //登录成功,本地保存
+//        NSUserDefaults *defaults = USER_DEFAULT;
+//        [defaults setBool:YES forKey:kIsLoginScuu];
+//        [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 
     }else{
 
@@ -253,8 +261,7 @@
                 _loginConstraint.constant = 30;
                 self.passwordIcon.hidden = YES;
                 self.passwordRegistTextField.hidden = YES;
-                self.isLookButton.hidden = YES;
-                self.passwordTestField.secureTextEntry = false;
+                self.passwordTestField.secureTextEntry = YES;
                 
             }else{
                 if (kISiPhone5){
@@ -267,8 +274,7 @@
                 }
                 self.passwordIcon.hidden = NO;
                 self.passwordRegistTextField.hidden = NO;
-//                self.isLookButton.hidden = NO;
-                self.passwordTestField.secureTextEntry = true;
+                self.passwordTestField.secureTextEntry = NO;
             }
         } completion:^(BOOL finished) {
             [self setupUI];
@@ -280,10 +286,13 @@
 }
 //第三方微信登录
 - (IBAction)weTalkAction:(id)sender {
+
+
 }
 
 //QQ登录
 - (IBAction)QQLoginAction:(id)sender {
+
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -303,43 +312,43 @@
     }else if (type == 2){//登录
         [params setObject:self.passwordTestField.text forKey:@"password"];
         [params setObject:self.usersTestField.text forKey:@"phone"];
-        
+
     }else if (type == 3){//注册
         [params setObject:self.passwordRegistTextField.text forKey:@"verify"];
         [params setObject:self.passwordTestField.text forKey:@"password"];
         [params setObject:self.usersTestField.text forKey:@"phone"];
+
     }
     
 
-    [HRHTTPTool postWithURL:kJRG_index_info parameters:params success:^(id json) {
+    [HRHTTPTool postWithURL:URl parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
+
         if ([result intValue] == 200) {
             if ([json isKindOfClass:[NSDictionary class]]) {
                 if (type == 1) {//验证码
                     //验证
-                    
-                    
+                    [self countDown];
+                   
                 }else if (type == 2){//登录
                     //登录成功,本地保存
                     NSUserDefaults *defaults = USER_DEFAULT;
                     [defaults setBool:YES forKey:kIsLoginScuu];
                     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-                    
+                    [defaults setObject:[json objectForKey:@"token"] forKey:KTokenMark];
                 }else if (type == 3){//注册
                     //转换登录界面
                     [self registUserAction:nil];
+                    NSUserDefaults *defaults = USER_DEFAULT;
+                    [defaults setObject:[json objectForKey:@"token"] forKey:KTokenMark];
                     
                 }
-               
-                
-                
-                
             }
         }else{
-            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            [super showHUDTip:[json objectForKey:@"error_msg"] duration:2.5];
         }
     } failure:^(NSError *error) {
-        [super showHUDTip:@"网络错误"];
+        [super showHUDTip:@"网络错误" duration:1.7];
         NSLog(@"error == %@",error);
     }];
 }
