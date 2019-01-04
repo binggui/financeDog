@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TTWeiboCommentTwoCell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UIView *backView;
 
 @end

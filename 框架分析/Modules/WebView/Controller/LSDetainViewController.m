@@ -23,7 +23,7 @@
 
 static NSString *const cellfidf=@"TTWeiboCommentCell";
 static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
-@interface LSDetainViewController ()<UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate,TTWeiboCommentCellDelegate>
+@interface LSDetainViewController ()<UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate,TTWeiboCommentCellDelegate,popViewDelegate>
 
 @property (nonatomic,strong) NSMutableArray *datas;//底部tableview的数据
 @property (nonatomic,strong) NSMutableArray *cellDatas;//底部tableview的数据
@@ -99,10 +99,17 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 }
 
 #pragma mark - CircleCellDelegate,LikeUserCellDelegate
-- (void)didSelectPeople:(NSInteger)dic {
+
+- (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content{
+    
+    
     [self.cellDatas addObject:@"1"];
     
     [self.detailWebviewContainer.tableview reloadData];
+}
+- (void)didSelectPeople:(NSIndexPath *) cellIndexPath; {
+    
+    [self alertPopView:cellIndexPath andPlaceHolderTitle:@"回复"];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -148,7 +155,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 -(void)loadMoreData
 {
     //延迟模拟网络请求
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         for (int i=0; i<2; i++) {
             [self.datas addObject:@"1"];
         }
@@ -189,21 +196,18 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
         //    cell.textLabel.text=[NSString stringWithFormat:@"%ld",indexPath.row];
         cellOne.delegate = self;
         cellOne.remmentButton.tag = indexPath.section;
+        cellOne.cellIndexPath = indexPath;
         cell = cellOne;
         
     }
     return cell;
     
-
-    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UIViewController *vc=[[UIViewController alloc]init];
-    vc.title=@"评论详情";
-    vc.view.backgroundColor=[UIColor whiteColor];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (indexPath.row != 0) {
+        [self alertPopView:indexPath andPlaceHolderTitle:@"给丙贵回复"];
+    }
 }
 
 
@@ -324,7 +328,14 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 //评论
 - (void)gotoJudge{
+    [self alertPopView:nil andPlaceHolderTitle:@"请输入1-200字的评论"];
+}
+
+-(void)alertPopView:(NSIndexPath *)indexPath andPlaceHolderTitle:(NSString *)title{
     self.popview = [[popView alloc] initView];
+    self.popview.delegagte = self;
+    self.popview.indexPath = indexPath;
+    self.popview.placeHolderTitle = title;
     __weak typeof (self) weaklf = self;
     _popview.dismissPopViewBlock = ^{
         [weaklf.popview removeFromSuperview];
@@ -333,7 +344,6 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     //    _popview.ID = _ID;
     [_popview show];
 }
-
 //阅读量
 - (void)readNumber{
     NSLog(@"阅读量");

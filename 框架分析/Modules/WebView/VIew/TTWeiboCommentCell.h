@@ -12,19 +12,21 @@
 
 @protocol TTWeiboCommentCellDelegate <NSObject>
 @optional
-- (void)didSelectPeople:(NSInteger)dic;
+- (void)didSelectPeople:(NSIndexPath *) cellIndexPath;
 
 @end
 
 @interface TTWeiboCommentCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIButton *goodButton;
 @property (weak, nonatomic) IBOutlet UIImageView *txImg;
 @property (weak, nonatomic) IBOutlet UIButton *nameShow;
-@property (weak, nonatomic) IBOutlet UILabel *zangCountLable;
 @property (weak, nonatomic) IBOutlet UILabel *contentLable;
 @property (weak, nonatomic) IBOutlet UILabel *timeShowLable;
 @property (weak, nonatomic) IBOutlet UILabel *timeShowLabelNew;
 @property (weak, nonatomic) IBOutlet UIButton *remmentButton;
+@property (strong, nonatomic) NSIndexPath * cellIndexPath;
 @property (nonatomic, weak) id <TTWeiboCommentCellDelegate> delegate;
+@property (assign, nonatomic) BOOL  goodFlag;
 
 -(void)setDataModel:(WeiboCommentModel*)model;
 @end

@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol popViewDelegate <NSObject>
+@optional
+- (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content ;
+
+@end
+
 @interface popView : UIView
-
-
-
 //需要这个ID来统计
+@property(nonatomic,weak)id<popViewDelegate> delegagte;
 @property (nonatomic, copy)NSString *ID;
+@property (strong, nonatomic) NSIndexPath * indexPath;
+@property (strong, nonatomic) NSString * placeHolderTitle;
 @property (nonatomic, copy)void (^dismissPopViewBlock)();
 -(id)initView;
 -(void)show;

@@ -156,6 +156,8 @@
 		72B91D6221DDBA3700622EF6 /* MoreCommentLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D6021DDBA3700622EF6 /* MoreCommentLogic.m */; };
 		72B91D6521DDBA8600622EF6 /* WeiboCommentTwoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D6421DDBA8600622EF6 /* WeiboCommentTwoModel.m */; };
 		72B91D6821DDE1C600622EF6 /* WGAdvertisementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D6721DDE1C600622EF6 /* WGAdvertisementModel.m */; };
+		72B91D8421DF368100622EF6 /* OMGToastShow.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8021DF368100622EF6 /* OMGToastShow.m */; };
+		72B91D8521DF368100622EF6 /* OMGToast.mm in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8221DF368100622EF6 /* OMGToast.mm */; };
 		72D5F6FD21C9DD6A00646D65 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D5F6FB21C9DD6A00646D65 /* AppDelegate.m */; };
 		72D5F6FE21C9DD6A00646D65 /* AppDelegate+AppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D5F6FC21C9DD6A00646D65 /* AppDelegate+AppService.m */; };
 		72DA90E720E474CA00F2F4D5 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DA90E620E474CA00F2F4D5 /* ____Tests.m */; };
@@ -417,6 +419,10 @@
 		72B91D6421DDBA8600622EF6 /* WeiboCommentTwoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiboCommentTwoModel.m; sourceTree = "<group>"; };
 		72B91D6621DDE1C600622EF6 /* WGAdvertisementModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WGAdvertisementModel.h; sourceTree = "<group>"; };
 		72B91D6721DDE1C600622EF6 /* WGAdvertisementModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WGAdvertisementModel.m; sourceTree = "<group>"; };
+		72B91D8021DF368100622EF6 /* OMGToastShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMGToastShow.m; sourceTree = "<group>"; };
+		72B91D8121DF368100622EF6 /* OMGToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMGToast.h; sourceTree = "<group>"; };
+		72B91D8221DF368100622EF6 /* OMGToast.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OMGToast.mm; sourceTree = "<group>"; };
+		72B91D8321DF368100622EF6 /* OMGToastShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMGToastShow.h; sourceTree = "<group>"; };
 		72D5F6F921C9DD6A00646D65 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		72D5F6FA21C9DD6A00646D65 /* AppDelegate+AppService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+AppService.h"; sourceTree = "<group>"; };
 		72D5F6FB21C9DD6A00646D65 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1129,6 +1135,7 @@
 		729BD8AF20AC35C000767D92 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				72B91D7F21DF368100622EF6 /* OMGToast */,
 				72B91D1C21D3310C00622EF6 /* BGNetWork */,
 				726026CE21D221DE003649C9 /* WRNavigationBar */,
 				727E7EB320AD75D800C6DDA4 /* Category */,
@@ -1241,6 +1248,17 @@
 				72B91D6421DDBA8600622EF6 /* WeiboCommentTwoModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		72B91D7F21DF368100622EF6 /* OMGToast */ = {
+			isa = PBXGroup;
+			children = (
+				72B91D8021DF368100622EF6 /* OMGToastShow.m */,
+				72B91D8121DF368100622EF6 /* OMGToast.h */,
+				72B91D8221DF368100622EF6 /* OMGToast.mm */,
+				72B91D8321DF368100622EF6 /* OMGToastShow.h */,
+			);
+			path = OMGToast;
 			sourceTree = "<group>";
 		};
 		72D5F6F821C9DD6A00646D65 /* AppDelegate */ = {
@@ -1525,6 +1543,7 @@
 				72B91D3C21DC66FF00622EF6 /* NSObject+Function.m in Sources */,
 				72B91D3F21DC94F900622EF6 /* LSNewsDetailWebviewContainer.m in Sources */,
 				72B91D3521D37F6700622EF6 /* CommonListLogic.m in Sources */,
+				72B91D8421DF368100622EF6 /* OMGToastShow.m in Sources */,
 				727E7EBB20AD75D800C6DDA4 /* UICollectionView+IndexPath.m in Sources */,
 				727E7EC220AD76CA00C6DDA4 /* RootWebViewController.m in Sources */,
 				727E7EA220AD74EE00C6DDA4 /* SecondViewController.m in Sources */,
@@ -1554,6 +1573,7 @@
 				726026CD21D0C7E2003649C9 /* BGSearchTableViewController.m in Sources */,
 				726026C021D0859A003649C9 /* CXSearchModel.m in Sources */,
 				726026BF21D0859A003649C9 /* CXSearchSectionModel.m in Sources */,
+				72B91D8521DF368100622EF6 /* OMGToast.mm in Sources */,
 				726025F121CA4981003649C9 /* PersonDetailViewController.m in Sources */,
 				72B91D3221D37F4D00622EF6 /* CommonViewController.m in Sources */,
 				72B91D5821DCE48600622EF6 /* TTWeiboCommentTwoCell.m in Sources */,

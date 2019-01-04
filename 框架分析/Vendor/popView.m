@@ -161,6 +161,10 @@
         
     }];
 }
+
+- (void)setPlaceHolderTitle:(NSString *)placeHolderTitle{
+    self.placeHolderTextView.text = placeHolderTitle;
+}
 #pragma mark setBottomUI
 -(void)setBottomUI
 {
@@ -230,19 +234,27 @@
 - (void)sendBtnDown{
     
     //block回调
-//    if ([self.textView.text isEqualToString:@""]) {
-//        [OMGToast showWithText:@"请输入评论内容" topOffset:180.0f duration:1.0];
-//        return;
-//    }
-//    if (self.textView.text.length > 200) {
-//        [OMGToast showWithText:@"评论字数不得超过200字" topOffset:180.0f duration:1.0];
-//        return;
-//    }
+    if ([self.textView.text isEqualToString:@""]) {
+        [OMGToast showWithText:@"请输入评论内容" topOffset:180.0f duration:1.0];
+        return;
+    }
+    if (self.textView.text.length > 200) {
+        [OMGToast showWithText:@"评论字数不得超过200字" topOffset:180.0f duration:1.0];
+        return;
+    }
     //消失本身
     if (self.dismissPopViewBlock) {
         [self dismissAlert];
         self.dismissPopViewBlock();
     }
+    
+    if ([self.delegagte respondsToSelector:@selector(sendContentText:andContent:)]){
+        
+        [self.delegagte sendContentText:self.indexPath andContent:self.textView.text];
+    }
+    
+    
+    
 //    NSMutableDictionary *params = [NSMutableDictionary dictionary];
 //    [params setObject:self.ID forKey:@"id"];
 //    NSString *sid = [USER_DEFAULT objectForKey:@"sid"];

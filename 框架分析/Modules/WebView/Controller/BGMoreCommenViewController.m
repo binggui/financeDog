@@ -9,11 +9,12 @@
 #import "BGMoreCommenViewController.h"
 #import "TTWeiboCommentTwoCell.h"
 #import "TTWeiboCommentCell.h"
+#import "popView.h"
 
 static NSString *const cellfidf=@"TTWeiboCommentCell";
 
-@interface BGMoreCommenViewController ()<UITableViewDelegate,UITableViewDataSource>
-
+@interface BGMoreCommenViewController ()<UITableViewDelegate,UITableViewDataSource,popViewDelegate,TTWeiboCommentCellDelegate>
+@property (nonatomic, strong)popView *popview;
 @end
 
 @implementation BGMoreCommenViewController
@@ -83,6 +84,8 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
     if (cell==nil) {
         cell=[tableView dequeueReusableCellWithIdentifier:cellfidf];
     }
+    cell.cellIndexPath = indexPath;
+    cell.delegate = self;
     return cell;
 }
 //- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -90,21 +93,30 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
 //}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //先判断是否登录
-    NSInteger flag = [GFICommonTool isLogin];
-    if (flag == finishLogin) {//已登录
-        LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=kWebTestUrl;
-        VC.firstConfigute=YES;
-        VC.title = @"详情";
-        [self.navigationController pushViewController:VC animated:YES];
-        
-    }else{//未登录
-        //为了显示未登录布局，不弹出登录框
-        
-        [GFICommonTool login:self];
-        
-    }
+    
+
+    
+}
+-(void)alertPopView:(NSIndexPath *)indexPath andPlaceHolderTitle:(NSString *)title{
+    self.popview = [[popView alloc] initView];
+    self.popview.delegagte = self;
+    self.popview.indexPath = indexPath;
+    self.popview.placeHolderTitle = title;
+    __weak typeof (self) weaklf = self;
+    _popview.dismissPopViewBlock = ^{
+        [weaklf.popview removeFromSuperview];
+        weaklf.popview = nil;
+    };
+    //    _popview.ID = _ID;
+    [_popview show];
+}
+- (void)didSelectPeople:(NSIndexPath *) cellIndexPath; {
+    
+    [self alertPopView:cellIndexPath andPlaceHolderTitle:@"回复"];
 }
 
+- (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content{
+     [OMGToast showWithText:@"回复了" topOffset:KScreenHeight/2 duration:3.0];
+    
+}
 @end

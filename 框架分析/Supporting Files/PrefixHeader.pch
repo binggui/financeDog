@@ -29,6 +29,7 @@
 #import "WRNavigationBar.h"
 #import "HRHTTPTool.h"
 #import "LSDetainViewController.h"
+#import "OMGToast.h"
 
 //第三方框架
 #import <YYKit.h>
