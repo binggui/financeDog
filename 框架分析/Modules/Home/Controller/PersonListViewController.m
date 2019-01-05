@@ -51,8 +51,8 @@
 -(void)setupUI{
     
     //添加导航栏按钮
-    [self addNavigationItemWithTitles
-     :@[@"筛选"] isLeft:NO target:self action:@selector(naviBtnClick:) tags:@[@1000]];
+//    [self addNavigationItemWithTitles
+//     :@[@"筛选"] isLeft:NO target:self action:@selector(naviBtnClick:) tags:@[@1000]];
     
     //设置瀑布流布局
     WaterFlowLayout *layout = [WaterFlowLayout new];
@@ -110,7 +110,7 @@
     //    [params setObject:@"JINRONGGOU" forKey:@"APPSERCERT"];
     //    [params setObject:@"15860005125" forKey:@"phone"];
     
-    [HRHTTPTool postWithURL:kJRG_index_info parameters:nil success:^(id json) {
+    [HRHTTPTool postWithURL:kJRG_exampleapi_info parameters:nil success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
             if ([json isKindOfClass:[NSDictionary class]]) {

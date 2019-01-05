@@ -22,6 +22,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *personImg;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *sexSegment;
 
+@property (weak, nonatomic) IBOutlet UILabel *phoneNumber;
+
+@property (strong, nonatomic) NSDictionary * personDic;
+
 @end
 
 @implementation BGSettingTableViewController
@@ -29,19 +33,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self  setupUI];
+   
     [self.navigationItem setTitle:@"个人设置"];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.personDic = appDelegate.personArr;
+    [self  setupUI];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 -(void)setupUI {
+//    self.phoneNumber.text = [self.personDic objectForKey:@"mobile"];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.tableFooterView = [[UIView alloc]init];
     ViewBorderRadius(_personImg, 30, 1, KBlackColor);
+    
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

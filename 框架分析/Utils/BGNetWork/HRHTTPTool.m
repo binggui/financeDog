@@ -34,7 +34,8 @@
     //     创建请求管理对象
     HRHTTPClient *manager = [HRHTTPClient shareNetworkTools];
     //     json
-
+    NSUserDefaults *defaults = USER_DEFAULT;
+    
     //     Cookie
     NSString *cookie = [USER_DEFAULT objectForKey:@"Cookie"];
     if (cookie != nil) {
@@ -42,7 +43,13 @@
     }else{
         [manager.requestSerializer setValue:@"" forHTTPHeaderField:@"Cookie"];
     }
+    long str = [defaults integerForKey:KidMark];
+    NSNumber *longNumber = [NSNumber numberWithLong: str];
+    NSString *longStr = [longNumber stringValue];
     
+    [manager.requestSerializer setValue:@"ios_1.0" forHTTPHeaderField:@"version"];
+    [manager.requestSerializer setValue:longStr  forHTTPHeaderField:@"id"];
+    [manager.requestSerializer setValue: [defaults objectForKey:KTokenMark] forHTTPHeaderField:@"token"];
     //     给接口命令字(从url中截取)
     NSArray *strArr = [URL componentsSeparatedByString:@"/"];
     [manager.requestSerializer setValue:[strArr lastObject] forHTTPHeaderField:@"Action"];

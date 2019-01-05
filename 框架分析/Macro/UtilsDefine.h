@@ -40,7 +40,7 @@
 #define kISiPhone6H ([UIScreen mainScreen].bounds.size.height == iPhone6H)
 
 //获取系统对象
-#define kApplication        [UIApplication sharedApplication]
+#define kApplication        [UIApplication sharedApplication].delegate
 #define kAppWindow          [UIApplication sharedApplication].delegate.window
 #define kAppDelegate        [AppDelegate shareAppDelegate]
 #define kRootViewController [UIApplication sharedApplication].delegate.window.rootViewController
@@ -57,6 +57,7 @@
 #define kEncodePW @"passwd"//加密密码
 #define kIsLoginScuu @"islogin"//是否登录成功标志位
 #define KTokenMark @"token" //获取token
+#define KidMark @"id" //获取token
 #define finishLogin 1
 #define autoLogin 2
 

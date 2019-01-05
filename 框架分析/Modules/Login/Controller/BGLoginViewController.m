@@ -49,6 +49,10 @@
 }
 -(void) setupUI{
     [self _initUI];
+    //导航栏透明属性
+    self.navigationController.navigationBar.translucent = YES;
+    //导航栏闪白条
+    [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
     if (kISiPhone5){
@@ -65,6 +69,7 @@
     if (self.showFlag) {//登录1,注册0
         _usersTestField.placeholder = @"输入手机号/用户名";
         _passwordTestField.placeholder = @"输入密码";
+        _passwordTestField.secureTextEntry = YES;
         [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
         [_registerButton setTitle:@"新用户注册账号" forState:UIControlStateNormal];
         [_forgetPasswordButton setTitle:@"忘记密码" forState:UIControlStateNormal];
@@ -97,15 +102,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:@"#00486b"]];
     [self wr_setNavBarBackgroundAlpha:1];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    //导航栏透明属性
+    self.navigationController.navigationBar.translucent = YES;
+    //导航栏闪白条
+    [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
 }
@@ -334,13 +342,20 @@
                     //登录成功,本地保存
                     NSUserDefaults *defaults = USER_DEFAULT;
                     [defaults setBool:YES forKey:kIsLoginScuu];
+                    NSString *str = [json objectForKey:KTokenMark] ;
+                    [defaults setObject:str forKey:KTokenMark];
+                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                    appDelegate.personArr = [json objectForKey:@"result"];
+                    NSString *strTemp = [[json objectForKey:@"result"]  objectForKey:KidMark];
+                    [defaults setObject:strTemp forKey:KidMark];
+                    
+                    //2.1立即同步
+                    [defaults synchronize];
                     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-                    [defaults setObject:[json objectForKey:@"token"] forKey:KTokenMark];
+
                 }else if (type == 3){//注册
                     //转换登录界面
                     [self registUserAction:nil];
-                    NSUserDefaults *defaults = USER_DEFAULT;
-                    [defaults setObject:[json objectForKey:@"token"] forKey:KTokenMark];
                     
                 }
             }

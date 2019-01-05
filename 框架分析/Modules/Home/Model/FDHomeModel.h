@@ -35,6 +35,8 @@
 //收藏数
 @property (nonatomic, copy)NSString *collectionCount;// 暂不用
 
+@property (copy, nonatomic) NSString * goodCount;
+@property (strong, nonatomic) NSString * CommentCount;
 //标题
 @property (nonatomic, copy)NSString *title;
 //图片数组(type == 3时存在)

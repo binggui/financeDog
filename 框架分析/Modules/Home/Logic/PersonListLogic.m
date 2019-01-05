@@ -27,7 +27,7 @@
         _imgArray = @[@"http://d.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=76dcee959358d109c4b6a1b4e168e087/11385343fbf2b211389b08a5cb8065380dd78ea0.jpg",@"http://www.soideas.cn/uploads/allimg/110626/2126221034-5.jpg",@"http://scimg.jb51.net/touxiang/201705/2017053121043719.jpg",@"http://scimg.jb51.net/touxiang/201706/20170609172558191.jpg",@"http://www.qqleju.com/uploads/allimg/160818/18-065635_493.jpg",@"http://img1.touxiang.cn/uploads/allimg/111029/1_111029111038_26.jpg",@"http://img2.zol.com.cn/up_pic/20120705/z1vsowZWoKbr.jpg",@"http://www.soideas.cn/uploads/allimg/110524/2246442634-17.jpg",@"http://dynamic-image.yesky.com/600x-/uploadImages/upload/20140909/upload/201409/25u12gkmr3ujpg.jpg",@"http://www.qqleju.com/uploads/allimg/160213/13-053516_87.jpg",@"http://d.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=4aca31fad02a60595245e91e1d0418ad/a8773912b31bb051e3dc6e1b317adab44aede00d.jpg",@"http://img4.duitang.com/uploads/item/201312/05/20131205171748_BeJcN.thumb.600_0.jpeg",@"http://cdn.duitang.com/uploads/item/201312/05/20131205171746_MxNX8.thumb.600_0.jpeg"];
         _nickNameArray = @[@"上官无情",@"慕容空",@"玩的差瘾挺大",@"快枪手",@"YoYo产品经理",@"亲我一口能咋地",@"Rain"];
         _hobbysArray = @[@"四环有套房",@"人之初性本善，玩心眼都滚蛋",@"不约炮，年前已约满",@"弹琴，跳舞，书法，古筝，茶艺我都不会，我只会打王者荣耀",@"喜欢电影，音乐，旅游，爬山，徒步，淘宝，摄影，画画，话剧，美食，吹的我都累了",@"健身，游泳，阅读，打游戏",@"活好不粘人"];
-        _fromArray = @[@"北京 学生",@"上海 模特",@"青岛 美容师",@"四川 八线小演员",@"新疆 游击队",@"东北 二人转演员"];
+        _fromArray = @[@"A 证券",@"B 证券",@"C 证券",@"D 证券",@"E 证券",@"F 证券"];
     }
     return self;
 }
@@ -49,8 +49,7 @@
             model.hobbys = _hobbysArray[arc4random()%_hobbysArray.count];
             model.age = @"28岁";
             model.city = _fromArray[arc4random()%_fromArray.count];
-            model.juli = i%2==0 ? @"0.5km" : @"1800km";
-            
+            model.juli = i%2==0 ? @"169" : @"1700";
             model.width = 150;
             model.height = 150;
             
@@ -69,6 +68,44 @@
 //    } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
 //        NSLog(@"请求失败 %@",req.message);
 //    }];
+}
+
+//网络请求
+- (void)getPics{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [params setObject:@(self.page + 1) forKey:@"index"];
+    
+    [HRHTTPTool postWithURL:kJRG_exampleapi_info parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+                NSMutableArray *tempNewsArr = [NSMutableArray array];
+                NSArray *tempArr = [json objectForKey:@"result"];
+                for (NSDictionary *dict in tempArr) {
+                    
+                    PersonModel *model = [PersonModel mj_objectWithKeyValues:dict];
+                    [tempNewsArr addObject:model];
+                    
+                }
+                if(tempNewsArr.count > 0){
+                    
+                    self.dataArray = tempNewsArr.mutableCopy;
+                    if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
+                        
+                        [self.delegagte requestDataCompleted];
+                    }
+                }
+            }
+        }else{
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
+        }
+    } failure:^(NSError *error) {
+        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+        NSLog(@"error == %@",error);
+    }];
 }
 
 @end

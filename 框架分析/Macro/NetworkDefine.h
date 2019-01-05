@@ -95,6 +95,9 @@
 #define kBaseUrl @"http://jrg.yunmeitiweb.com/user/phoneapi.loginapi/"
 #define kBaseportalUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.indexapi/"
 #define kBasehotlUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.hotnewapi/"
+#define kExampleapiUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.exampleapi/"
+#define kEditpwdUrl @"http://jrg.yunmeitiweb.com/user/phoneapi.personalapi/"
+
 
 
 #define kJRG_regeister kBaseUrl @"regeister"   //注册
@@ -103,9 +106,10 @@
 #define kJRG_phoneverify_info kBaseUrl @"phoneverify"   //验证码
 #define kJRG_index_info kBaseportalUrl @"index"   //首页数据接口
 #define kJRG_hotnew_info kBaseUrl @"hotnew"   //hotnew
-
-
-
+#define kJRG_weeknew_info kBasehotlUrl @"weeknew"//周热点
+#define kJRG_search_info kBaseportalUrl @"search"//搜索
+#define kJRG_exampleapi_info kExampleapiUrl @"index"//搜索
+#define kJRG_editpwd_info kEditpwdUrl @"editpwd"//修改密码
 
 /**开发服务器*/
 #define URL_main @"http://218.205.209.238/shark-miai-fubinggui"

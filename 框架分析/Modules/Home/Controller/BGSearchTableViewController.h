@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BGSearchTableViewController : UITableViewController
+@interface BGSearchTableViewController : RootViewController
 @property (strong, nonatomic) NSString * searchText;
 @end

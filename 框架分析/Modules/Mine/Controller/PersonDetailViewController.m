@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *personButton;
 @property (strong, nonatomic) UILabel * messageNumbeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backImageTopConstrait;
+@property (strong, nonatomic) NSDictionary * personArray;
 
 @end
 
@@ -40,6 +41,8 @@
     // Do any additional setup after loading the view from its nib.
     [self setupUI];
 //    self.navigationController.title = @"个人中心";
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.personArray = appDelegate.personArr;
     [self.navigationItem setTitle:@"个人中心"];
 }
 -(void)setupUI{
@@ -64,17 +67,22 @@
     if(isRetina || isiPhone5){
        _bottomTableView.scrollEnabled = YES;
     }
+    //导航栏闪白条
+    [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
 
 //    self.bottomTableView.contentInset = UIEdgeInsetsMake( - NAV_HEIGHT, 0, 0, 0);
 //    self.view.frame = CGRectMake(0, -NAV_HEIGHT, 0, 0);
     self.navigationController.title = @"个人中心";
-}
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.translucent = NO;
     
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:@"#00486b"]];
+    [self wr_setNavBarBackgroundAlpha:1];
+    self.navigationController.navigationBar.translucent = NO;
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -84,7 +92,7 @@
     [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
-//   self.navigationController.navigationBar.subviews.firstObject.hidden = YES;
+    self.navigationController.navigationBar.subviews.firstObject.hidden = YES;
 }
 - (IBAction)changePersonImageButton:(id)sender {
     

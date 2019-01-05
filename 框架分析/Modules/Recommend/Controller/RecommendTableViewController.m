@@ -10,8 +10,12 @@
 #import "FDHomeModel.h"
 #import "FDHomeTableViewCell.h"
 #import "RecommendLogic.h"
+#import "DOPScrollableActionSheet.h"
 
-@interface RecommendTableViewController ()<UITableViewDelegate,UITableViewDataSource,RecommendLogicDelegate>
+@interface RecommendTableViewController ()<UITableViewDelegate,UITableViewDataSource,RecommendLogicDelegate>{
+    DOPAction *_shareWeixin;
+    DOPAction *_shareFriends;
+}
 @property (strong, nonatomic) UIView * headerView;
 @property(nonatomic,strong) RecommendLogic *logic;//逻辑层
 @end
@@ -112,6 +116,7 @@
     //分享按钮
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, readBtn.top, 21, 21);
+    [shareBtn addTarget:self action:@selector(sharedButton) forControlEvents:UIControlEventTouchUpInside];
     [shareBtn setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
     shareBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
 //    shareBtn.hidden = YES;
@@ -122,7 +127,23 @@
     [self.headerView addSubview:bottomView];
     self.headerView.hidden = YES;
 }
+#pragma mark - ——————— 分享 ————————
 
+- (void)sharedButton{
+    _shareWeixin = [[DOPAction alloc] initWithName:@"微信好友" iconName:@"微信" handler:^{
+        //
+//        [this _shareWeiXin:WXSceneSession withData:model];
+    }];
+    _shareFriends = [[DOPAction alloc] initWithName:@"朋友圈" iconName:@"朋友圈" handler:^{
+        //
+//        [this _shareWeiXin:WXSceneTimeline withData:model];
+    }];
+    NSArray *actions = @[@"分享给好友", @[_shareWeixin, _shareFriends]];
+    //    NSArray *actions = @[@"分享到", @[_shareWeixin, _shareFriends, _shareQQFriend, _shareQQZone]];
+    
+    DOPScrollableActionSheet *as = [[DOPScrollableActionSheet alloc] initWithActionArray:actions];
+    [as show];
+}
 - (void)goToDetailViewcontroller{
     //先判断是否登录
     NSInteger flag = [GFICommonTool isLogin];

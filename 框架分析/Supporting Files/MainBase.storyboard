@@ -206,6 +206,7 @@
                     <connections>
                         <outlet property="nameLabel" destination="aWN-tm-dh9" id="Uy9-lh-lPA"/>
                         <outlet property="personImg" destination="sCv-Lq-KVY" id="3Qo-zo-bDo"/>
+                        <outlet property="phoneNumber" destination="sc0-9B-DrG" id="zTa-ip-AoF"/>
                         <outlet property="sexSegment" destination="DoX-Di-2Jv" id="KYC-1y-mOK"/>
                         <outlet property="tableView" destination="yMZ-wa-hWH" id="uFl-Ri-lpa"/>
                     </connections>

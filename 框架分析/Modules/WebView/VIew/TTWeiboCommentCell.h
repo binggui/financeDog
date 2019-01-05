@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeShowLabelNew;
 @property (weak, nonatomic) IBOutlet UIButton *remmentButton;
 @property (strong, nonatomic) NSIndexPath * cellIndexPath;
+@property (strong, nonatomic) NSString * likeCount;
 @property (nonatomic, weak) id <TTWeiboCommentCellDelegate> delegate;
 @property (assign, nonatomic) BOOL  goodFlag;
 

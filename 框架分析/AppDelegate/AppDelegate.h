@@ -21,7 +21,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) MainTabBarController *mainTabBar;
-
+@property (strong, nonatomic) NSDictionary * personArr;
 @property (strong, nonatomic) NSString * cellType;
 
 @property (strong, nonatomic) dispatch_source_t  forgetPasswordTimer;

@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FDHomeModel.h"
 
 @interface LSDetainViewController : UIViewController
 
 @property (nonatomic,copy)NSString *URLString;
 @property (nonatomic,assign) BOOL firstConfigute;
 @property (strong, nonatomic) NSString * title;
+@property (strong, nonatomic) FDHomeModel * model;
 @end

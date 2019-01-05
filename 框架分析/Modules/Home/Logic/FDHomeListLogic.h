@@ -19,6 +19,7 @@
 @interface FDHomeListLogic : NSObject
 
 @property (nonatomic,strong) NSMutableArray * dataArray;//数据源
+@property (strong, nonatomic) NSMutableArray * dataArraySection;
 @property (nonatomic,assign) NSInteger  page;//页码
 
 @property(nonatomic,weak)id<FDHomeListLogicDelegate> delegagte;

@@ -93,7 +93,7 @@
     shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, self.leftImg.bottom - 23, 21, 21);
     [shareBtn setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
     shareBtn.titleLabel.font = [UIFont systemFontOfSize: 13.0];
-//    shareBtn.hidden = YES;
+    shareBtn.hidden = YES;
     [self.contentView  addSubview:shareBtn];
 
     //底线
@@ -116,6 +116,7 @@
     _leftImg.backgroundColor=KWhiteColor;
     [_leftImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
     _desLab.text = model.des;
+    NSString *str =  model.des;
     [_readBtn setTitle:model.readCount forState:UIControlStateNormal];
     [_messageBtn setTitle:model.messageCount forState:UIControlStateNormal];
     [_collectionBtn setTitle:model.collectionCount forState:UIControlStateNormal];

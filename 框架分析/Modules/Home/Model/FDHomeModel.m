@@ -9,5 +9,16 @@
 #import "FDHomeModel.h"
 
 @implementation FDHomeModel
-
++ (NSDictionary *)mj_replacedKeyFromPropertyName{
+    return @{
+             @"ID":@"id",
+             @"des":@"post_title",
+             @"readCount":@"post_hits",
+             @"collectionCount":@"post_favorites",
+             @"goodCount":@"post_like",
+             @"messageCount":@"comment_count",
+             @"img":@"thumbnail"
+             };
+    
+}
 @end

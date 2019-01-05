@@ -40,22 +40,55 @@
             [_dataArray removeAllObjects];
         }
         for (int i = 0; i < 10; i++) {
-            
+
             FDHomeModel *model = [FDHomeModel new];
             model.img = _imgArray[arc4random()%_imgArray.count];
             model.collectionCount = _collectionNumberArray[arc4random()%_collectionNumberArray.count];
             model.des = _desLabelArray[arc4random()%_desLabelArray.count];
             model.readCount = _readNumberArray[arc4random()%_readNumberArray.count];
-            
+
             model.messageCount = _messageNumberArray[arc4random()%_messageNumberArray.count];
-            
+
             [_dataArray addObject:model];
         }
         if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
             [self.delegagte requestDataCompleted];
         }
-        
+
     });
+
+
+//    NSMutableDictionary *parms = @{@"index":@(_page + 1)}.mutableCopy;
+//
+//        [HRHTTPTool postWithURL:kJRG_weeknew_info parameters:parms success:^(id json) {
+//            NSString *result = [json objectForKey:@"error_code"];
+//            if ([result intValue] == 200) {
+//                if ([json isKindOfClass:[NSDictionary class]]) {
+//
+//                    NSMutableArray *tempArr = [NSMutableArray array];
+//                    NSArray *picList = [json objectForKey:@"result"];
+//                    for (NSDictionary *dict in picList) {
+//                        FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+//                        [tempArr addObject:model];
+//                    }
+//                    if(tempArr.count > 0){
+//                        _dataArray  = tempArr.mutableCopy;
+//                    }
+//
+//                }
+//            }else{
+//                 [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:2.0];
+//
+//            }
+//        } failure:^(NSError *error) {
+//            [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:2.0];
+//            NSLog(@"error == %@",error);
+//        }];
+    
+
+    
+    
+    
     
     //发起请求 示例
     //    GetWaterFallListAPI *req = [GetWaterFallListAPI new];

@@ -11,6 +11,15 @@
 
 @interface PersonModel : NSObject
 
+@property (copy, nonatomic) NSString * imgUrl;
+
+@property (copy, nonatomic) NSString * nameText;
+
+//id = 6;
+//"post_hits" = 2;
+//"post_like" = 0;
+//"post_title" = "\U6210\U529f\U6848\U4f8b\U6d4b\U8bd51";
+
 @property (nonatomic, copy) NSString *age;
 
 @property (nonatomic, assign) NSInteger channel;

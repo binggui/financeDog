@@ -83,7 +83,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KScreenWidth,40)];
     headerView.backgroundColor = [UIColor whiteColor];
     UILabel *headerTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
-    headerTitle.text = [NSString stringWithFormat:@"全部评论 (126)"];
+    headerTitle.text = [NSString stringWithFormat:@"全部评论 (%@)",self.model.messageCount];
     [headerView addSubview:headerTitle];
     container.tableview.tableHeaderView  = headerView;
     self.detailWebviewContainer=container;
@@ -217,7 +217,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(73, 0, KScreenWidth - 93,40)];
     footerView.backgroundColor = [GFICommonTool colorWithHexString:@"#f1f5f9"];
     UILabel *headerTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, footerView.width - 30, 20)];
-    headerTitle.text = [NSString stringWithFormat:@"共15条互动评论 > "];
+
+    headerTitle.text = [NSString stringWithFormat:@"共%@条互动评论 > ",self.model.messageCount];
     UITapGestureRecognizer *labelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToMore:)];
     [footerView addGestureRecognizer:labelTap];
     
@@ -279,7 +280,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     //阅读按钮
     _readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_readBtn addTarget:self action:@selector(readNumber) forControlEvents:UIControlEventTouchUpInside];
-    [_readBtn setTitle:@"635" forState:UIControlStateNormal];
+    [_readBtn setTitle:self.model.readCount forState:UIControlStateNormal];
     [_readBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_readBtn setImage:[UIImage imageNamed:@"阅读量"] forState:UIControlStateNormal];
     _readBtn.frame = CGRectMake(0, 0, 60, 40);
@@ -291,7 +292,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     _collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [_collectionBtn addTarget:self action:@selector(makeACollection) forControlEvents:UIControlEventTouchUpInside];
-    [_collectionBtn setTitle:@"30" forState:UIControlStateNormal];
+    [_collectionBtn setTitle:self.model.collectionCount forState:UIControlStateNormal];
     [_collectionBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
     _collectionBtn.titleLabel.font = [UIFont systemFontOfSize:13];

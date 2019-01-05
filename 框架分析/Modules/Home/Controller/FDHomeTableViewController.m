@@ -31,6 +31,8 @@
     NSMutableArray *_ads;
 }
 @property (nonatomic, strong)NSMutableArray *dataArr;
+@property (strong, nonatomic) NSMutableArray * dataNewsArr;
+@property (strong, nonatomic) NSMutableArray * sectionDataArr;
 //@property (strong, nonatomic)  UITableView *tableView;
 @property (nonatomic ,strong) UIView *topView;
 @property(nonatomic,strong) FDHomeListLogic *logic;//逻辑层
@@ -57,6 +59,8 @@
 
 }
 -(void)setupUI{
+    self.dataNewsArr = [NSMutableArray array];
+    self.sectionDataArr = [NSMutableArray array];
 //    self.robotImageView.hidden = NO;
     self.tableHomeView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight - TAB_HEIGHT);
     self.tableHomeView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -93,6 +97,7 @@
     self.tableHomeView.dataSource = self;
     self.tableHomeView.delegate = self;
     [_topView addSubview:_adview];
+    _topView.hidden = YES;
     
     UIView *pointVIew = [[UIView alloc]initWithFrame:CGRectMake(0, _topView.bottom - 10, kScreenWidth, 5)];
     pointVIew.backgroundColor = [GFICommonTool colorWithHexString:@"#f1f5f9"];
@@ -102,11 +107,7 @@
 
 //网络请求
 - (void)getPics{
-//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    [params setObject:@"12334555" forKey:@"APPID"];
-//    [params setObject:@"JINRONGGOU" forKey:@"APPSERCERT"];
-//    [params setObject:@"15860005125" forKey:@"phone"];
-    
+
     [HRHTTPTool postWithURL:kJRG_index_info parameters:nil success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
@@ -118,19 +119,10 @@
                     WGAdvertisementModel *model = [WGAdvertisementModel mj_objectWithKeyValues:dict];
                     [tempArr addObject:model];
                 }
-                
                 if(tempArr.count > 0){
                     [_adview setImageInfos:tempArr];
                 }
-                
-                
-//                //零时存储
-//                NSMutableArray *tempArr = [NSMutableArray array];
-//                NSArray *picList = [json objectForKey:@"advert"];
-//
-//                if(picList.count > 0){
-//                    [_adview setImageInfos:picList];
-//                }
+            
             }
         }else{
             [super showHUDTip:[json objectForKey:@"error_msg"]];
@@ -157,11 +149,10 @@
 -(void)requestDataCompleted{
 
     [self.tableHomeView.mj_header endRefreshing];
-    
-    //    [UIView performWithoutAnimation:^{
-//    _topView.hidden = NO;
+    _topView.hidden = NO;
     [self.tableHomeView reloadData];
-    //    }];
+    
+
     
 }
 -(void)setupNavigation{
@@ -238,6 +229,8 @@
    
 }
 -(void)goToSearchView:(NSString*)typeString{
+    
+    
     BGSearchTableViewController *searchResultC = [[BGSearchTableViewController alloc]init];
     searchResultC.searchText = typeString;
     [self.navigationController pushViewController:searchResultC animated:NO];
@@ -252,13 +245,14 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 3;
+
+    return self.logic.dataArraySection.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return _logic.dataArray.count;
+    NSArray *tempArr = self.logic.dataArray[section];
+    return tempArr.count;
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -270,8 +264,16 @@
     if (cell == nil) {
         cell = [[FDHomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
     }
+    NSMutableArray *tempNewsArr = [NSMutableArray array];
+    NSArray *tempArr = self.logic.dataArray[indexPath.section];
+    for (NSDictionary *dict in tempArr) {
 
-    cell.model = _logic.dataArray[indexPath.row];
+        FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+        [tempNewsArr addObject:model];
+        
+    }
+    NSArray *cellarr = tempNewsArr.copy;
+    cell.model = cellarr[indexPath.row];
     
     return cell;
 }
@@ -292,16 +294,7 @@
     [moreListButton addTarget:self action:@selector(moreListAction:) forControlEvents:UIControlEventTouchUpInside];
     
     [headerView addSubview:moreListButton];
-    
-    if (section == 0){
-        titleLabel.text = @"财经资讯";
-    }else if (section == 1){
-        titleLabel.text = @"热点";
-    }else if (section == 2){
-        titleLabel.text = @"案例";
-    }else{
-        titleLabel.text = @"其他资讯";
-    }
+    titleLabel.text = [self.logic.dataArraySection[section] objectForKey:@"name"] ;
     titleLabel.font = [UIFont systemFontOfSize:15];
     titleLabel.textColor = [UIColor blackColor];
     [headerView addSubview:titleLabel];
@@ -332,9 +325,20 @@
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录
 
+        NSMutableArray *tempNewsArr = [NSMutableArray array];
+        NSArray *tempArr = self.logic.dataArray[indexPath.section];
+        for (NSDictionary *dict in tempArr) {
+            
+            FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+            [tempNewsArr addObject:model];
+            
+        }
+        NSArray *cellarr = tempNewsArr.copy;
+     
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
         VC.URLString=@"http://data.10086.cn/nmp-pps/m/?s=2&p=12&c=508";
         VC.firstConfigute=YES;
+        VC.model = cellarr[indexPath.row];
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];
         

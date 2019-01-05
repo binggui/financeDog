@@ -136,10 +136,10 @@
               
             }
         }else{
-            [super showHUDTip:[json objectForKey:@"error_msg"] duration:2.5];
+            [super showHUDTip:[json objectForKey:@"error_msg"] duration:1.5];
         }
     } failure:^(NSError *error) {
-        [super showHUDTip:@"网络错误" duration:2.5];
+        [super showHUDTip:@"网络错误" duration:1.5];
         NSLog(@"error == %@",error);
     }];
 }

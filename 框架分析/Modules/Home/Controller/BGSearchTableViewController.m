@@ -10,9 +10,11 @@
 #import "FDHomeModel.h"
 #import "FDHomeTableViewCell.h"
 #import "CXSearchController.h"
+#import "BGSearchListLogic.h"
 
-@interface BGSearchTableViewController ()<CXSearchControllerDelegate>
+@interface BGSearchTableViewController ()<UITableViewDelegate,UITableViewDataSource,CXSearchControllerDelegate,BGSearchListLogicDelegate>
 @property (strong, nonatomic) UIButton * SearchButton;
+@property(nonatomic,strong) BGSearchListLogic *logic;//逻辑层
 @end
 
 @implementation BGSearchTableViewController
@@ -20,6 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    //开始第一次数据拉取
+    [self.tableView.mj_header beginRefreshing];
+    //初始化逻辑类
+    _logic = [BGSearchListLogic new];
+    _logic.delegagte = self;
+    _logic.searchText = self.searchText;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -32,6 +40,17 @@
 }
 -(void)setupUI{
     [self searchHar];
+    [self.navigationItem setTitle:self.title];
+    self.tableView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight );
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.sectionFooterHeight = 0;
+    [self.view addSubview:self.tableView];
+    
+    self.tableView.rowHeight = 126;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)didReceiveMemoryWarning {
@@ -74,20 +93,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 10;
+    return _logic.dataArray.count;;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
+    FDHomeTableViewCell *cell;
     //普通咨询
     static NSString *normalNewID = @"normalNew";
     cell = [tableView dequeueReusableCellWithIdentifier:normalNewID];
     if (cell == nil) {
         cell = [[FDHomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
     }
-    FDHomeTableViewCell *newCell = (FDHomeTableViewCell *)cell;
-    
+    cell.model = _logic.dataArray[indexPath.row];
     
     return cell;
 }
@@ -98,7 +116,30 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
 }
+#pragma mark ————— 下拉刷新 —————
+-(void)headerRereshing{
+    [_logic loadData];
+}
 
+#pragma mark ————— 上拉刷新 —————
+-(void)footerRereshing{
+    _logic.page+=1;
+    [_logic loadData];
+}
+
+#pragma mark ————— 数据拉取完成 渲染页面 —————
+-(void)requestDataCompleted{
+    [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
+    
+    if (_logic.dataArray.count == 0) {
+        [OMGToast showWithText:@"没有您的相关结果" topOffset:KScreenHeight/2 duration:3.0];
+    }else{
+         [self.tableView reloadData];
+    }
+
+   
+}
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
