@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIView *detailsView;//详情view
 @property (nonatomic, strong) UIScrollView *parentView;//容器
 
+
 @end
 
 @implementation ProfileViewController
@@ -28,6 +29,7 @@
     self.isHidenNaviBar = YES;
     self.StatusBarStyle = UIStatusBarStyleLightContent;
     self.automaticallyAdjustsScrollViewInsets = false;//解决scrollview被自动ContentOffset.y = -20 问题
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{

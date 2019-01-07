@@ -619,6 +619,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+- (NSMutableDictionary*)getDataFromPlist {
+    //沙盒获取路径
+    NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [pathArray objectAtIndex:0];
+    //获取文件的完整路径
+    NSString *filePatch = [path stringByAppendingPathComponent:@"PersonList.plist"];//没有会自动创建
+    NSLog(@"file patch%@",filePatch);
+    NSMutableDictionary *sandBoxDataDic = [[NSMutableDictionary alloc]initWithContentsOfFile:filePatch];
+
+    NSLog(@"sandBox %@",sandBoxDataDic);//直接打印数据
+    return sandBoxDataDic;
+}
+
+- (void)writeDataToPlist:(NSMutableDictionary *)dic {
+    //这里使用位于沙盒的plist（程序会自动新建的那一个）
+    NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [pathArray objectAtIndex:0];
+    //获取文件的完整路径
+    NSString *filePatch = [path stringByAppendingPathComponent:@"PersonList.plist"];
+
+    [dic writeToFile:filePatch atomically:YES];
+
+}
+
 /*
 #pragma mark - Navigation
 

@@ -26,6 +26,23 @@
     self.isLookPassword.hidden = YES;
     self.navigationController.title = @"忘记密码";
     // Do any additional setup after loading the view from its nib.
+//    [self customBackButton];
+}
+// 自定义返回按钮
+- (void)customBackButton{
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+//    [backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    backBtn.frame = CGRectMake(-20, 0, 60, 40);
+    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = item;
+}
+// 返回按钮按下
+- (void)backBtnClicked:(UIButton *)sender{
+    // pop
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,7 +105,7 @@
 //确定
 - (IBAction)goToModifiedPassword:(id)sender {
     
-    [self postUrl:kJRG_phoneverify_info andType:2];
+    [self postUrl:kJRG_editpwd_info andType:2];
     
 
 }
@@ -108,12 +125,12 @@
     NSString *urlTemp = nil;
     if (type == 1) {//验证码
         [params setObject:self.userTextfield.text forKey:@"phone"];
-        urlTemp = URl;
+ 
     }else if (type == 2){//修改密码
         [params setObject:self.passwordTextfield.text forKey:@"password"];
         [params setObject:self.userTextfield.text forKey:@"phone"];
         [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
-        urlTemp = URl;
+
     }
         
 
@@ -124,7 +141,8 @@
             if ([json isKindOfClass:[NSDictionary class]]) {
                 
                 if (type == 1) {//验证码
-                   [self countDown];
+                    [OMGToast showWithText:@"验证码已下发" topOffset:KScreenHeight/2 duration:2.0];
+                    [self countDown];
                     
                 }else if (type == 2){//修改密码
                     NSUserDefaults *defaults = USER_DEFAULT;
@@ -136,10 +154,10 @@
               
             }
         }else{
-            [super showHUDTip:[json objectForKey:@"error_msg"] duration:1.5];
+            [super showHUDTip:[json objectForKey:@"error_msg"] duration:1.7];
         }
     } failure:^(NSError *error) {
-        [super showHUDTip:@"网络错误" duration:1.5];
+        [super showHUDTip:@"网络错误" duration:1.7];
         NSLog(@"error == %@",error);
     }];
 }

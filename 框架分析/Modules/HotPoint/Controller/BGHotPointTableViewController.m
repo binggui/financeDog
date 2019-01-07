@@ -11,7 +11,7 @@
 #import "FDHomeTableViewCell.h"
 #import "HotListLogic.h"
 
-@interface BGHotPointTableViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface BGHotPointTableViewController ()<UITableViewDataSource,UITableViewDelegate,HotListLogicDelegate>
 @property(nonatomic,strong) HotListLogic *logic;//逻辑层
 @end
 
@@ -25,6 +25,7 @@
     //初始化逻辑类
     _logic = [HotListLogic new];
     _logic.delegagte = self;
+    _logic.type = self.type;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

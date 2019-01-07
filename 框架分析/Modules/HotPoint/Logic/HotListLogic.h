@@ -20,7 +20,7 @@
 
 @property (nonatomic,strong) NSMutableArray * dataArray;//数据源
 @property (nonatomic,assign) NSInteger  page;//页码
-
+@property (assign, nonatomic) NSInteger  type;
 @property(nonatomic,weak)id<HotListLogicDelegate> delegagte;
 
 /**

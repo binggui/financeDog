@@ -60,6 +60,7 @@
         }
 
     });
+//    [self getPics];
     
     //发起请求 示例
 //    GetWaterFallListAPI *req = [GetWaterFallListAPI new];
@@ -72,6 +73,11 @@
 
 //网络请求
 - (void)getPics{
+    //模拟成功
+    if (_page == 0) {
+        [_dataArray removeAllObjects];
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     [params setObject:@(self.page + 1) forKey:@"index"];

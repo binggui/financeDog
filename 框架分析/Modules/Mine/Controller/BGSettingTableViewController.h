@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BGSettingTableViewController : UITableViewController
-
+@property (strong, nonatomic) NSMutableDictionary * personDic;
 @end

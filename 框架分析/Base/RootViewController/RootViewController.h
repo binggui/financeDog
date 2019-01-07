@@ -107,4 +107,9 @@
 //取消网络请求
 - (void)cancelRequest;
 
+//持久化数据plist
+- (NSMutableDictionary*)getDataFromPlist ;
+
+- (void)writeDataToPlist:(NSMutableDictionary *)dic;
+
 @end

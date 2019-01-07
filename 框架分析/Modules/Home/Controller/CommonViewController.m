@@ -26,6 +26,7 @@
     //初始化逻辑类
     _logic = [CommonListLogic new];
     _logic.delegagte = self;
+    _logic.type = self.type;
 }
 -(void)setupUI{
     [self.navigationItem setTitle:self.title];

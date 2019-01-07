@@ -344,11 +344,10 @@
                     [defaults setBool:YES forKey:kIsLoginScuu];
                     NSString *str = [json objectForKey:KTokenMark] ;
                     [defaults setObject:str forKey:KTokenMark];
-                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                    appDelegate.personArr = [json objectForKey:@"result"];
                     NSString *strTemp = [[json objectForKey:@"result"]  objectForKey:KidMark];
                     [defaults setObject:strTemp forKey:KidMark];
                     
+                    [super writeDataToPlist:[json objectForKey:@"result"]];
                     //2.1立即同步
                     [defaults synchronize];
                     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];

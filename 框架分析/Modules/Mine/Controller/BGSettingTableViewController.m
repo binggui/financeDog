@@ -24,7 +24,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *phoneNumber;
 
-@property (strong, nonatomic) NSDictionary * personDic;
+
+
 
 @end
 
@@ -35,8 +36,8 @@
 
    
     [self.navigationItem setTitle:@"个人设置"];
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    self.personDic = appDelegate.personArr;
+
+    NSLog(@"%@",self.personDic);
     [self  setupUI];
     
 }
@@ -46,7 +47,10 @@
     self.tableView.dataSource = self;
     self.tableView.tableFooterView = [[UIView alloc]init];
     ViewBorderRadius(_personImg, 30, 1, KBlackColor);
-    
+//    ViewRadius(self.sexSegment, 15);
+    self.phoneNumber.text = self.personDic[@"mobile"];
+    self.sexSegment.selectedSegmentIndex = [self.personDic[@"sex"] intValue];
+//    self.nameLabel.text = self.personDic[@"user_nickname"];
     
 }
 - (void)didReceiveMemoryWarning {

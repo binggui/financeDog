@@ -30,7 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *personButton;
 @property (strong, nonatomic) UILabel * messageNumbeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backImageTopConstrait;
-@property (strong, nonatomic) NSDictionary * personArray;
+@property (strong, nonatomic) NSMutableDictionary * personDic;
 
 @end
 
@@ -41,8 +41,9 @@
     // Do any additional setup after loading the view from its nib.
     [self setupUI];
 //    self.navigationController.title = @"个人中心";
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    self.personArray = appDelegate.personArr;
+
+    self.personDic = [super getDataFromPlist];
+    NSLog(@"%@",self.personDic);
     [self.navigationItem setTitle:@"个人中心"];
 }
 -(void)setupUI{
@@ -383,7 +384,7 @@
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MainBase" bundle:nil];
         
         BGSettingTableViewController * settingViewController = [sb instantiateViewControllerWithIdentifier:@"SettingTableView"];
-        
+        settingViewController.personDic = self.personDic;
         [self.navigationController pushViewController:settingViewController animated:YES];
     }else if (indexPath.section == 3 && indexPath.row == 0){//退出登录
         NSUserDefaults *defaults = USER_DEFAULT;

@@ -301,16 +301,17 @@
     return headerView;
 }
 - (void)moreListAction:(UIButton *)button{
-    NSString *titleC = nil;
+    NSInteger type = 0;
     if (button.tag == 0) {
-        titleC = @"财经资讯";
+        type = 1;
     }else if (button.tag == 1){
-        titleC = @"热点";
+        type = 2;
     }else if (button.tag == 2){
-        titleC = @"案例";
+        type = 3;
     }
     CommonViewController *moreC = [[CommonViewController alloc]init];
-    moreC.title = titleC;
+    moreC.title = [self.logic.dataArraySection[button.tag] objectForKey:@"name"];
+    moreC.type = type;
     [self.navigationController pushViewController:moreC animated:YES];
     
 }

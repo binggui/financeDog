@@ -19,11 +19,16 @@
 #import "TTWeiboCommentCell.h"
 #import "TTWeiboCommentTwoCell.h"
 #import "BGMoreCommenViewController.h"
+#import "DOPScrollableActionSheet.h"
 
 
 static NSString *const cellfidf=@"TTWeiboCommentCell";
 static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
-@interface LSDetainViewController ()<UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate,TTWeiboCommentCellDelegate,popViewDelegate>
+@interface LSDetainViewController ()<UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate,TTWeiboCommentCellDelegate,popViewDelegate>{
+    DOPAction *_shareWeixin;
+    DOPAction *_shareFriends;
+    
+}
 
 @property (nonatomic,strong) NSMutableArray *datas;//底部tableview的数据
 @property (nonatomic,strong) NSMutableArray *cellDatas;//底部tableview的数据
@@ -102,10 +107,21 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 - (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content{
     
+    if (indexPath == nil ) {
+        [self.datas insertObject:content atIndex:0];
+    }else{
+        if (indexPath.row == 0 ) {
+            [self.cellDatas insertObject:content atIndex:0];
+        }else{
+            [self.cellDatas insertObject:content atIndex:(indexPath.row +1)];
+        }
+    }
     
-    [self.cellDatas addObject:@"1"];
-    
+
+
     [self.detailWebviewContainer.tableview reloadData];
+    
+    
 }
 - (void)didSelectPeople:(NSIndexPath *) cellIndexPath; {
     
@@ -136,10 +152,10 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     self.cellDatas = [NSMutableArray array];
     //一般新闻评论每页数据都是20条
     for (int i=0; i<4; i++) {
-        [self.datas addObject:@"1"];
+        [self.datas addObject:@"慢速,电脑,阿曼达,阿萨德"];
     }
     for (int i=0; i<2; i++) {
-        [self.cellDatas addObject:@"1"];
+        [self.cellDatas addObject:@"爱死你了开发区网络卡建档立卡请问您"];
     }
     [self.detailWebviewContainer.tableview reloadData];
 
@@ -185,6 +201,9 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
         if (cellTwo==nil) {
             cellTwo=[tableView dequeueReusableCellWithIdentifier:cellTwofidf];
         }
+    
+        cellTwo.contentLabel.text = self.cellDatas[indexPath.row - 1];
+        
         cell = cellTwo;
     }else{
         //    WeiboCommentModel *model=_dataArrs[indexPath.row];
@@ -197,12 +216,14 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
         cellOne.delegate = self;
         cellOne.remmentButton.tag = indexPath.section;
         cellOne.cellIndexPath = indexPath;
+        cellOne.contentLable.text = self.datas[indexPath.row];
         cell = cellOne;
         
     }
     return cell;
     
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row != 0) {
@@ -366,6 +387,19 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 //分享
 - (void)gotoShared{
     NSLog(@"分享");
+    _shareWeixin = [[DOPAction alloc] initWithName:@"微信好友" iconName:@"微信" handler:^{
+        //
+        //        [this _shareWeiXin:WXSceneSession withData:model];
+    }];
+    _shareFriends = [[DOPAction alloc] initWithName:@"朋友圈" iconName:@"朋友圈" handler:^{
+        //
+        //        [this _shareWeiXin:WXSceneTimeline withData:model];
+    }];
+    NSArray *actions = @[@"分享给好友", @[_shareWeixin, _shareFriends]];
+    //    NSArray *actions = @[@"分享到", @[_shareWeixin, _shareFriends, _shareQQFriend, _shareQQZone]];
+    
+    DOPScrollableActionSheet *as = [[DOPScrollableActionSheet alloc] initWithActionArray:actions];
+    [as show];
 }
 
 
