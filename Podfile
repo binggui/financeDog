@@ -12,4 +12,5 @@ pod 'SDWebImage', '~>3.8'
 pod 'MJExtension'
 pod 'FMDB’,’2.5’
 pod 'MJExtension’
+pod 'WechatOpenSDK'
 end
