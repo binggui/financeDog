@@ -11,6 +11,8 @@
 #import "FDHomeTableViewCell.h"
 #import "RecommendLogic.h"
 #import "DOPScrollableActionSheet.h"
+#import <WXApi.h>
+#import "BGShareModel.h"
 
 @interface RecommendTableViewController ()<UITableViewDelegate,UITableViewDataSource,RecommendLogicDelegate>{
     DOPAction *_shareWeixin;
@@ -31,6 +33,7 @@
     //初始化逻辑类
     _logic = [RecommendLogic new];
     _logic.delegagte = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(successUpToServer) name:@"成功" object:nil];
 }
 -(void)setupUI{
     
@@ -130,13 +133,14 @@
 #pragma mark - ——————— 分享 ————————
 
 - (void)sharedButton{
+    __block RecommendTableViewController *this = self;
     _shareWeixin = [[DOPAction alloc] initWithName:@"微信好友" iconName:@"微信" handler:^{
         //
-//        [this _shareWeiXin:WXSceneSession withData:model];
+        [this _shareWeiXin:WXSceneSession withData:nil];
     }];
     _shareFriends = [[DOPAction alloc] initWithName:@"朋友圈" iconName:@"朋友圈" handler:^{
         //
-//        [this _shareWeiXin:WXSceneTimeline withData:model];
+        [this _shareWeiXin:WXSceneTimeline withData:nil];
     }];
     NSArray *actions = @[@"分享给好友", @[_shareWeixin, _shareFriends]];
     //    NSArray *actions = @[@"分享到", @[_shareWeixin, _shareFriends, _shareQQFriend, _shareQQZone]];
@@ -236,6 +240,66 @@
         [GFICommonTool login:self];
         
     }
+}
+
+#pragma mark - fetion delegate weixin delegate
+- (void)_shareWeiXin:(NSInteger)scene withData:(BGShareModel *)model{
+
+    //如果没有微信客户端，提示用户
+//    if ([WXApi isWXAppInstalled]) {
+//    }else{
+//        [super showHUDTipCannotFindAppWithInit:@"您未安装微信"];
+//        return;
+//    }
+//    WXMediaMessage *message = [WXMediaMessage message];
+//    message.title = model.title;
+//    message.description = model.message;
+//
+//    [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:model.shareimgurl]]];
+//
+//    WXWebpageObject *ext = [WXWebpageObject object];
+//
+//    if (scene == WXSceneSession) {
+//        ext.webpageUrl = [model.weburl absoluteString];//微信分享给好友
+//
+//    }else if(scene == WXSceneTimeline){
+//        ext.webpageUrl = [model.weburl absoluteString];//微信分享朋友圈
+//
+//    }
+//
+//
+//    message.mediaObject = ext;
+//    //    message.mediaTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
+//
+//    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+//    req.bText = NO;
+//    req.message = message;
+//    req.scene = scene;
+//    [WXApi sendReq:req];
+    
+    
+    WXMediaMessage * message = [WXMediaMessage message];
+    message.title = @"这是一个分享标题";
+    message.description = @"我是分享内容";
+    [message setThumbImage:[UIImage imageNamed:@"DefaultImg"]];
+    
+    WXWebpageObject * webPageObject = [WXWebpageObject object];
+    //webPageObject.webpageUrl = @"https://douban.fm/?from_=shire_top_nav#/channel/153";
+    webPageObject.webpageUrl = @"这是一个链接";
+    message.mediaObject = webPageObject;
+    
+    SendMessageToWXReq * req1 = [[SendMessageToWXReq alloc]init];
+    req1.bText = NO;
+    req1.message = message;
+    //设置分享到朋友圈(WXSceneTimeline)、好友回话(WXSceneSession)、收藏(WXSceneFavorite)
+    req1.scene = scene;
+    [WXApi sendReq:req1];
+
+    
+}
+- (void)successUpToServer{
+    [super showHUDTip:@"分享成功" duration:3.0];
+//    [OMGToast showWithText:@"分享成功" topOffset:KScreenHeight/2 duration:7.0];
 }
 /*
 // Override to support conditional editing of the table view.

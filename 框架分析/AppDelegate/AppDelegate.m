@@ -7,8 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import <WXApi.h>
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WXApiDelegate>
 
 @end
 
@@ -18,6 +19,8 @@
     //初始化window
     [self initWindow];
     
+    //微信
+    [WXApi registerApp:@"wx179f30dc5f504ad8"];
 //    //初始化网络请求配置
 //    [self NetWorkConfig];
 //    
@@ -41,6 +44,80 @@
     
     return YES;
 }
+
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    
+    return [WXApi handleOpenURL:url delegate:self];
+}
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *,id> *)options {
+    return  [WXApi handleOpenURL:url delegate:self];
+}
+-(void)onResp:(BaseResp *)resp
+{
+    DLog(@"%@",resp);
+    DLog(@"errStr %@",[resp errStr]);
+    DLog(@"errCode %d",[resp errCode]);
+    DLog(@"type %d",[resp type]);
+    
+//登录
+    if([resp isKindOfClass:[SendAuthResp class]]) {
+        SendAuthResp* authResp = (SendAuthResp*)resp;
+        /* Prevent Cross Site Request Forgery */
+        switch (resp.errCode) {
+            case WXSuccess:
+                NSLog(@"RESP:code:%@,state:%@\n", authResp.code, authResp.state);
+               
+                break;
+            case WXErrCodeAuthDeny:
+               
+                break;
+            case WXErrCodeUserCancel:
+               
+            default:
+                break;
+        }
+    }
+    
+
+    
+//分享
+    if([resp isKindOfClass:[SendMessageToWXResp class]] ){//微信分享
+        SendMessageToWXResp *response = (SendMessageToWXResp *)resp;
+        
+        switch (response.errCode) {
+            case WXSuccess: {
+                
+              
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"成功" object:nil];
+                
+            }
+                break;
+            default:
+            {
+                
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"失败" object:nil];
+                
+                break;
+            }
+                
+        }
+        
+    }
+    
+}
+
+
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
