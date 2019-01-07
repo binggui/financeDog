@@ -12,7 +12,6 @@
 #import "WGAdvertisementView.h"
 #import "PersonDetailViewController.h"
 #import "BGLoginViewController.h"
-#import "BGForgetPasswordViewController.h"
 #import "ModifyPasswordViewController.h"
 #import "BGMyCollectionTableViewController.h"
 #import "BGMessageHistoryTableViewController.h"

@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *userTextfield;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextfield;
 @property (weak, nonatomic) IBOutlet UITextField *sendCodeTextfield;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sureButtonConstrait;
+@property (weak, nonatomic) IBOutlet UIImageView *passwordImg;
 
 @end
 
@@ -24,7 +26,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isLookPassword.hidden = YES;
-    self.navigationController.title = @"忘记密码";
+    if (self.type == 1) {
+        self.navigationController.title = @"修改手机号";
+        self.sureButtonConstrait.constant = 30;
+        self.passwordTextfield.hidden = YES;
+        self.passwordImg.hidden = YES;
+        
+    }else{
+        self.navigationController.title = @"忘记密码";
+        self.sureButtonConstrait.constant = 100;
+        self.passwordTextfield.hidden = NO;
+        self.passwordImg.hidden = NO;
+    }
+    
     // Do any additional setup after loading the view from its nib.
 //    [self customBackButton];
 }
@@ -105,8 +119,13 @@
 //确定
 - (IBAction)goToModifiedPassword:(id)sender {
     
-    [self postUrl:kJRG_editpwd_info andType:2];
     
+    if (self.type == 1) {
+        [self postUrl:kJRG_editpwd_info andType:3];
+        
+    }else{
+        [self postUrl:kJRG_editpwd_info andType:2];
+    }
 
 }
 
@@ -131,6 +150,11 @@
         [params setObject:self.userTextfield.text forKey:@"phone"];
         [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
 
+    }else if (type == 3){//修改手机号
+        [params setObject:self.passwordTextfield.text forKey:@"password"];
+        [params setObject:self.userTextfield.text forKey:@"phone"];
+        [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
+        
     }
         
 

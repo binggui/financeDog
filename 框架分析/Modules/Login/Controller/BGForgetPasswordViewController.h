@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BGForgetPasswordViewController : RootViewController
-
+@property (assign, nonatomic) NSInteger  type;
 @end

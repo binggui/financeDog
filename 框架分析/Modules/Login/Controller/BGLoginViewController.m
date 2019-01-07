@@ -142,6 +142,7 @@
 - (IBAction)forgetPasswordAction:(id)sender {
 
     BGForgetPasswordViewController *forgetPasswordC = [[BGForgetPasswordViewController alloc]init];
+    forgetPasswordC.type = 2;
     [self.navigationController pushViewController:forgetPasswordC animated:YES];
     
 }

@@ -103,9 +103,12 @@
     }else if (indexPath.section == 0 && indexPath .row == 0){//性别
         
     }else if (indexPath.section == 1 && indexPath .row == 0){//手机号
-        
+        BGForgetPasswordViewController *forgetPasswordC = [[BGForgetPasswordViewController alloc]init];
+        forgetPasswordC.type = 1;
+        [self.navigationController pushViewController:forgetPasswordC animated:YES];
     }else if (indexPath.section == 1 && indexPath .row == 1){//修改密码
         BGForgetPasswordViewController *forgetPasswordC = [[BGForgetPasswordViewController alloc]init];
+        forgetPasswordC.type = 2;
         [self.navigationController pushViewController:forgetPasswordC animated:YES];
         
     }
