@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BGHotViewController : UIViewController
+@interface BGHotViewController : RootViewController
 
 @end

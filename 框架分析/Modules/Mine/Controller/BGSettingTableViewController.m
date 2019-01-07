@@ -33,8 +33,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-   
     [self.navigationItem setTitle:@"个人设置"];
 
     NSLog(@"%@",self.personDic);

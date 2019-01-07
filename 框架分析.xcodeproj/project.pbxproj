@@ -40,7 +40,6 @@
 		7260266121CCCFA1003649C9 /* LoadFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260266021CCCFA1003649C9 /* LoadFailView.m */; };
 		7260266421CCDE2B003649C9 /* HRChangeInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260266221CCDE2A003649C9 /* HRChangeInfoViewController.m */; };
 		7260267B21CDE8D2003649C9 /* BGCommentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260267A21CDE8D2003649C9 /* BGCommentTableViewController.m */; };
-		7260267E21CDE993003649C9 /* BGCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260267D21CDE993003649C9 /* BGCommentModel.m */; };
 		7260268421CDEA33003649C9 /* BGCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260268321CDEA33003649C9 /* BGCommentTableViewCell.m */; };
 		7260268721CDF68E003649C9 /* BGMessageHistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260268621CDF68E003649C9 /* BGMessageHistoryTableViewController.m */; };
 		7260268F21CE7396003649C9 /* WJButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260268E21CE7396003649C9 /* WJButton.m */; };
@@ -160,6 +159,7 @@
 		72B91D8521DF368100622EF6 /* OMGToast.mm in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8221DF368100622EF6 /* OMGToast.mm */; };
 		72B91D8921DF76C400622EF6 /* DOPScrollableActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8821DF76C400622EF6 /* DOPScrollableActionSheet.m */; };
 		72B91D8C21E06EFD00622EF6 /* BGSearchListLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8B21E06EFD00622EF6 /* BGSearchListLogic.m */; };
+		72B91D8F21E3091500622EF6 /* BGCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8E21E3091500622EF6 /* BGCommentModel.m */; };
 		72D5F6FD21C9DD6A00646D65 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D5F6FB21C9DD6A00646D65 /* AppDelegate.m */; };
 		72D5F6FE21C9DD6A00646D65 /* AppDelegate+AppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D5F6FC21C9DD6A00646D65 /* AppDelegate+AppService.m */; };
 		72DA90E720E474CA00F2F4D5 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DA90E620E474CA00F2F4D5 /* ____Tests.m */; };
@@ -244,8 +244,6 @@
 		7260266321CCDE2B003649C9 /* HRChangeInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRChangeInfoViewController.h; sourceTree = "<group>"; };
 		7260267921CDE8D2003649C9 /* BGCommentTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGCommentTableViewController.h; sourceTree = "<group>"; };
 		7260267A21CDE8D2003649C9 /* BGCommentTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGCommentTableViewController.m; sourceTree = "<group>"; };
-		7260267C21CDE993003649C9 /* BGCommentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGCommentModel.h; sourceTree = "<group>"; };
-		7260267D21CDE993003649C9 /* BGCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGCommentModel.m; sourceTree = "<group>"; };
 		7260268221CDEA33003649C9 /* BGCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGCommentTableViewCell.h; sourceTree = "<group>"; };
 		7260268321CDEA33003649C9 /* BGCommentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGCommentTableViewCell.m; sourceTree = "<group>"; };
 		7260268521CDF68E003649C9 /* BGMessageHistoryTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGMessageHistoryTableViewController.h; sourceTree = "<group>"; };
@@ -429,6 +427,8 @@
 		72B91D8821DF76C400622EF6 /* DOPScrollableActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOPScrollableActionSheet.m; sourceTree = "<group>"; };
 		72B91D8A21E06EFD00622EF6 /* BGSearchListLogic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGSearchListLogic.h; sourceTree = "<group>"; };
 		72B91D8B21E06EFD00622EF6 /* BGSearchListLogic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGSearchListLogic.m; sourceTree = "<group>"; };
+		72B91D8D21E3091500622EF6 /* BGCommentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGCommentModel.h; sourceTree = "<group>"; };
+		72B91D8E21E3091500622EF6 /* BGCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGCommentModel.m; sourceTree = "<group>"; };
 		72D5F6F921C9DD6A00646D65 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		72D5F6FA21C9DD6A00646D65 /* AppDelegate+AppService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+AppService.h"; sourceTree = "<group>"; };
 		72D5F6FB21C9DD6A00646D65 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -765,8 +765,6 @@
 		727E7DCA20AD6E6000C6DDA4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7260267C21CDE993003649C9 /* BGCommentModel.h */,
-				7260267D21CDE993003649C9 /* BGCommentModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1255,6 +1253,8 @@
 				72B91D4F21DCBB9E00622EF6 /* WeiboCommentModel.m */,
 				72B91D6321DDBA8600622EF6 /* WeiboCommentTwoModel.h */,
 				72B91D6421DDBA8600622EF6 /* WeiboCommentTwoModel.m */,
+				72B91D8D21E3091500622EF6 /* BGCommentModel.h */,
+				72B91D8E21E3091500622EF6 /* BGCommentModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1574,7 +1574,6 @@
 				727E7EB220AD755800C6DDA4 /* WaterFlowLayout.m in Sources */,
 				727E7EB020AD755800C6DDA4 /* PersonListCollectionViewCell.m in Sources */,
 				726026BE21D0859A003649C9 /* CXSearchController.m in Sources */,
-				7260267E21CDE993003649C9 /* BGCommentModel.m in Sources */,
 				727E7EA320AD74EE00C6DDA4 /* WaterFallListViewController.m in Sources */,
 				726025D121CA185D003649C9 /* GFICommonTool.m in Sources */,
 				72B91D6521DDBA8600622EF6 /* WeiboCommentTwoModel.m in Sources */,
@@ -1589,6 +1588,7 @@
 				727E7EA120AD74EE00C6DDA4 /* HomeViewController.m in Sources */,
 				727E7EB120AD755800C6DDA4 /* WaterFallCollectionViewCell.m in Sources */,
 				726026CD21D0C7E2003649C9 /* BGSearchTableViewController.m in Sources */,
+				72B91D8F21E3091500622EF6 /* BGCommentModel.m in Sources */,
 				726026C021D0859A003649C9 /* CXSearchModel.m in Sources */,
 				726026BF21D0859A003649C9 /* CXSearchSectionModel.m in Sources */,
 				72B91D8521DF368100622EF6 /* OMGToast.mm in Sources */,

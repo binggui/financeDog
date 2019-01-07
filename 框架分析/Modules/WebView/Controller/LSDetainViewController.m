@@ -52,11 +52,10 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBar.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.translucent=NO;
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.view.backgroundColor=[UIColor whiteColor];
-
+    
 
     [self setupViews1];
    
@@ -190,7 +189,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.cellDatas.count;
+    return self.cellDatas.count ;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -430,6 +429,34 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
 }
 
+//网络请求
+- (void)getPics{
 
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [params setObject:@(3) forKey:@"arctical_id"];
+    
+    [HRHTTPTool postWithURL:kJRG_comment_info parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+                NSMutableArray *tempNewsArr = [NSMutableArray array];
+                NSArray *tempArr = [json objectForKey:@"result"];
+                for (NSDictionary *dict in tempArr) {
+                    FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+                    [tempNewsArr addObject:model];
+                    
+                }
+            }
+        }else{
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
+        }
+    } failure:^(NSError *error) {
+        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+        NSLog(@"error == %@",error);
+    }];
+}
 
 @end

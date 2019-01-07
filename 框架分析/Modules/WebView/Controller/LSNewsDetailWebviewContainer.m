@@ -9,7 +9,9 @@
 
 #import "LSNewsDetailWebviewContainer.h"
 
-@interface LSNewsDetailWebviewContainer()
+@interface LSNewsDetailWebviewContainer(){
+    NSMutableURLRequest *_requestUrl;
+}
 
 /*
 scrollview.contentSize=webview.contentSize+tableview.contentSize+tableview.contentInset
@@ -88,8 +90,17 @@ scrollview.contentSize=webview.contentSize+tableview.contentSize+tableview.conte
 
 -(void)loadRequest
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.URLString] cachePolicy:self.cachePolicy timeoutInterval:5];
-    [self.webview loadRequest:request];
+    _requestUrl =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.URLString] cachePolicy:self.cachePolicy timeoutInterval:5];
+    //增加请求头
+    NSUserDefaults *defaults = USER_DEFAULT;
+    long str = [defaults integerForKey:KidMark];
+    NSNumber *longNumber = [NSNumber numberWithLong: str];
+    NSString *longStr = [longNumber stringValue];
+    [_requestUrl setValue:@"ios_1.0" forHTTPHeaderField:@"version"];
+    [_requestUrl setValue:longStr  forHTTPHeaderField:@"id"];
+    [_requestUrl setValue: [defaults objectForKey:KTokenMark] forHTTPHeaderField:@"token"];
+
+    [self.webview loadRequest:_requestUrl];
 }
 
 -(void)loadHTMLString:(NSString *)HTMLString

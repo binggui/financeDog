@@ -22,17 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
-    //开始第一次数据拉取
-    [self.tableView.mj_header beginRefreshing];
+    
     //初始化逻辑类
     _logic = [BGSearchListLogic new];
     _logic.delegagte = self;
     _logic.searchText = self.searchText;
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -76,6 +71,9 @@
 }
 -(void)goToSearchView:(NSString*)typeString{
     [_SearchButton setTitle:typeString forState:UIControlStateNormal];
+    //开始第一次数据拉取
+    [self.tableView.mj_header beginRefreshing];
+    
 }
 -(void)presentSearchController{
     UIStoryboard* sb = [UIStoryboard storyboardWithName:@"CXShearchStoryboard" bundle:nil];
@@ -133,7 +131,7 @@
     [self.tableView.mj_header endRefreshing];
     
     if (_logic.dataArray.count == 0) {
-        [OMGToast showWithText:@"没有您的相关结果" topOffset:KScreenHeight/2 duration:3.0];
+        [OMGToast showWithText:@"亲,没有相关的咨询内容" topOffset:KScreenHeight/2 duration:3.0];
     }else{
          [self.tableView reloadData];
     }

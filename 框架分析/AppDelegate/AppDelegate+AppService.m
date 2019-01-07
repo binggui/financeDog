@@ -37,7 +37,9 @@ UIColor *MainViewColor = nil;
     // 如果需要设置导航栏底部分割线隐藏，可以在这里统一设置
      [UIColor wr_setDefaultNavBarShadowImageHidden:YES];
   
-    
+    //状态栏
+    [UIColor wr_setDefaultStatusBarStyle:UIStatusBarStyleLightContent];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
 }
 

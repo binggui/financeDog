@@ -43,9 +43,9 @@
     //默认开启系统右划返回
     self.interactivePopGestureRecognizer.enabled = YES;
     self.interactivePopGestureRecognizer.delegate = self;
-    
     //只有在使用转场动画时，禁用系统手势，开启自定义右划手势
     _popRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(handleNavigationTransition:)];
+ 
     //下面是全屏返回
     //        _popRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleNavigationTransition:)];
     _popRecognizer.edges = UIRectEdgeLeft;
