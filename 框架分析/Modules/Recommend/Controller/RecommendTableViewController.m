@@ -146,7 +146,19 @@
     //    NSArray *actions = @[@"分享到", @[_shareWeixin, _shareFriends, _shareQQFriend, _shareQQZone]];
     
     DOPScrollableActionSheet *as = [[DOPScrollableActionSheet alloc] initWithActionArray:actions];
-    [as show];
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    
+    if (flag == finishLogin) {//已登录
+        [as show];
+        
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
+    
 }
 - (void)goToDetailViewcontroller{
     //先判断是否登录
@@ -244,6 +256,7 @@
 
 #pragma mark - fetion delegate weixin delegate
 - (void)_shareWeiXin:(NSInteger)scene withData:(BGShareModel *)model{
+
 
     //如果没有微信客户端，提示用户
 //    if ([WXApi isWXAppInstalled]) {

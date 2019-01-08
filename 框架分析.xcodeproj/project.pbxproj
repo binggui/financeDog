@@ -165,6 +165,12 @@
 		72D5F6FE21C9DD6A00646D65 /* AppDelegate+AppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D5F6FC21C9DD6A00646D65 /* AppDelegate+AppService.m */; };
 		72DA90E720E474CA00F2F4D5 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DA90E620E474CA00F2F4D5 /* ____Tests.m */; };
 		72DA90F520E4763D00F2F4D5 /* ____UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DA90F420E4763D00F2F4D5 /* ____UITests.m */; };
+		72F5D29B21E44117008156E1 /* PopPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F5D29A21E44116008156E1 /* PopPromptView.m */; };
+		72F5D29D21E4445A008156E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D29C21E4445A008156E1 /* CoreTelephony.framework */; };
+		72F5D29F21E44463008156E1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D29E21E44463008156E1 /* SystemConfiguration.framework */; };
+		72F5D2A121E44479008156E1 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D2A021E44479008156E1 /* libsqlite3.0.tbd */; };
+		72F5D2A321E4448B008156E1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D2A221E4448B008156E1 /* libz.tbd */; };
+		72F5D2A521E44498008156E1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D2A421E44498008156E1 /* libc++.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -442,6 +448,13 @@
 		72DA90F220E4763D00F2F4D5 /* 框架分析UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "框架分析UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72DA90F420E4763D00F2F4D5 /* ____UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "____UITests.m"; sourceTree = "<group>"; };
 		72DA90F620E4763D00F2F4D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		72F5D29921E44116008156E1 /* PopPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopPromptView.h; sourceTree = "<group>"; };
+		72F5D29A21E44116008156E1 /* PopPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopPromptView.m; sourceTree = "<group>"; };
+		72F5D29C21E4445A008156E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		72F5D29E21E44463008156E1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		72F5D2A021E44479008156E1 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		72F5D2A221E4448B008156E1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		72F5D2A421E44498008156E1 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		7D06CA7A1EAB32D0517ABF65 /* libPods-框架分析.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-框架分析.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D26DFBBD95447AA231FB73BA /* Pods-框架分析.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-框架分析.debug.xcconfig"; path = "Pods/Target Support Files/Pods-框架分析/Pods-框架分析.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -451,6 +464,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72F5D2A521E44498008156E1 /* libc++.tbd in Frameworks */,
+				72F5D2A321E4448B008156E1 /* libz.tbd in Frameworks */,
+				72F5D2A121E44479008156E1 /* libsqlite3.0.tbd in Frameworks */,
+				72F5D29F21E44463008156E1 /* SystemConfiguration.framework in Frameworks */,
+				72F5D29D21E4445A008156E1 /* CoreTelephony.framework in Frameworks */,
 				1B76DF6BF24E107743006DBB /* libPods-框架分析.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,6 +502,11 @@
 		50334C1D2C1E369791B8F435 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				72F5D2A421E44498008156E1 /* libc++.tbd */,
+				72F5D2A221E4448B008156E1 /* libz.tbd */,
+				72F5D2A021E44479008156E1 /* libsqlite3.0.tbd */,
+				72F5D29E21E44463008156E1 /* SystemConfiguration.framework */,
+				72F5D29C21E4445A008156E1 /* CoreTelephony.framework */,
 				7D06CA7A1EAB32D0517ABF65 /* libPods-框架分析.a */,
 			);
 			name = Frameworks;
@@ -1157,6 +1180,8 @@
 		729BD8B020AC35C000767D92 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				72F5D29921E44116008156E1 /* PopPromptView.h */,
+				72F5D29A21E44116008156E1 /* PopPromptView.m */,
 				7260269021CE765B003649C9 /* popView.h */,
 				7260269121CE765B003649C9 /* popView.m */,
 				7260268D21CE7396003649C9 /* WJButton.h */,
@@ -1616,6 +1641,7 @@
 				727E7DAF20AD654100C6DDA4 /* XYTransition.m in Sources */,
 				727E7DB920AD688500C6DDA4 /* MainTabBarController.m in Sources */,
 				7260261B21CB7B5B003649C9 /* BGHotPointTableViewController.m in Sources */,
+				72F5D29B21E44117008156E1 /* PopPromptView.m in Sources */,
 				7260263021CB8312003649C9 /* BGForgetPasswordViewController.m in Sources */,
 				727E7EBC20AD75D800C6DDA4 /* UIViewController+AlertViewAndActionSheet.m in Sources */,
 				726025E221CA2FCE003649C9 /* WGAdvertisementView.m in Sources */,

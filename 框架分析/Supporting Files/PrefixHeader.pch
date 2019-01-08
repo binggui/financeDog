@@ -30,6 +30,8 @@
 #import "HRHTTPTool.h"
 #import "LSDetainViewController.h"
 #import "OMGToast.h"
+#import "PopPromptView.h"
+
 
 //第三方框架
 #import <YYKit.h>

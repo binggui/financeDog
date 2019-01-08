@@ -178,7 +178,8 @@
 #define kEndTime  NSLog(@"Time: %f", CFAbsoluteTimeGetCurrent() - start);
 //打印当前方法名
 #define ITTDPRINTMETHODNAME() ITTDPRINT(@"%s", __PRETTY_FUNCTION__)
-
+//颜色
+#define kColorWithAlpha(r, g, b, a) [UIColor colorWithRed:r / 255.0 green:g / 255.0 blue:b / 255.0 alpha:a]
 
 //发送通知
 #define KPostNotification(name,obj) [[NSNotificationCenter defaultCenter] postNotificationName:name object:obj];

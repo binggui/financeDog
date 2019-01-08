@@ -297,7 +297,8 @@
 }
 //第三方微信登录
 - (IBAction)weTalkAction:(id)sender {
-
+    
+//    [PopPromptView showWithTag:100 target:self title:@"检测到您未关联手机号,\n是否立即关联"];
     NSLog(@"%s",__func__);
 
     //构造SendAuthReq结构体
@@ -308,7 +309,57 @@
     [WXApi sendReq:req];
 
 }
-
+- (void)log_by_otherWithType :(NSString *)type openId :(NSString *)openId accessToken :(NSString *)token{
+//    [SVProgressHUD show];
+    NSMutableDictionary *parames = [NSMutableDictionary dictionary];
+    [parames setObject:type forKey:@"type"];
+    [parames setObject:openId forKey:@"openId"];
+    [parames setObject:token forKey:@"accessToken"];
+    [HRHTTPTool postWithURL:kHrhs_login_by_other parameters:parames success:^(id json) {
+//        [SVProgressHUD dismiss];
+        id result = [json objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *value = [result objectForKey:@"value"];
+            [OMGToast showWithText:[value objectForKey:@"errMsg"] topOffset:180.0f duration:1.0];
+            
+            return;
+            
+        }
+        if ([result intValue] == 200) {
+//            [SVProgressHUD dismiss];
+            //判断是否绑定手机号
+            NSString *mobile = [json objectForKey:@"mobile"];
+            if (mobile != nil) {
+                //已绑定手机号则保存手机号
+                [USER_DEFAULT setObject:mobile forKey:@"mobile"];
+                [USER_DEFAULT setObject:[json objectForKey:@"userIcon"] forKey:@"icon_photo"];
+                [USER_DEFAULT setObject:[json objectForKey:@"frame"] forKey:@"frame_photo"];            }
+            [self dismissViewControllerAnimated:YES completion:^{
+                //判断是否关联手机号,没有则弹出提示框
+                NSString *mobiles = [USER_DEFAULT objectForKey:@"mobile"];
+                if (mobiles == nil) {
+                [PopPromptView showWithTag:100 target:self title:@"检测到您未关联手机号,\n是否立即关联"];
+                    
+                    return ;
+                }
+            }];
+            
+            [USER_DEFAULT setObject:[json objectForKey:@"sid"] forKey:@"sid"];
+            [USER_DEFAULT setObject:[json objectForKey:@"nickname"] forKey:@"nickname"];
+            
+            //给个登录类型标记
+            [USER_DEFAULT setObject:type forKey:@"accounttype"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"backToDetailVC" object:@"nil"];
+            //            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }else{
+            [OMGToast showWithText:[json objectForKey:@"errMsg"] topOffset:180.0f duration:1.0];
+        }
+    } failure:^(NSError *error) {
+        //        NSLog(@"%@",error);
+//        [SVProgressHUD dismiss];
+    }];
+}
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -325,6 +376,7 @@
         [params setObject:self.usersTestField.text forKey:@"phone"];
 
     }else if (type == 2){//登录
+        [GFICommonTool ]
         [params setObject:self.passwordTestField.text forKey:@"password"];
         [params setObject:self.usersTestField.text forKey:@"phone"];
 
@@ -374,6 +426,15 @@
     }];
 }
 
+- (void)popPromptViewCheckBtnCallBackWithTag:(NSInteger)tag {
+    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"jumpToRelateVC" object:nil];
+    
+}
+
+- (void)popPromptViewCancelBtnCallBackWithTag:(NSInteger)tag {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 /*
 #pragma mark - Navigation

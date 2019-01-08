@@ -87,7 +87,8 @@
 #define shareBonusTotalShortageError @"验证码过期,请重试"
 
 
-
+#define kBaseShareUrl @"http://dcdev.i139.cn/hrhsApp/"
+#define kHrhs_login_by_other kBaseShareUrl @"login_by_other"           //第三方账号登录
 
 #define kWebTestUrl  @"http://data.10086.cn/nmp-pps/m/?s=2&p=12&c=508"
 
