@@ -64,6 +64,8 @@
 
 -(void) onReq:(BaseReq*)req
 {
+#pragma mark - ——————— 发起 ————————
+
     if([req isKindOfClass:[GetMessageFromWXReq class]])
     {
         // 微信请求App提供内容， 需要app提供内容后使用sendRsp返回
@@ -103,6 +105,8 @@
 
 -(void)onResp:(BaseResp *)resp
 {
+#pragma mark - ——————— 响应 ————————
+
     DLog(@"%@",resp);
     DLog(@"errStr %@",[resp errStr]);
     DLog(@"errCode %d",[resp errCode]);
@@ -114,6 +118,23 @@
         /* Prevent Cross Site Request Forgery */
         switch (resp.errCode) {
             case WXSuccess:{
+                
+//                // 授权数据
+//                NSLog(@" uid: %@", authResp.uid);
+//                NSLog(@" openid: %@", authResp.openid);
+//                NSLog(@" accessToken: %@", authResp.accessToken);
+//                NSLog(@" refreshToken: %@", authResp.refreshToken);
+//                NSLog(@" expiration: %@", authResp.expiration);
+//
+//                // 用户数据
+//                NSLog(@" name: %@", authResp.name);
+//                NSLog(@" iconurl: %@", authResp.iconurl);
+//                NSLog(@" gender: %@", authResp.gender);
+//
+//                // 第三方平台SDK原始数据
+//                NSLog(@" originalResponse: %@", authResp.originalResponse);
+                
+                
                 NSLog(@"RESP:code:%@,state:%@\n", authResp.code, authResp.state);
                 NSString *strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
                 NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];

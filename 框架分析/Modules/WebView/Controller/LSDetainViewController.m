@@ -471,6 +471,10 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 //        [OMGToast showWithText:@"您未安装微信" topOffset:KScreenHeight/2 duration:1.7];
 //        return;
 //    }
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]] ) {
+        [OMGToast showWithText:@"您尚未安装微信客户端" topOffset:180.0f duration:1.0];
+        return;
+    }
     //    WXMediaMessage *message = [WXMediaMessage message];
     //    message.title = model.title;
     //    message.description = model.message;

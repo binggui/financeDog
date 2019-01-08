@@ -9,6 +9,8 @@
 #import "BGLoginViewController.h"
 #import "BGForgetPasswordViewController.h"
 #import "ModifyPasswordViewController.h"
+#import <WXApi.h>
+
 
 @interface BGLoginViewController ()<UITextFieldDelegate>{
     dispatch_source_t _timer;
@@ -296,13 +298,17 @@
 //第三方微信登录
 - (IBAction)weTalkAction:(id)sender {
 
+    NSLog(@"%s",__func__);
+
+    //构造SendAuthReq结构体
+    SendAuthReq* req =[[SendAuthReq alloc] init];
+    req.scope = @"snsapi_userinfo" ;
+    req.state = @"123" ;
+    //第三方向微信终端发送一个SendAuthReq消息结构
+    [WXApi sendReq:req];
 
 }
 
-//QQ登录
-- (IBAction)QQLoginAction:(id)sender {
-
-}
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     

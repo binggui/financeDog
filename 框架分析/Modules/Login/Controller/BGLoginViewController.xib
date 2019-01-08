@@ -12,7 +12,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BGLoginViewController">
             <connections>
-                <outlet property="QQBotton" destination="V0A-cI-uxd" id="F8Y-6G-6Qb"/>
                 <outlet property="VendorLoginConstraint" destination="jSf-tz-Wxg" id="0cQ-KQ-kJg"/>
                 <outlet property="backImgTopConstrait" destination="0t0-ir-U03" id="scG-tG-7ey"/>
                 <outlet property="forgetPasswordButton" destination="mCO-xD-BYT" id="XWO-zo-sbm"/>
@@ -109,7 +108,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lej-JN-oau">
-                    <rect key="frame" x="77.5" y="476" width="60" height="60"/>
+                    <rect key="frame" x="157.5" y="476" width="60" height="60"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="JuG-2H-5I3"/>
@@ -118,18 +117,6 @@
                     <state key="normal" backgroundImage="微信"/>
                     <connections>
                         <action selector="weTalkAction:" destination="-1" eventType="touchUpInside" id="haJ-Iy-PQs"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V0A-cI-uxd">
-                    <rect key="frame" x="237.5" y="476" width="60" height="60"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="60" id="OTC-0e-4Tz"/>
-                        <constraint firstAttribute="height" constant="60" id="QLB-2h-ZoD"/>
-                    </constraints>
-                    <state key="normal" backgroundImage="微博"/>
-                    <connections>
-                        <action selector="QQLoginAction:" destination="-1" eventType="touchUpInside" id="y3U-EY-TZG"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="第三方登录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oOM-bL-paE">
@@ -209,7 +196,6 @@
                 <constraint firstItem="M4C-Pq-v9s" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="WJx-LN-N20"/>
                 <constraint firstItem="Quw-lq-dyR" firstAttribute="leading" secondItem="J8M-TV-G6O" secondAttribute="trailing" constant="10" id="Xd3-vu-5fF"/>
                 <constraint firstItem="INR-Ha-ezc" firstAttribute="centerY" secondItem="Z2h-J8-NDQ" secondAttribute="centerY" id="Y8T-wr-5DC"/>
-                <constraint firstItem="V0A-cI-uxd" firstAttribute="top" secondItem="oOM-bL-paE" secondAttribute="bottom" constant="15" id="ZJl-wV-0WX"/>
                 <constraint firstItem="Lej-JN-oau" firstAttribute="top" secondItem="oOM-bL-paE" secondAttribute="bottom" constant="15" id="ZS5-c1-iz3"/>
                 <constraint firstItem="WHo-VT-HIn" firstAttribute="top" secondItem="Z2h-J8-NDQ" secondAttribute="bottom" constant="60" id="ZVo-tZ-WvA"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="mCO-xD-BYT" secondAttribute="trailing" constant="10" id="bz7-e3-Ikw"/>
@@ -218,9 +204,8 @@
                 <constraint firstItem="YOb-SU-TPk" firstAttribute="centerX" secondItem="U2D-kt-Ceb" secondAttribute="centerX" id="gwE-c2-tim"/>
                 <constraint firstItem="INR-Ha-ezc" firstAttribute="leading" secondItem="Z2h-J8-NDQ" secondAttribute="trailing" id="jLw-ta-zEg"/>
                 <constraint firstItem="oOM-bL-paE" firstAttribute="top" secondItem="M4C-Pq-v9s" secondAttribute="bottom" constant="25" id="jSf-tz-Wxg"/>
-                <constraint firstItem="Lej-JN-oau" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-80" id="kGL-Wf-bqN"/>
+                <constraint firstItem="Lej-JN-oau" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="kGL-Wf-bqN"/>
                 <constraint firstItem="HLw-Xa-l5W" firstAttribute="leading" secondItem="Rmh-zj-Oi2" secondAttribute="trailing" constant="10" id="kws-1c-C9g"/>
-                <constraint firstItem="V0A-cI-uxd" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="80" id="mCU-5G-KHF"/>
                 <constraint firstItem="J8M-TV-G6O" firstAttribute="top" secondItem="1nE-mE-J0g" secondAttribute="bottom" constant="35" id="mJX-tn-2xV"/>
                 <constraint firstItem="HLw-Xa-l5W" firstAttribute="top" secondItem="U2D-kt-Ceb" secondAttribute="bottom" constant="15" id="mc5-fB-HoZ"/>
                 <constraint firstItem="eVu-gx-chl" firstAttribute="centerY" secondItem="Quw-lq-dyR" secondAttribute="centerY" id="mei-ff-trQ"/>
@@ -238,7 +223,6 @@
         <image name="头像" width="60" height="60"/>
         <image name="密码显示" width="17" height="11"/>
         <image name="微信" width="47" height="47"/>
-        <image name="微博" width="46" height="46"/>
         <image name="按钮" width="226" height="45"/>
         <image name="登录背景" width="375" height="219"/>
     </resources>
