@@ -58,7 +58,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.view.backgroundColor=[UIColor whiteColor];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(successUpToServer) name:@"成功" object:nil];
+
     [self setupViews1];
    
     _collectionFlag = NO;
@@ -518,8 +518,4 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
 }
 
-- (void)successUpToServer{
-    
-    [OMGToast showWithText:@"分享成功" topOffset:KScreenHeight/2 duration:7.0];
-}
 @end

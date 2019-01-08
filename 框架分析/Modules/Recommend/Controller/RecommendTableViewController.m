@@ -33,7 +33,7 @@
     //初始化逻辑类
     _logic = [RecommendLogic new];
     _logic.delegagte = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(successUpToServer) name:@"成功" object:nil];
+
 }
 -(void)setupUI{
     
@@ -297,10 +297,7 @@
 
     
 }
-- (void)successUpToServer{
-    [super showHUDTip:@"分享成功" duration:3.0];
-//    [OMGToast showWithText:@"分享成功" topOffset:KScreenHeight/2 duration:7.0];
-}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
