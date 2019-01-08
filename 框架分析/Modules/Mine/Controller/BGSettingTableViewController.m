@@ -35,20 +35,20 @@
     [super viewDidLoad];
     [self.navigationItem setTitle:@"个人设置"];
 
-    NSLog(@"%@",self.personDic);
     [self  setupUI];
     
 }
 -(void)setupUI {
+    NSUserDefaults *defaults = USER_DEFAULT;
 //    self.phoneNumber.text = [self.personDic objectForKey:@"mobile"];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.tableFooterView = [[UIView alloc]init];
     ViewBorderRadius(_personImg, 30, 1, KBlackColor);
 //    ViewRadius(self.sexSegment, 15);
-    self.phoneNumber.text = self.personDic[@"mobile"];
-    self.sexSegment.selectedSegmentIndex = [self.personDic[@"sex"] intValue];
-//    self.nameLabel.text = self.personDic[@"user_nickname"];
+    self.phoneNumber.text = [defaults objectForKey:@"mobile"];
+    self.sexSegment.selectedSegmentIndex = [defaults integerForKey:@"sex"];
+    self.nameLabel.text = [defaults objectForKey:@"user_nickname"];
     
 }
 - (void)didReceiveMemoryWarning {
@@ -102,6 +102,9 @@
         
     }else if (indexPath.section == 1 && indexPath .row == 0){//手机号
         BGForgetPasswordViewController *forgetPasswordC = [[BGForgetPasswordViewController alloc]init];
+        forgetPasswordC.backMobileBlock = ^(NSString *str) {
+            self.phoneNumber.text = str;
+        };
         forgetPasswordC.type = 1;
         [self.navigationController pushViewController:forgetPasswordC animated:YES];
     }else if (indexPath.section == 1 && indexPath .row == 1){//修改密码
@@ -153,7 +156,15 @@
     }
 }
 
-
+- (void)dealloc
+{
+    NSUserDefaults *defaults = USER_DEFAULT;
+    [defaults setInteger:self.sexSegment.selectedSegmentIndex forKey:@"sex"];
+    [defaults setObject:self.phoneNumber.text forKey:@"mobile"];
+    [defaults setObject:self.nameLabel.text forKey:@"user_nickname"];
+    //2.1立即同步
+    [defaults synchronize];
+}
 
 //++++++++++++++++++++++++++++++++++++++++++++++
 

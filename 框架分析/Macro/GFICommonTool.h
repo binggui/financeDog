@@ -54,6 +54,18 @@
  *  @param controller 登录界面
  */
 + (void)login:(UIViewController *)controller;
+
+/**
+ *  加密解密
+ *
+ *  @param controller 登录注册界面
+ */
+//加密
++ (NSString *)encodeData:(NSString *)text;
+//解密
++ (NSString *)decodeData:(NSString *)text;
+
+
 /**
  * 检验字符只允许26个字母和数字
 

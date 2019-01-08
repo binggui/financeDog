@@ -376,7 +376,7 @@
         [params setObject:self.usersTestField.text forKey:@"phone"];
 
     }else if (type == 2){//登录
-        [GFICommonTool ]
+        
         [params setObject:self.passwordTestField.text forKey:@"password"];
         [params setObject:self.usersTestField.text forKey:@"phone"];
 
@@ -406,7 +406,17 @@
                     NSString *strTemp = [[json objectForKey:@"result"]  objectForKey:KidMark];
                     [defaults setObject:strTemp forKey:KidMark];
                     
-                    [super writeDataToPlist:[json objectForKey:@"result"]];
+                    NSDictionary *personData = [json objectForKey:@"result"];
+                    //个人数据保存
+                    [defaults setInteger:[personData[@"sex"]  integerValue]  forKey:@"sex"];
+                    [defaults setObject:personData[@"user_nickname"] forKey:@"user_nickname"];
+                    [defaults setObject:personData[@"avatar"] forKey:@"avatar"];
+                    [defaults setObject:personData[@"mobile"] forKey:@"mobile"];
+                    [defaults setObject:self.usersTestField.text forKey:@"user_name'"];
+                    [defaults setObject:[GFICommonTool encodeData:self.passwordTestField.text] forKey:@"user_password"];
+                    
+
+//                    [super writeDataToPlist:[json objectForKey:@"result"]];
                     //2.1立即同步
                     [defaults synchronize];
                     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];

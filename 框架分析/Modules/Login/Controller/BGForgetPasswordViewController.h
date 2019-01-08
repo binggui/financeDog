@@ -10,4 +10,5 @@
 
 @interface BGForgetPasswordViewController : RootViewController
 @property (assign, nonatomic) NSInteger  type;
+@property (nonatomic, copy)void (^backMobileBlock)(NSString *str);
 @end

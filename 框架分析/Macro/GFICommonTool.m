@@ -8,6 +8,7 @@
 
 #import "GFICommonTool.h"
 #import "BGLoginViewController.h"
+#import "NSString+StringToHexData.h"
 
 @implementation GFICommonTool
 
@@ -272,7 +273,28 @@
     
     return returnValue;
 }
++ (NSString *)encodeData:(NSString *)text{
+    NSData *data = [SecurityUtil encryptAESData:text];
+    Byte *bytes = (Byte *)[data bytes];
+    NSString *hexStr=@"";
+    for(int i=0;i<[data length];i++)
+    {
+        NSString *newHexStr = [NSString stringWithFormat:@"%x",bytes[i]&0xff]; ///16进制数
+        if([newHexStr length]==1)
+            hexStr = [NSString stringWithFormat:@"%@0%@",hexStr,newHexStr];
+        else
+            hexStr = [NSString stringWithFormat:@"%@%@",hexStr,newHexStr];
+    }
+    //    DLog(@"加密后数据为:%@",hexStr);
+    return hexStr;
+}
 
++ (NSString *)decodeData:(NSString *)text{
+    NSData *newData = [text stringToHexData];
+    NSString *decodeText = [SecurityUtil decryptAESData:newData];
+    //    DLog(@"解密后数据为:%@",decodeText);
+    return decodeText;
+}
 // iOS 11 判断
 + (void)contentInsetTabelView:(UITableView *)tableView topMargin:(CGFloat)top downMargin:(CGFloat)downMargin{
     

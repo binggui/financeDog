@@ -31,7 +31,7 @@
 #import "LSDetainViewController.h"
 #import "OMGToast.h"
 #import "PopPromptView.h"
-
+#import "SecurityUtil.h"
 
 //第三方框架
 #import <YYKit.h>

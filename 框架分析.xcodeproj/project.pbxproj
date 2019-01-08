@@ -171,6 +171,9 @@
 		72F5D2A121E44479008156E1 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D2A021E44479008156E1 /* libsqlite3.0.tbd */; };
 		72F5D2A321E4448B008156E1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D2A221E4448B008156E1 /* libz.tbd */; };
 		72F5D2A521E44498008156E1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D2A421E44498008156E1 /* libc++.tbd */; };
+		72F5D2AD21E47BFD008156E1 /* SecurityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F5D2A921E47BFD008156E1 /* SecurityUtil.m */; };
+		72F5D2AE21E47BFD008156E1 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F5D2AA21E47BFD008156E1 /* NSData+AES.m */; };
+		72F5D2AF21E47BFD008156E1 /* NSString+StringToHexData.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F5D2AB21E47BFD008156E1 /* NSString+StringToHexData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -455,6 +458,12 @@
 		72F5D2A021E44479008156E1 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		72F5D2A221E4448B008156E1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		72F5D2A421E44498008156E1 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		72F5D2A721E47BFD008156E1 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
+		72F5D2A821E47BFD008156E1 /* NSString+StringToHexData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringToHexData.h"; sourceTree = "<group>"; };
+		72F5D2A921E47BFD008156E1 /* SecurityUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityUtil.m; sourceTree = "<group>"; };
+		72F5D2AA21E47BFD008156E1 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
+		72F5D2AB21E47BFD008156E1 /* NSString+StringToHexData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringToHexData.m"; sourceTree = "<group>"; };
+		72F5D2AC21E47BFD008156E1 /* SecurityUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityUtil.h; sourceTree = "<group>"; };
 		7D06CA7A1EAB32D0517ABF65 /* libPods-框架分析.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-框架分析.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D26DFBBD95447AA231FB73BA /* Pods-框架分析.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-框架分析.debug.xcconfig"; path = "Pods/Target Support Files/Pods-框架分析/Pods-框架分析.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1167,6 +1176,7 @@
 		729BD8AF20AC35C000767D92 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				72F5D2A621E47BFD008156E1 /* AES */,
 				72B91D8621DF76C400622EF6 /* shareActionSheet */,
 				72B91D7F21DF368100622EF6 /* OMGToast */,
 				72B91D1C21D3310C00622EF6 /* BGNetWork */,
@@ -1336,6 +1346,19 @@
 				72DA90F620E4763D00F2F4D5 /* Info.plist */,
 			);
 			path = "框架分析UITests";
+			sourceTree = "<group>";
+		};
+		72F5D2A621E47BFD008156E1 /* AES */ = {
+			isa = PBXGroup;
+			children = (
+				72F5D2A721E47BFD008156E1 /* NSData+AES.h */,
+				72F5D2A821E47BFD008156E1 /* NSString+StringToHexData.h */,
+				72F5D2A921E47BFD008156E1 /* SecurityUtil.m */,
+				72F5D2AA21E47BFD008156E1 /* NSData+AES.m */,
+				72F5D2AB21E47BFD008156E1 /* NSString+StringToHexData.m */,
+				72F5D2AC21E47BFD008156E1 /* SecurityUtil.h */,
+			);
+			path = AES;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1608,6 +1631,7 @@
 				726025D121CA185D003649C9 /* GFICommonTool.m in Sources */,
 				72B91D6521DDBA8600622EF6 /* WeiboCommentTwoModel.m in Sources */,
 				7260261E21CB7B6A003649C9 /* RecommendTableViewController.m in Sources */,
+				72F5D2AF21E47BFD008156E1 /* NSString+StringToHexData.m in Sources */,
 				72B91D2621D3310C00622EF6 /* HRHTTPToolWithSID.m in Sources */,
 				72B91D6221DDBA3700622EF6 /* MoreCommentLogic.m in Sources */,
 				7260264421CB93D1003649C9 /* BGMyCollectionTableViewController.m in Sources */,
@@ -1650,6 +1674,7 @@
 				7260268421CDEA33003649C9 /* BGCommentTableViewCell.m in Sources */,
 				7260266121CCCFA1003649C9 /* LoadFailView.m in Sources */,
 				7260266421CCDE2B003649C9 /* HRChangeInfoViewController.m in Sources */,
+				72F5D2AE21E47BFD008156E1 /* NSData+AES.m in Sources */,
 				726025C321CA13A4003649C9 /* FDHomeTableViewController.m in Sources */,
 				7260264821CB9421003649C9 /* BGSettingTableViewController.m in Sources */,
 				7260268721CDF68E003649C9 /* BGMessageHistoryTableViewController.m in Sources */,
@@ -1660,6 +1685,7 @@
 				726025C621CA13CB003649C9 /* FDHomeModel.m in Sources */,
 				72B91D5C21DDB8F800622EF6 /* BGMoreCommenViewController.m in Sources */,
 				727E7EA820AD754600C6DDA4 /* PersonListLogic.m in Sources */,
+				72F5D2AD21E47BFD008156E1 /* SecurityUtil.m in Sources */,
 				727E7EC620AD774000C6DDA4 /* EmitterViewController.m in Sources */,
 				72B91D6821DDE1C600622EF6 /* WGAdvertisementModel.m in Sources */,
 				72B91D4C21DCBB8B00622EF6 /* TTWeiboCommentCell.m in Sources */,

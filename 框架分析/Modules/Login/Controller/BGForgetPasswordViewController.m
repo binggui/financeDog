@@ -146,12 +146,13 @@
         [params setObject:self.userTextfield.text forKey:@"phone"];
  
     }else if (type == 2){//修改密码
-        [params setObject:self.passwordTextfield.text forKey:@"password"];
+        
+        [params setObject:[GFICommonTool encodeData:self.passwordTextfield.text] forKey:@"password"];
         [params setObject:self.userTextfield.text forKey:@"phone"];
         [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
 
     }else if (type == 3){//修改手机号
-        [params setObject:self.passwordTextfield.text forKey:@"password"];
+
         [params setObject:self.userTextfield.text forKey:@"phone"];
         [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
         
@@ -171,8 +172,16 @@
                 }else if (type == 2){//修改密码
                     NSUserDefaults *defaults = USER_DEFAULT;
                     [defaults removeObjectForKey:kIsLoginScuu];
+                    [defaults setObject:self.passwordTextfield.text forKey:@"password"];
                     [defaults synchronize];
                     [self.navigationController popToRootViewControllerAnimated:YES];
+                }else if (type == 3){
+                    [USER_DEFAULT setObject:self.userTextfield.text forKey:@"mobile"];
+                    [USER_DEFAULT synchronize];
+                    if (self.backMobileBlock) {
+                        self.backMobileBlock(self.userTextfield.text);
+                    }
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
                 
               

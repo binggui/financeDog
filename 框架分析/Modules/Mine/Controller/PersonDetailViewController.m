@@ -30,7 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *personButton;
 @property (strong, nonatomic) UILabel * messageNumbeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backImageTopConstrait;
-@property (strong, nonatomic) NSMutableDictionary * personDic;
 
 @end
 
@@ -42,11 +41,10 @@
     [self setupUI];
 //    self.navigationController.title = @"个人中心";
 
-    self.personDic = [super getDataFromPlist];
-    NSLog(@"%@",self.personDic);
     [self.navigationItem setTitle:@"个人中心"];
 }
 -(void)setupUI{
+
     _backImageTopConstrait.constant = -NAV_HEIGHT;
     _bottomTableView.delegate  = self;
     _bottomTableView.dataSource = self;
@@ -87,6 +85,8 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    //头像和名字
+    self.nameTitleText.text = [USER_DEFAULT objectForKey:@"user_nickname"];
     //导航栏透明属性
     self.navigationController.navigationBar.translucent = YES;
     //导航栏闪白条
@@ -384,7 +384,7 @@
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MainBase" bundle:nil];
         
         BGSettingTableViewController * settingViewController = [sb instantiateViewControllerWithIdentifier:@"SettingTableView"];
-        settingViewController.personDic = self.personDic;
+
         [self.navigationController pushViewController:settingViewController animated:YES];
     }else if (indexPath.section == 3 && indexPath.row == 0){//退出登录
         NSUserDefaults *defaults = USER_DEFAULT;

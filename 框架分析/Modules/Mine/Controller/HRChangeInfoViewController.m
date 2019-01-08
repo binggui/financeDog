@@ -66,6 +66,10 @@
     if (self.backBlock) {
         self.backBlock(_changeText.text);
     }
+
+    [USER_DEFAULT setObject:_changeText.text forKey:@"user_nickname"];
+    //2.1立即同步
+    [USER_DEFAULT synchronize];
     [self.navigationController popViewControllerAnimated:YES];
 
     
