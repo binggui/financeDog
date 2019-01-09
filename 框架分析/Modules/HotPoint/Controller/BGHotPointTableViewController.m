@@ -119,8 +119,14 @@
 
 #pragma mark ————— 数据拉取完成 渲染页面 —————
 -(void)requestDataCompleted{
-    [self.tableView.mj_footer endRefreshing];
     [self.tableView.mj_header endRefreshing];
+
+    if (_logic.dataArray.count % 10 == 0 && _logic.dataArray.count !=0) {
+        [self.tableView.mj_footer endRefreshing];
+    }else{
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    }
+
     [self.tableView reloadData];
 }
 - (UINavigationController *)viewController {

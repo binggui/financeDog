@@ -63,6 +63,11 @@
 @interface Pictures : NSObject
 
 @property (nonatomic, copy) NSString *format;
+@property (strong, nonatomic) NSString * collectionCount;
+@property (strong, nonatomic) NSString * goodCount;
+@property (strong, nonatomic) NSString * messageCount;
+@property (strong, nonatomic) NSString * ID;
+
 
 @property (nonatomic, assign) NSInteger height;
 

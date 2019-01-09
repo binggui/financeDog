@@ -34,28 +34,28 @@
 #pragma mark ————— 拉取数据 —————
 -(void)loadData{
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //模拟成功
-        if (_page == 0) {
-            [_dataArray removeAllObjects];
-        }
-        for (int i = 0; i < 10; i++) {
-
-            FDHomeModel *model = [FDHomeModel new];
-            model.img = _imgArray[arc4random()%_imgArray.count];
-            model.collectionCount = _collectionNumberArray[arc4random()%_collectionNumberArray.count];
-            model.des = _desLabelArray[arc4random()%_desLabelArray.count];
-            model.readCount = _readNumberArray[arc4random()%_readNumberArray.count];
-
-            model.messageCount = _messageNumberArray[arc4random()%_messageNumberArray.count];
-
-            [_dataArray addObject:model];
-        }
-        if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
-            [self.delegagte requestDataCompleted];
-        }
-
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        //模拟成功
+//        if (_page == 0) {
+//            [_dataArray removeAllObjects];
+//        }
+//        for (int i = 0; i < 10; i++) {
+//
+//            FDHomeModel *model = [FDHomeModel new];
+//            model.img = _imgArray[arc4random()%_imgArray.count];
+//            model.collectionCount = _collectionNumberArray[arc4random()%_collectionNumberArray.count];
+//            model.des = _desLabelArray[arc4random()%_desLabelArray.count];
+//            model.readCount = _readNumberArray[arc4random()%_readNumberArray.count];
+//
+//            model.messageCount = _messageNumberArray[arc4random()%_messageNumberArray.count];
+//
+//            [_dataArray addObject:model];
+//        }
+//        if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
+//            [self.delegagte requestDataCompleted];
+//        }
+//
+//    });
     [self getPics];
 
 //    NSMutableDictionary *parms = @{@"index":@(_page + 1)}.mutableCopy;
@@ -129,13 +129,15 @@
                     [tempNewsArr addObject:model];
                     
                 }
+                
                 if(tempNewsArr.count > 0){
                     
                     self.dataArray = tempNewsArr.mutableCopy;
-                    if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
-                        
-                        [self.delegagte requestDataCompleted];
-                    }
+                  
+                }
+                if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
+                    
+                    [self.delegagte requestDataCompleted];
                 }
             }
         }else{

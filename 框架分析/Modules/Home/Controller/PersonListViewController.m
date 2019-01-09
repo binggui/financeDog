@@ -64,11 +64,6 @@
     
     
     self.collectionView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight );
-    
-    //设置滚动范围偏移200
- 
-    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(190, 0, 0, 0);
-    self.collectionView.contentInset = UIEdgeInsetsMake(190, 0, 0, 0);
     //给collectionView添加子控件 这里是作为头部 记得设置y轴为负值
     if(isRetina || isiPhone5){
         _adview = [[WGAdvertisementView alloc]initWithFrame:CGRectMake(KCurrentWidths(10/2), KCurrentHeights(-185), KScreenWidth - KCurrentWidths(10/2)*2, KCurrentHeights(170))];
@@ -85,13 +80,9 @@
     ViewRadius(_adview, 10);
     _adview.hidden = YES;
     _adview.delegate = self;
-//    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, _adview.bottom + 8, kScreenWidth, 7)];
-//    lineView.backgroundColor = [GFICommonTool colorWithHexString:@"#f1f5f9"];
+
     [self.collectionView addSubview:_adview];
-//    [self.collectionView addSubview:lineView];
-    
-   
-    [self.collectionView addSubview:_adview];
+
     
     //添加内容到视图上
     [self.collectionView setCollectionViewLayout:layout];
@@ -165,15 +156,20 @@
 
 #pragma mark ————— 数据拉取完成 渲染页面 —————
 -(void)requestDataCompleted{
-    [self.collectionView.mj_footer endRefreshing];
+    
+    if (_logic.dataArray.count % 10 == 0 && _logic.dataArray.count !=0) {
+        [self.collectionView.mj_footer endRefreshing];
+    }else{
+        [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+    }
     [self.collectionView.mj_header endRefreshing];
     
-    //    [UIView performWithoutAnimation:^{
     [self.collectionView reloadData];
     _adview.hidden = NO;
-    //    }];
+
     
 }
+
 
 #pragma mark ————— collection代理方法 —————
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -205,7 +201,7 @@
     }
     CGFloat imgH = personModel.height * itemWidthHeight / personModel.width;
     
-    return imgH + 60 + personModel.hobbysHeight;
+    return imgH + 60 - waterHeightChange + personModel.hobbysHeight;
     
 }
 

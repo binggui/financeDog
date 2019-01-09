@@ -7,31 +7,44 @@
 //
 
 #import "RecommendTableViewController.h"
-#import "FDHomeModel.h"
 #import "FDHomeTableViewCell.h"
 #import "RecommendLogic.h"
 #import "DOPScrollableActionSheet.h"
 #import <WXApi.h>
 #import "BGShareModel.h"
+#import "CommonModel.h"
+#import "CommonListLogic.h"
 
-@interface RecommendTableViewController ()<UITableViewDelegate,UITableViewDataSource,RecommendLogicDelegate>{
+@interface RecommendTableViewController ()<UITableViewDelegate,UITableViewDataSource,CommonListLogicDelegate>{
     DOPAction *_shareWeixin;
     DOPAction *_shareFriends;
 }
 @property (strong, nonatomic) UIView * headerView;
-@property(nonatomic,strong) RecommendLogic *logic;//逻辑层
+@property(nonatomic,strong) CommonListLogic *logic;//逻辑层
+@property (strong, nonatomic) NSDictionary * topDic;
+
+@property (strong, nonatomic) UIImageView * headImg;
+@property (strong, nonatomic) UILabel * timeLabel;
+@property (strong, nonatomic) UILabel * titleLabel;
+@property (strong, nonatomic) UILabel * desLabel;
+@property (strong, nonatomic) UIButton * readBtn;
+@property (strong, nonatomic) UIButton * messageBtn;
+@property (strong, nonatomic) UIButton * collectionBtn;
 @end
 
 @implementation RecommendTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getPics];
     [self setupUI];
     [self setupHeaderVIew];
+    
     //开始第一次数据拉取
     [self.tableView.mj_header beginRefreshing];
     //初始化逻辑类
-    _logic = [RecommendLogic new];
+    _logic = [CommonListLogic new];
+    _logic.type = 2;
     _logic.delegagte = self;
 
 }
@@ -49,76 +62,77 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 315)];
     self.tableView.tableHeaderView = _headerView;
+    self.headerView.hidden = YES;
     
 }
 -(void)setupHeaderVIew{
     //图片
-    UIImageView *headImg = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth - 20 , 180)];
-    ViewRadius(headImg, 10);
-    headImg.image = [UIImage imageNamed:@"DefaultImg"];
-    headImg.userInteractionEnabled = YES;
+    self.headImg = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, kScreenWidth - 20 , 180)];
+    ViewRadius(self.headImg, 10);
+    
+    self.headImg.userInteractionEnabled = YES;
     UITapGestureRecognizer *headImgGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToDetailViewcontroller)];
-    [headImg addGestureRecognizer:headImgGesture];
-    [self.headerView addSubview:headImg];
+    [self.headImg addGestureRecognizer:headImgGesture];
+    [self.headerView addSubview:self.headImg];
     //点
-    UIView *pointVIew = [[UIView alloc]initWithFrame:CGRectMake(15, headImg.bottom + 5, 3, 21)];
+    UIView *pointVIew = [[UIView alloc]initWithFrame:CGRectMake(15, self.headImg.bottom + 5, 3, 21)];
     pointVIew.backgroundColor = [GFICommonTool colorWithHexString:@"#03486c"];
     [self.headerView addSubview:pointVIew];
     //时间
-    UILabel *timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.right + 5 , pointVIew.top, 250, 21)];
-    timeLabel.text = @"2018-12-02 08:10";
-    timeLabel.textColor = [GFICommonTool colorWithHexString:@"#c8c8c8"];
-    timeLabel.font = [UIFont systemFontOfSize:14];
-    [self.headerView addSubview:timeLabel];
+    self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.right + 5 , pointVIew.top, 250, 21)];
+    self.timeLabel.text = @"2018-12-02 08:10";
+    self.timeLabel.textColor = [GFICommonTool colorWithHexString:@"#c8c8c8"];
+    self.timeLabel.font = [UIFont systemFontOfSize:14];
+    [self.headerView addSubview:self.timeLabel];
     //标题
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.left , pointVIew.bottom + 5, 250, 21)];
-    titleLabel.text = @"互联网金融的现状与未来";
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.font = [UIFont systemFontOfSize:16];
-    [self.headerView addSubview:titleLabel];
+   self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.left , pointVIew.bottom + 5, 250, 21)];
+    self.titleLabel.text = self.topDic[@"post_title"];
+    self.titleLabel.textColor = [UIColor blackColor];
+    self.titleLabel.font = [UIFont systemFontOfSize:16];
+    [self.headerView addSubview:self.titleLabel];
 //    详情
-    UILabel *desLabel = [[UILabel alloc]initWithFrame:CGRectMake(titleLabel.left , titleLabel.bottom + 5, 250, 21)];
-    desLabel.text = @"会计核算电话费会计师的咖啡店?";
-    desLabel.textColor = [GFICommonTool colorWithHexString:@"#c8c8c8"];
-    desLabel.font = [UIFont systemFontOfSize:14];
-    [self.headerView addSubview:desLabel];
+    self.desLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.titleLabel.left , self.titleLabel.bottom + 5, 250, 21)];
+    self.desLabel.text = @"会计核算电话费会计师的咖啡店?";
+    self.desLabel.textColor = [GFICommonTool colorWithHexString:@"#c8c8c8"];
+    self.desLabel.font = [UIFont systemFontOfSize:14];
+    [self.headerView addSubview:self.desLabel];
     
     //按钮
     NSInteger btnWidth = 60;
     NSInteger marginNum = 20;
     //阅读量
-    UIButton *readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    readBtn.frame = CGRectMake(desLabel.left , desLabel.bottom + 10, btnWidth, 21);
-    [readBtn setImage:[UIImage imageNamed:@"阅读量"] forState:UIControlStateNormal];
-    [readBtn setTitle:@"999+" forState:UIControlStateNormal];
-    [readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
-    readBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
-    readBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
-    [self.headerView addSubview:readBtn];
+    self.readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.readBtn.frame = CGRectMake(self.desLabel.left , self.desLabel.bottom + 10, btnWidth, 21);
+    [self.readBtn setImage:[UIImage imageNamed:@"阅读量"] forState:UIControlStateNormal];
+    [self.readBtn setTitle:@"999+" forState:UIControlStateNormal];
+    [self.readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
+    self.readBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
+    self.readBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+    [self.headerView addSubview:self.readBtn];
     
     //回复人数
-    UIButton *messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    messageBtn.frame = CGRectMake(readBtn.right + marginNum, readBtn.top, btnWidth, 21);
-    [messageBtn setImage:[UIImage imageNamed:@"评论"] forState:UIControlStateNormal];
-    [messageBtn setTitle:@"30" forState:UIControlStateNormal];
-    [messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
-    messageBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
-    messageBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
-    [self.headerView addSubview:messageBtn];
+    self.messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.messageBtn.frame = CGRectMake(self.readBtn.right + marginNum, self.readBtn.top, btnWidth, 21);
+    [self.messageBtn setImage:[UIImage imageNamed:@"评论"] forState:UIControlStateNormal];
+    [self.messageBtn setTitle:@"30" forState:UIControlStateNormal];
+    [self.messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
+    self.messageBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
+    self.messageBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+    [self.headerView addSubview:self.messageBtn];
     
     //收藏人数
-    UIButton *collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    collectionBtn.frame = CGRectMake(messageBtn.right + marginNum, readBtn.top, btnWidth, 21);
-    [collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
-    [collectionBtn setTitle:@"12" forState:UIControlStateNormal];
-    [collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
-    collectionBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
-    collectionBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
-    [self.headerView  addSubview:collectionBtn];
+    self.collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, _readBtn.top, btnWidth, 21);
+    [self.collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+    [self.collectionBtn setTitle:@"12" forState:UIControlStateNormal];
+    [self.collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
+    self.collectionBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
+    self.collectionBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+    [self.headerView  addSubview:self.collectionBtn];
     
     //分享按钮
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, readBtn.top, 21, 21);
+    shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, _readBtn.top, 21, 21);
     [shareBtn addTarget:self action:@selector(sharedButton) forControlEvents:UIControlEventTouchUpInside];
     [shareBtn setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
     shareBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
@@ -128,7 +142,7 @@
     UIView *bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, self.headerView.bottom - 10, kScreenWidth, 10)];
     bottomView.backgroundColor = [GFICommonTool colorWithHexString:@"#f1f5f9"];
     [self.headerView addSubview:bottomView];
-    self.headerView.hidden = YES;
+    
 }
 #pragma mark - ——————— 分享 ————————
 
@@ -197,8 +211,13 @@
 
 #pragma mark ————— 数据拉取完成 渲染页面 —————
 -(void)requestDataCompleted{
-    [self.tableView.mj_footer endRefreshing];
     [self.tableView.mj_header endRefreshing];
+    
+    if (_logic.dataArray.count % 10 == 0 && _logic.dataArray.count !=0) {
+        [self.tableView.mj_footer endRefreshing];
+    }else{
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    }
     self.headerView.hidden = NO;
     [self.tableView reloadData];
 }
@@ -315,6 +334,46 @@
     
 }
 
+//网络请求
+- (void)getPics{
+    
+    [HRHTTPTool postWithURL:kJRG_pushnew_info parameters:nil success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *picList = [json objectForKey:@"top"];
+
+                if(picList.count > 0){
+                    
+                    _topDic = picList.copy;
+                    [_headImg sd_setImageWithURL:[NSURL URLWithString:_topDic[@"thumbnail"]] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+////                    self.timeLabel.text = _topDic[@"published_time"];
+                    self.titleLabel.text = _topDic[@"post_title"];
+                    self.titleLabel.text = _topDic[@"post_excerpt"];
+                
+                    [self.collectionBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"post_favorites"]]   forState:UIControlStateNormal];
+                    [self.readBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"post_hits"]]   forState:UIControlStateNormal];
+                    [self.messageBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"comment_count"]]   forState:UIControlStateNormal];
+                    
+                }
+                
+            }
+        }else if ([result intValue] == 251 || [result intValue] == 253){
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            
+        }else{
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+        }
+    } failure:^(NSError *error) {
+        [super showHUDTip:@"网络错误"];
+        NSLog(@"error == %@",error);
+    }];
+    
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

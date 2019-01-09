@@ -8,7 +8,6 @@
 
 #import "BGSettingTableViewController.h"
 #import "HRChangeInfoViewController.h"
-#import "ModifyPasswordViewController.h"
 #import "BGForgetPasswordViewController.h"
 #import <AVFoundation/AVCaptureDevice.h>
 #import <AVFoundation/AVMediaFormat.h>

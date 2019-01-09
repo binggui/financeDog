@@ -20,8 +20,6 @@
 		726025FA21CA65BC003649C9 /* MainBase.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 726025F921CA65BC003649C9 /* MainBase.storyboard */; };
 		7260261B21CB7B5B003649C9 /* BGHotPointTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260261A21CB7B5B003649C9 /* BGHotPointTableViewController.m */; };
 		7260261E21CB7B6A003649C9 /* RecommendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260261D21CB7B6A003649C9 /* RecommendTableViewController.m */; };
-		7260262B21CB82E7003649C9 /* ModifyPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260262921CB82E7003649C9 /* ModifyPasswordViewController.m */; };
-		7260262C21CB82E7003649C9 /* ModifyPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7260262A21CB82E7003649C9 /* ModifyPasswordViewController.xib */; };
 		7260263021CB8312003649C9 /* BGForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260262E21CB8312003649C9 /* BGForgetPasswordViewController.m */; };
 		7260263121CB8312003649C9 /* BGForgetPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7260262F21CB8312003649C9 /* BGForgetPasswordViewController.xib */; };
 		7260263A21CB834C003649C9 /* BGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260263821CB834C003649C9 /* BGLoginViewController.m */; };
@@ -133,6 +131,8 @@
 		727E7EC220AD76CA00C6DDA4 /* RootWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 727E7EC120AD76CA00C6DDA4 /* RootWebViewController.m */; };
 		727E7EC620AD774000C6DDA4 /* EmitterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 727E7EC520AD774000C6DDA4 /* EmitterViewController.m */; };
 		727FDB1121E37F7D0039FBDC /* BGShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 727FDB1021E37F7D0039FBDC /* BGShareModel.m */; };
+		72B8065F21E5D9F500410480 /* CommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B8065E21E5D9F500410480 /* CommonModel.m */; };
+		72B8066221E5EFEC00410480 /* PersonMoreListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B8066121E5EFEC00410480 /* PersonMoreListViewController.m */; };
 		72B91D2521D3310C00622EF6 /* HRHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D1E21D3310C00622EF6 /* HRHTTPClient.m */; };
 		72B91D2621D3310C00622EF6 /* HRHTTPToolWithSID.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D2221D3310C00622EF6 /* HRHTTPToolWithSID.m */; };
 		72B91D2721D3310C00622EF6 /* HRAccessLogHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D2321D3310C00622EF6 /* HRAccessLogHttpTool.m */; };
@@ -217,9 +217,6 @@
 		7260261A21CB7B5B003649C9 /* BGHotPointTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGHotPointTableViewController.m; sourceTree = "<group>"; };
 		7260261C21CB7B6A003649C9 /* RecommendTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecommendTableViewController.h; sourceTree = "<group>"; };
 		7260261D21CB7B6A003649C9 /* RecommendTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecommendTableViewController.m; sourceTree = "<group>"; };
-		7260262821CB82E7003649C9 /* ModifyPasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifyPasswordViewController.h; sourceTree = "<group>"; };
-		7260262921CB82E7003649C9 /* ModifyPasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyPasswordViewController.m; sourceTree = "<group>"; };
-		7260262A21CB82E7003649C9 /* ModifyPasswordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModifyPasswordViewController.xib; sourceTree = "<group>"; };
 		7260262D21CB8312003649C9 /* BGForgetPasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGForgetPasswordViewController.h; sourceTree = "<group>"; };
 		7260262E21CB8312003649C9 /* BGForgetPasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGForgetPasswordViewController.m; sourceTree = "<group>"; };
 		7260262F21CB8312003649C9 /* BGForgetPasswordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BGForgetPasswordViewController.xib; sourceTree = "<group>"; };
@@ -388,6 +385,10 @@
 		727FDB0F21E37F7D0039FBDC /* BGShareModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGShareModel.h; sourceTree = "<group>"; };
 		727FDB1021E37F7D0039FBDC /* BGShareModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGShareModel.m; sourceTree = "<group>"; };
 		729BD84A20AC320600767D92 /* 框架分析.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "框架分析.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72B8065D21E5D9F500410480 /* CommonModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonModel.h; sourceTree = "<group>"; };
+		72B8065E21E5D9F500410480 /* CommonModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonModel.m; sourceTree = "<group>"; };
+		72B8066021E5EFEC00410480 /* PersonMoreListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonMoreListViewController.h; sourceTree = "<group>"; };
+		72B8066121E5EFEC00410480 /* PersonMoreListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonMoreListViewController.m; sourceTree = "<group>"; };
 		72B91D1D21D3310C00622EF6 /* HRHTTPToolWithSID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRHTTPToolWithSID.h; sourceTree = "<group>"; };
 		72B91D1E21D3310C00622EF6 /* HRHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRHTTPClient.m; sourceTree = "<group>"; };
 		72B91D1F21D3310C00622EF6 /* HRAccessLogHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRAccessLogHttpTool.h; sourceTree = "<group>"; };
@@ -761,6 +762,8 @@
 				726025C221CA13A4003649C9 /* FDHomeTableViewController.m */,
 				727E7DCD20AD6E7700C6DDA4 /* PersonListViewController.h */,
 				727E7DCE20AD6E7700C6DDA4 /* PersonListViewController.m */,
+				72B8066021E5EFEC00410480 /* PersonMoreListViewController.h */,
+				72B8066121E5EFEC00410480 /* PersonMoreListViewController.m */,
 				727E7E9B20AD74EE00C6DDA4 /* HomeViewController.h */,
 				727E7E9C20AD74EE00C6DDA4 /* HomeViewController.m */,
 				727E7E9D20AD74EE00C6DDA4 /* SecondViewController.h */,
@@ -1054,6 +1057,8 @@
 			children = (
 				726025C421CA13CB003649C9 /* FDHomeModel.h */,
 				726025C521CA13CB003649C9 /* FDHomeModel.m */,
+				72B8065D21E5D9F500410480 /* CommonModel.h */,
+				72B8065E21E5D9F500410480 /* CommonModel.m */,
 				727E7E9820AD73E400C6DDA4 /* PersonModel.h */,
 				727E7E9920AD73E400C6DDA4 /* PersonModel.m */,
 				72B91D6621DDE1C600622EF6 /* WGAdvertisementModel.h */,
@@ -1112,9 +1117,6 @@
 				7260262D21CB8312003649C9 /* BGForgetPasswordViewController.h */,
 				7260262E21CB8312003649C9 /* BGForgetPasswordViewController.m */,
 				7260262F21CB8312003649C9 /* BGForgetPasswordViewController.xib */,
-				7260262821CB82E7003649C9 /* ModifyPasswordViewController.h */,
-				7260262921CB82E7003649C9 /* ModifyPasswordViewController.m */,
-				7260262A21CB82E7003649C9 /* ModifyPasswordViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1505,7 +1507,6 @@
 				727E7E8F20AD73AB00C6DDA4 /* 13.jpg in Resources */,
 				727E7E6C20AD713700C6DDA4 /* icon_tabbar_merchant_selected@2x.png in Resources */,
 				727E7E6620AD713700C6DDA4 /* icon_tabbar_homepage@2x.png in Resources */,
-				7260262C21CB82E7003649C9 /* ModifyPasswordViewController.xib in Resources */,
 				727E7E6A20AD713700C6DDA4 /* icon_tabbar_merchant_normal@2x.png in Resources */,
 				727E7E9420AD73AB00C6DDA4 /* 6.jpg in Resources */,
 				727E7E5920AD713700C6DDA4 /* MBHUD_Error@2x.png in Resources */,
@@ -1610,7 +1611,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7260262B21CB82E7003649C9 /* ModifyPasswordViewController.m in Sources */,
 				72B91D3C21DC66FF00622EF6 /* NSObject+Function.m in Sources */,
 				72B91D3F21DC94F900622EF6 /* LSNewsDetailWebviewContainer.m in Sources */,
 				72B91D3521D37F6700622EF6 /* CommonListLogic.m in Sources */,
@@ -1634,6 +1634,7 @@
 				72F5D2AF21E47BFD008156E1 /* NSString+StringToHexData.m in Sources */,
 				72B91D2621D3310C00622EF6 /* HRHTTPToolWithSID.m in Sources */,
 				72B91D6221DDBA3700622EF6 /* MoreCommentLogic.m in Sources */,
+				72B8066221E5EFEC00410480 /* PersonMoreListViewController.m in Sources */,
 				7260264421CB93D1003649C9 /* BGMyCollectionTableViewController.m in Sources */,
 				726026C221D0859A003649C9 /* SelectCollectionLayout.m in Sources */,
 				7260264121CB9326003649C9 /* BGReadHistoryTableViewController.m in Sources */,
@@ -1641,6 +1642,7 @@
 				727E7DB320AD65C000C6DDA4 /* RootNavigationController.m in Sources */,
 				727E7EA120AD74EE00C6DDA4 /* HomeViewController.m in Sources */,
 				727E7EB120AD755800C6DDA4 /* WaterFallCollectionViewCell.m in Sources */,
+				72B8065F21E5D9F500410480 /* CommonModel.m in Sources */,
 				726026CD21D0C7E2003649C9 /* BGSearchTableViewController.m in Sources */,
 				72B91D8F21E3091500622EF6 /* BGCommentModel.m in Sources */,
 				726026C021D0859A003649C9 /* CXSearchModel.m in Sources */,

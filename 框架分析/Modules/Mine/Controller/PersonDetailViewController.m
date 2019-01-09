@@ -369,6 +369,7 @@
     if(indexPath.section == 0 && indexPath.row == 0){//阅读记录
         CommonViewController *moreC = [[CommonViewController alloc]init];
         moreC.title = @"阅读记录";
+        moreC.type = 4;
         [self.navigationController pushViewController:moreC animated:YES];
     }else if (indexPath.section == 0 && indexPath.row == 1){//消息记录
         BGMessageHistoryTableViewController *messageHistoryC = [[BGMessageHistoryTableViewController alloc]init];
@@ -376,6 +377,7 @@
     }else if (indexPath.section == 1 && indexPath.row == 0){//我的收藏
         CommonViewController *moreC = [[CommonViewController alloc]init];
         moreC.title = @"我的收藏";
+        moreC.type = 5;
         [self.navigationController pushViewController:moreC animated:YES];
     }else if (indexPath.section == 1 && indexPath.row == 1){//我的评论
         BGCommentTableViewController *commentC = [[BGCommentTableViewController alloc]init];

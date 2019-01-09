@@ -46,7 +46,7 @@
     //    HomeViewController *homeVC = [[HomeViewController alloc]init];
     //    WaterFallListViewController *homeVC = [WaterFallListViewController new];
     FDHomeTableViewController *mineVC = [[FDHomeTableViewController alloc]init];
-    [self setupChildViewController:mineVC title:@"热点" imageName:@"HOT" seleceImageName:@"HOT选中"];
+    [self setupChildViewController:mineVC title:@"首页" imageName:@"首页" seleceImageName:@"首页选中"];
 
     //    MakeFriendsViewController *makeFriendVC = [[MakeFriendsViewController alloc]init];
     BGHotViewController *makeFriendVC = [[BGHotViewController alloc]init];

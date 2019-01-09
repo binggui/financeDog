@@ -10,16 +10,16 @@
 
 @implementation PersonModel
 
-//+ (NSDictionary *)mj_replacedKeyFromPropertyName{
-//    return @{
-//             @"ID":@"id",
-//             @"des":@"post_title",
-//             @"readCount":@"post_hits",
-//             @"collectionCount":@"post_favorites",
-//             @"goodCount":@"post_like",
-//             @"messageCount":@"comment_count",
-//             @"img":@"thumbnail"
-//             };
-//    
-//}
++ (NSDictionary *)mj_replacedKeyFromPropertyName{
+    return @{
+             @"ID":@"id",
+             @"city":@"post_title",
+             @"juli":@"post_hits",
+             @"collectionCount":@"post_favorites",
+             @"goodCount":@"post_like",
+             @"messageCount":@"comment_count",
+             @"hobbys":@"post_excerpt",
+             @"picture":@"thumbnail"
+             };
+}
 @end

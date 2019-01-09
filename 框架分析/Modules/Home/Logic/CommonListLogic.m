@@ -7,7 +7,8 @@
 //
 
 #import "CommonListLogic.h"
-#import "FDHomeModel.h"
+#import "CommonModel.h"
+
 
 @interface CommonListLogic()
 @property (nonatomic,copy) NSArray * imgArray;
@@ -33,30 +34,30 @@
 
 #pragma mark ————— 拉取数据 —————
 -(void)loadData{
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //模拟成功
-        if (_page == 0) {
-            [_dataArray removeAllObjects];
-        }
-        for (int i = 0; i < 10; i++) {
-            
-            FDHomeModel *model = [FDHomeModel new];
-            model.img = _imgArray[arc4random()%_imgArray.count];
-            model.collectionCount = _collectionNumberArray[arc4random()%_collectionNumberArray.count];
-            model.des = _desLabelArray[arc4random()%_desLabelArray.count];
-            model.readCount = _readNumberArray[arc4random()%_readNumberArray.count];
-            
-            model.messageCount = _messageNumberArray[arc4random()%_messageNumberArray.count];
-            
-            [_dataArray addObject:model];
-        }
-        if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
-            [self.delegagte requestDataCompleted];
-        }
-        
-    });
-    
+//
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        //模拟成功
+//        if (_page == 0) {
+//            [_dataArray removeAllObjects];
+//        }
+//        for (int i = 0; i < 10; i++) {
+//
+//            FDHomeModel *model = [FDHomeModel new];
+//            model.img = _imgArray[arc4random()%_imgArray.count];
+//            model.collectionCount = _collectionNumberArray[arc4random()%_collectionNumberArray.count];
+//            model.des = _desLabelArray[arc4random()%_desLabelArray.count];
+//            model.readCount = _readNumberArray[arc4random()%_readNumberArray.count];
+//
+//            model.messageCount = _messageNumberArray[arc4random()%_messageNumberArray.count];
+//
+//            [_dataArray addObject:model];
+//        }
+//        if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
+//            [self.delegagte requestDataCompleted];
+//        }
+//
+//    });
+    [self getPics];
     //发起请求 示例
     //    GetWaterFallListAPI *req = [GetWaterFallListAPI new];
     //    [req startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
@@ -72,13 +73,18 @@
     if (_page == 0) {
         [_dataArray removeAllObjects];
     }
+
     NSString *urlTemp = nil;
-    if (_type == 1) {
+    if (_type == 1) {//热点
         urlTemp = kJRG_daynew_info;
-    }else if(_type == 2){
-        urlTemp = kJRG_weeknew_info;
-    }else if(_type == 3){
-        urlTemp = kJRG_mounthnew_info;
+    }else if(_type == 2){//推荐
+        urlTemp = kJRG_pushnew_info;
+    }else if(_type == 3){//案例
+        urlTemp = kJRG_exampleapi_info;
+    }else if(_type == 4){//阅读记录
+        urlTemp = nil;
+    }else if(_type == 5){//我的收藏
+        urlTemp = nil;
     }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -93,17 +99,19 @@
                 NSMutableArray *tempNewsArr = [NSMutableArray array];
                 NSArray *tempArr = [json objectForKey:@"result"];
                 for (NSDictionary *dict in tempArr) {
-                    FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+                    CommonModel *model = [CommonModel mj_objectWithKeyValues:dict];
                     [tempNewsArr addObject:model];
                     
                 }
+                
                 if(tempNewsArr.count > 0){
                     
                     self.dataArray = tempNewsArr.mutableCopy;
-                    if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
-                        
-                        [self.delegagte requestDataCompleted];
-                    }
+                    
+                }
+                if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
+                    
+                    [self.delegagte requestDataCompleted];
                 }
             }
         }else{

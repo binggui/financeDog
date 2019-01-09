@@ -12,7 +12,6 @@
 #import "WGAdvertisementView.h"
 #import "PersonDetailViewController.h"
 #import "BGLoginViewController.h"
-#import "ModifyPasswordViewController.h"
 #import "BGMyCollectionTableViewController.h"
 #import "BGMessageHistoryTableViewController.h"
 #import "CXSearchController.h"
@@ -22,6 +21,8 @@
 #import "CommonViewController.h"
 #import "LSDetainViewController.h"
 #import "WGAdvertisementModel.h"
+#import "PersonMoreListViewController.h"
+
 
 
 @interface FDHomeTableViewController ()<UITableViewDelegate,UITableViewDataSource,CXSearchControllerDelegate,FDHomeListLogicDelegate,WGAdvertisementViewDelegate>{
@@ -46,7 +47,6 @@
     //开始第一次数据拉取
     [self.tableHomeView.mj_header beginRefreshing];
     [self setupNavigation];
-    
     //初始化逻辑类
     _logic = [FDHomeListLogic new];
     _logic.delegagte = self;
@@ -92,7 +92,7 @@
     ViewRadius(_adview, 8);
 
     _adview.delegate = self;
-    self.tableHomeView.tableHeaderView = _topView;
+    
     self.tableHomeView.dataSource = self;
     self.tableHomeView.delegate = self;
     [_topView addSubview:_adview];
@@ -120,9 +120,19 @@
                 }
                 if(tempArr.count > 0){
                     [_adview setImageInfos:tempArr];
+                    self.tableHomeView.tableHeaderView = _topView;
+                    [_topView addSubview:_adview];
+                }else{
+                    self.tableHomeView.tableHeaderView = [[UIView alloc]init];
                 }
             
             }
+        }else if ([result intValue] == 251 || [result intValue] == 253){
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            
         }else{
             [super showHUDTip:[json objectForKey:@"error_msg"]];
         }
@@ -130,6 +140,7 @@
         [super showHUDTip:@"网络错误"];
         NSLog(@"error == %@",error);
     }];
+    
 }
 
 #pragma mark ————— 下拉刷新 —————
@@ -150,8 +161,6 @@
     [self.tableHomeView.mj_header endRefreshing];
     _topView.hidden = NO;
     [self.tableHomeView reloadData];
-    
-
     
 }
 -(void)setupNavigation{
@@ -300,18 +309,26 @@
     return headerView;
 }
 - (void)moreListAction:(UIButton *)button{
+
     NSInteger type = 0;
     if (button.tag == 0) {
         type = 1;
+        CommonViewController *moreC = [[CommonViewController alloc]init];
+        moreC.title = [self.logic.dataArraySection[button.tag] objectForKey:@"name"];
+        moreC.type = type;
+        [self.navigationController pushViewController:moreC animated:YES];
     }else if (button.tag == 1){
         type = 2;
+        CommonViewController *moreC = [[CommonViewController alloc]init];
+        moreC.title = [self.logic.dataArraySection[button.tag] objectForKey:@"name"];
+        moreC.type = type;
+        [self.navigationController pushViewController:moreC animated:YES];
     }else if (button.tag == 2){
         type = 3;
+        PersonMoreListViewController *vc = [[PersonMoreListViewController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
-    CommonViewController *moreC = [[CommonViewController alloc]init];
-    moreC.title = [self.logic.dataArraySection[button.tag] objectForKey:@"name"];
-    moreC.type = type;
-    [self.navigationController pushViewController:moreC animated:YES];
+
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{

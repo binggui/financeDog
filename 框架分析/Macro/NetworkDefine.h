@@ -99,7 +99,7 @@
 #define kExampleapiUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.exampleapi/"
 #define kEditpwdUrl @"http://jrg.yunmeitiweb.com/user/phoneapi.personalapi/"
 #define kcommentUrl @"http://jrg.yunmeitiweb.com/user/phoneapi.commentapi/"
-
+#define kpushnewUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.pushnewapi/"
 
 #define kJRG_regeister kBaseUrl @"regeister"   //注册
 #define kJRG_gettoken_info kBaseUrl @"gettoken"   //token
@@ -108,14 +108,16 @@
 #define kJRG_index_info kBaseportalUrl @"index"   //首页数据接口
 #define kJRG_hotnew_info kBaseUrl @"hotnew"   //hotnew
 
-#define kJRG_daynew_info kBasehotlUrl @"daynew"//周热点
+#define kJRG_daynew_info kBasehotlUrl @"daynew"//日热点
 #define kJRG_weeknew_info kBasehotlUrl @"weeknew"//周热点
-#define kJRG_mounthnew_info kBasehotlUrl @"mounthnew"//周热点
+#define kJRG_mounthnew_info kBasehotlUrl @"mounthnew"//月热点
 
 #define kJRG_search_info kBaseportalUrl @"search"//搜索
+#define kJRG_pushnew_info kpushnewUrl @"pushnew"//推荐
 #define kJRG_exampleapi_info kExampleapiUrl @"index"//案例
 #define kJRG_editpwd_info kEditpwdUrl @"editpwd"//修改密码
-#define kJRG_comment_info kcommentUrl @"comment"//修改密码
+#define kJRG_comment_info kcommentUrl @"comment"//评论
+
 /**开发服务器*/
 #define URL_main @"http://218.205.209.238/shark-miai-fubinggui"
 //#define URL_main @"http://192.168.11.122:8090" //展鹏

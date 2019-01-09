@@ -28,7 +28,7 @@
         self.backgroundColor=KWhiteColor;
         ViewRadius(self, 5);
         NSLog(@"-------");
-        _imgView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height-20)];
+        _imgView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height-20 - waterHeightChange)];
         _imgView.contentMode=UIViewContentModeScaleAspectFill;
         _imgView.clipsToBounds=YES;
         _imgView.backgroundColor=KWhiteColor;
@@ -78,7 +78,7 @@
     _readBtn.titleLabel.text = personModel.juli;
 
     CGFloat itemH = personModel.height * self.width / personModel.width;
-    _imgView.frame=CGRectMake(0, 0, self.frame.size.width, itemH);
+    _imgView.frame=CGRectMake(0, 0, self.frame.size.width, itemH - waterHeightChange);
 
     _lblHobby.frame=CGRectMake(10, _imgView.bottom+10, self.frame.size.width-20, personModel.hobbysHeight);
 

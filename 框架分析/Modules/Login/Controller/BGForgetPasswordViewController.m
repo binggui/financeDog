@@ -7,7 +7,6 @@
 //
 
 #import "BGForgetPasswordViewController.h"
-#import "ModifyPasswordViewController.h"
 @interface BGForgetPasswordViewController (){
     dispatch_source_t _timer;
 }
@@ -147,7 +146,7 @@
  
     }else if (type == 2){//修改密码
         
-        [params setObject:[GFICommonTool encodeData:self.passwordTextfield.text] forKey:@"password"];
+        [params setObject:self.passwordTextfield.text forKey:@"password"];
         [params setObject:self.userTextfield.text forKey:@"phone"];
         [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
 
@@ -172,7 +171,7 @@
                 }else if (type == 2){//修改密码
                     NSUserDefaults *defaults = USER_DEFAULT;
                     [defaults removeObjectForKey:kIsLoginScuu];
-                    [defaults setObject:self.passwordTextfield.text forKey:@"password"];
+                    [defaults setObject:[GFICommonTool encodeData:self.passwordTextfield.text] forKey:@"user_password"];
                     [defaults synchronize];
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }else if (type == 3){

@@ -8,7 +8,6 @@
 
 #import "BGLoginViewController.h"
 #import "BGForgetPasswordViewController.h"
-#import "ModifyPasswordViewController.h"
 #import <WXApi.h>
 
 

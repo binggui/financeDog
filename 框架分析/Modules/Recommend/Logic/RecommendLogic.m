@@ -8,7 +8,7 @@
 
 #import "RecommendLogic.h"
 #import "FDHomeModel.h"
-
+#import "CommonModel.h"
 @interface RecommendLogic()
 @property (nonatomic,copy) NSArray * imgArray;
 @property (nonatomic,copy) NSArray * desLabelArray;
@@ -41,7 +41,7 @@
         }
         for (int i = 0; i < 10; i++) {
             
-            FDHomeModel *model = [FDHomeModel new];
+            CommonModel *model = [CommonModel new];
             model.img = _imgArray[arc4random()%_imgArray.count];
             model.collectionCount = _collectionNumberArray[arc4random()%_collectionNumberArray.count];
             model.des = _desLabelArray[arc4random()%_desLabelArray.count];
@@ -65,4 +65,5 @@
     //        NSLog(@"请求失败 %@",req.message);
     //    }];
 }
+
 @end
