@@ -351,9 +351,10 @@
             
         }
         NSArray *cellarr = tempNewsArr.copy;
-     
+ 
+        FDHomeModel *didSelectedModel = cellarr[indexPath.row];
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=@"http://data.10086.cn/nmp-pps/m/?s=2&p=12&c=508";
+        VC.URLString = didSelectedModel.url;
         VC.firstConfigute=YES;
         VC.model = cellarr[indexPath.row];
         VC.title = @"详情";
@@ -377,6 +378,7 @@
     if (flag == finishLogin) {//已登录不做处理
         vc.hidesBottomBarWhenPushed = YES;
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
+        
         VC.URLString=kWebTestUrl;
         VC.firstConfigute=YES;
         VC.title = @"详情";

@@ -75,7 +75,7 @@
     _lblHobby.text=personModel.hobbys;
     _lblFrom.text=personModel.city;
 //    _juli.text = personModel.juli;
-    _readBtn.titleLabel.text = personModel.juli;
+    [_readBtn setTitle:personModel.juli forState:UIControlStateNormal];
 
     CGFloat itemH = personModel.height * self.width / personModel.width;
     _imgView.frame=CGRectMake(0, 0, self.frame.size.width, itemH - waterHeightChange);

@@ -11,9 +11,10 @@
 
 @interface PersonModel : NSObject
 
-@property (copy, nonatomic) NSString * imgUrl;
+@property (copy, nonatomic) NSString * jumpUrl;
 
 @property (copy, nonatomic) NSString * nameText;
+
 
 //id = 6;
 //"post_hits" = 2;
@@ -67,6 +68,9 @@
 @property (strong, nonatomic) NSString * goodCount;
 @property (strong, nonatomic) NSString * messageCount;
 @property (strong, nonatomic) NSString * ID;
+@property (strong, nonatomic) NSString * updateTime;
+@property (strong, nonatomic) NSString * publishTime;
+
 
 
 @property (nonatomic, assign) NSInteger height;

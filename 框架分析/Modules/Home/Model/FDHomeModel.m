@@ -17,7 +17,8 @@
              @"collectionCount":@"post_favorites",
              @"goodCount":@"post_like",
              @"messageCount":@"comment_count",
-             @"img":@"thumbnail"
+             @"img":@"thumbnail",
+             @"url":@"portal_url"
              };
     
 }

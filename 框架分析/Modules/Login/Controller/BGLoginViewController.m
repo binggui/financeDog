@@ -405,7 +405,7 @@
                     NSString *strTemp = [[json objectForKey:@"result"]  objectForKey:KidMark];
                     [defaults setObject:strTemp forKey:KidMark];
                     
-                    NSDictionary *personData = [json objectForKey:@"result"];
+                     NSDictionary *personData = [json objectForKey:@"result"];
                     //个人数据保存
                     [defaults setInteger:[personData[@"sex"]  integerValue]  forKey:@"sex"];
                     [defaults setObject:personData[@"user_nickname"] forKey:@"user_nickname"];

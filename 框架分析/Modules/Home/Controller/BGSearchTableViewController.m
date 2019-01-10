@@ -27,7 +27,7 @@
     _logic = [BGSearchListLogic new];
     _logic.delegagte = self;
     _logic.searchText = self.searchText;
-
+    [self.tableView.mj_header beginRefreshing];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -56,7 +56,7 @@
     
     UIView *backgroundV = [[UIView alloc]initWithFrame:CGRectMake(-20, 0, kScreenWidth - 50, 30)];
     backgroundV.backgroundColor = [UIColor whiteColor];
-    _SearchButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth - 50, 30)];
+    _SearchButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth - 80, 30)];
     
     ViewRadius(backgroundV, 15);
     [_SearchButton setTitle:self.searchText forState:UIControlStateNormal];
@@ -113,6 +113,36 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    if (flag == finishLogin) {//已登录
+        
+        NSMutableArray *tempNewsArr = [NSMutableArray array];
+        NSArray *tempArr = self.logic.dataArray[indexPath.section];
+        for (NSDictionary *dict in tempArr) {
+            
+            FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+            [tempNewsArr addObject:model];
+            
+        }
+        NSArray *cellarr = tempNewsArr.copy;
+        
+        FDHomeModel *didSelectedModel = cellarr[indexPath.row];
+        LSDetainViewController *VC=[[LSDetainViewController alloc]init];
+        VC.URLString = didSelectedModel.url;
+        VC.firstConfigute=YES;
+        VC.model = cellarr[indexPath.row];
+        VC.title = @"详情";
+        [self.navigationController pushViewController:VC animated:YES];
+        
+        
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
 }
 #pragma mark ————— 下拉刷新 —————
 -(void)headerRereshing{

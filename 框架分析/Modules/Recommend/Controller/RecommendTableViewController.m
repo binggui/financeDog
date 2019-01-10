@@ -260,7 +260,8 @@
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=kWebTestUrl;
+        FDHomeModel *model = _logic.dataArray[indexPath.row];
+        VC.URLString = model.url;
         VC.firstConfigute=YES;
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];

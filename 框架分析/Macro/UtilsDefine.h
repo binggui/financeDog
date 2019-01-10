@@ -69,7 +69,7 @@
 #define kScreen_Bounds [UIScreen mainScreen].bounds
 
 //瀑布流高度
-#define waterHeightChange 50
+#define waterHeightChange 60
 //适配
 #define KCurrentWidths(width)  width/375.0*KScreenWidth
 #define KCurrentHeights(height)  height/667.0*KScreenHeight

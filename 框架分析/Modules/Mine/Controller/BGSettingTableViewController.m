@@ -154,15 +154,47 @@
             break;
     }
 }
-
-- (void)dealloc
-{
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     NSUserDefaults *defaults = USER_DEFAULT;
     [defaults setInteger:self.sexSegment.selectedSegmentIndex forKey:@"sex"];
     [defaults setObject:self.phoneNumber.text forKey:@"mobile"];
     [defaults setObject:self.nameLabel.text forKey:@"user_nickname"];
     //2.1立即同步
     [defaults synchronize];
+
+    [self postUrl:kJRG_editsex_info andType:1];
+    [self postUrl:kJRG_editnickname_info andType:2];
+}
+
+//网络请求
+- (void)postUrl:(NSString *)URl andType:(NSInteger )type{
+    
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    if (type == 1) {//验证码
+        [params setObject:@(self.sexSegment.selectedSegmentIndex)  forKey:@"sex"];
+    }else if (type == 2){//登录
+        [params setObject:self.nameLabel.text forKey:@"nickname"];
+    }
+    
+    
+    [HRHTTPTool postWithURL:URl parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+
+            }
+        }else{
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
+        }
+    } failure:^(NSError *error) {
+        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+        NSLog(@"error == %@",error);
+    }];
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++

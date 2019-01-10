@@ -101,6 +101,7 @@
 #define kcommentUrl @"http://jrg.yunmeitiweb.com/user/phoneapi.commentapi/"
 #define kpushnewUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.pushnewapi/"
 
+
 #define kJRG_regeister kBaseUrl @"regeister"   //注册
 #define kJRG_gettoken_info kBaseUrl @"gettoken"   //token
 #define kJRG_login kBaseUrl @"login"   //登录
@@ -116,6 +117,8 @@
 #define kJRG_pushnew_info kpushnewUrl @"pushnew"//推荐
 #define kJRG_exampleapi_info kExampleapiUrl @"index"//案例
 #define kJRG_editpwd_info kEditpwdUrl @"editpwd"//修改密码
+#define kJRG_editsex_info kEditpwdUrl @"editsex"//sex
+#define kJRG_editnickname_info kEditpwdUrl @"editnickname"//name
 #define kJRG_comment_info kcommentUrl @"comment"//评论
 
 /**开发服务器*/

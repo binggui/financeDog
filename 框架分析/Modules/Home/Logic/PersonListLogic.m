@@ -35,32 +35,32 @@
 #pragma mark ————— 拉取数据 —————
 -(void)loadData{
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //模拟成功
-        if (_page == 0) {
-            [_dataArray removeAllObjects];
-        }
-        for (int i = 0; i < 10; i++) {
-            
-            PersonModel *model = [PersonModel new];
-            model.picture = _imgArray[arc4random()%_imgArray.count];
-            model.headImg = _imgArray[arc4random()%_imgArray.count];
-            model.nickName = _nickNameArray[arc4random()%_nickNameArray.count];
-            model.hobbys = _hobbysArray[arc4random()%_hobbysArray.count];
-            model.age = @"28岁";
-            model.city = _fromArray[arc4random()%_fromArray.count];
-            model.juli = i%2==0 ? @"169" : @"1700";
-            model.width = 150;
-            model.height = 150;
-            
-            [_dataArray addObject:model];
-        }
-        if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
-            [self.delegagte requestDataCompleted];
-        }
-
-    });
-//    [self getPics];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        //模拟成功
+//        if (_page == 0) {
+//            [_dataArray removeAllObjects];
+//        }
+//        for (int i = 0; i < 10; i++) {
+//
+//            PersonModel *model = [PersonModel new];
+//            model.picture = _imgArray[arc4random()%_imgArray.count];
+//            model.headImg = _imgArray[arc4random()%_imgArray.count];
+//            model.nickName = _nickNameArray[arc4random()%_nickNameArray.count];
+//            model.hobbys = _hobbysArray[arc4random()%_hobbysArray.count];
+//            model.age = @"28岁";
+//            model.city = _fromArray[arc4random()%_fromArray.count];
+//            model.juli = i%2==0 ? @"169" : @"1700";
+//            model.width = 150;
+//            model.height = 150;
+//
+//            [_dataArray addObject:model];
+//        }
+//        if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
+//            [self.delegagte requestDataCompleted];
+//        }
+//
+//    });
+    [self getPics];
     
     //发起请求 示例
 //    GetWaterFallListAPI *req = [GetWaterFallListAPI new];
@@ -92,6 +92,8 @@
                 for (NSDictionary *dict in tempArr) {
                     
                     PersonModel *model = [PersonModel mj_objectWithKeyValues:dict];
+                    model.width = 150;
+                    model.height = 150;
                     [tempNewsArr addObject:model];
                     
                 }

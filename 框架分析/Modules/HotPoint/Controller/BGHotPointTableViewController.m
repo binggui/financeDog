@@ -92,11 +92,12 @@
     //先判断是否登录
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录
+        FDHomeModel *model = _logic.dataArray[indexPath.row];
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=kWebTestUrl;
+        VC.URLString = model.url;
         VC.firstConfigute=YES;
         VC.title = @"详情";
-        [self.navigationController pushViewController:VC animated:YES];
+        [[self viewController] pushViewController:VC animated:YES];
         
     }else{//未登录
         //为了显示未登录布局，不弹出登录框

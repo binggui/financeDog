@@ -13,13 +13,17 @@
 + (NSDictionary *)mj_replacedKeyFromPropertyName{
     return @{
              @"ID":@"id",
-             @"city":@"post_title",
+             @"city":@"post_source",
              @"juli":@"post_hits",
              @"collectionCount":@"post_favorites",
              @"goodCount":@"post_like",
              @"messageCount":@"comment_count",
-             @"hobbys":@"post_excerpt",
-             @"picture":@"thumbnail"
+             @"hobbys":@"post_title",
+             @"picture":@"thumbnail",
+             @"updateTime":@"update_time",
+             @"publishTime":@"published_time",
+             @"jumpUrl":@"url"
              };
+
 }
 @end

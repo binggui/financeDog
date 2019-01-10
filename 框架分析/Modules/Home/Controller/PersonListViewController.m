@@ -165,6 +165,7 @@
     [self.collectionView.mj_header endRefreshing];
     
     [self.collectionView reloadData];
+    
     _adview.hidden = NO;
 
     
@@ -221,8 +222,9 @@
     //先判断是否登录
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录
+        PersonModel *model = _logic.dataArray[indexPath.row];
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=kWebTestUrl;
+        VC.URLString = model.jumpUrl;
         VC.firstConfigute=YES;
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];
