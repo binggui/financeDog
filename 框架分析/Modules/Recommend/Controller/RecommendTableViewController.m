@@ -101,7 +101,7 @@
     //阅读量
     self.readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.readBtn.frame = CGRectMake(self.desLabel.left , self.desLabel.bottom + 10, btnWidth, 21);
-    [self.readBtn setImage:[UIImage imageNamed:@"阅读量"] forState:UIControlStateNormal];
+    [self.readBtn setImage:[UIImage imageNamed:@"阅读量1"] forState:UIControlStateNormal];
     [self.readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     self.readBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
     self.readBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
@@ -110,7 +110,7 @@
     //回复人数
     self.messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.messageBtn.frame = CGRectMake(self.readBtn.right + marginNum, self.readBtn.top, btnWidth, 21);
-    [self.messageBtn setImage:[UIImage imageNamed:@"评论"] forState:UIControlStateNormal];
+    [self.messageBtn setImage:[UIImage imageNamed:@"评论1"] forState:UIControlStateNormal];
     [self.messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     self.messageBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
     self.messageBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
@@ -119,7 +119,7 @@
     //收藏人数
     self.collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, _readBtn.top, btnWidth, 21);
-    [self.collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+    [self.collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
     [self.collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     self.collectionBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
     self.collectionBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
@@ -129,7 +129,7 @@
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, _readBtn.top, 21, 21);
     [shareBtn addTarget:self action:@selector(sharedButton) forControlEvents:UIControlEventTouchUpInside];
-    [shareBtn setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
+    [shareBtn setImage:[UIImage imageNamed:@"分享1"] forState:UIControlStateNormal];
     shareBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
 //    shareBtn.hidden = YES;
     [self.headerView  addSubview:shareBtn];

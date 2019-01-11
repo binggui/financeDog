@@ -46,18 +46,18 @@
     //    HomeViewController *homeVC = [[HomeViewController alloc]init];
     //    WaterFallListViewController *homeVC = [WaterFallListViewController new];
     FDHomeTableViewController *mineVC = [[FDHomeTableViewController alloc]init];
-    [self setupChildViewController:mineVC title:@"首页" imageName:@"首页" seleceImageName:@"首页选中"];
+    [self setupChildViewController:mineVC title:@"首页" imageName:@"首页1" seleceImageName:@"首页1选中"];
 
     //    MakeFriendsViewController *makeFriendVC = [[MakeFriendsViewController alloc]init];
     BGHotViewController *makeFriendVC = [[BGHotViewController alloc]init];
-    [self setupChildViewController:makeFriendVC title:@"热点" imageName:@"HOT" seleceImageName:@"HOT选中"];
+    [self setupChildViewController:makeFriendVC title:@"热点" imageName:@"HOT1" seleceImageName:@"HOT1选中"];
     
     //    MsgViewController *msgVC = [[MsgViewController alloc]init];
     RecommendTableViewController *msgVC = [RecommendTableViewController new];
-    [self setupChildViewController:msgVC title:@"推荐" imageName:@"推荐" seleceImageName:@"推荐选中"];
+    [self setupChildViewController:msgVC title:@"推荐" imageName:@"推荐1" seleceImageName:@"推荐1选中"];
     
     PersonListViewController *homeVC = [[PersonListViewController alloc]init];
-    [self setupChildViewController:homeVC title:@"案例" imageName:@"案例" seleceImageName:@"案例选中"];
+    [self setupChildViewController:homeVC title:@"案例" imageName:@"案例1" seleceImageName:@"案例1选中"];
     
 
     

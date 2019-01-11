@@ -43,6 +43,7 @@
     _loginConstraint.constant = 30;
     _passswordLookFlag = YES;
     self.isLookButton.hidden = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wechatDidLoginNotification:) name:@"wechatDidLoginNotification" object:nil];
     
     [self setupUI];
     
@@ -123,7 +124,7 @@
 - (IBAction)changeIsLook:(id)sender {
     _passswordLookFlag = !_passswordLookFlag;
     if(_passswordLookFlag){
-        [self.isLookButton setImage:[UIImage imageNamed:@"密码显示"] forState:UIControlStateNormal];
+        [self.isLookButton setImage:[UIImage imageNamed:@"密码显示1"] forState:UIControlStateNormal];
         _passwordRegistTextField.secureTextEntry = NO;
   
     }else{
@@ -260,28 +261,28 @@
         [UIView animateWithDuration:0.5 animations:^{
             self.showFlag = !self.showFlag;
             if(self.showFlag){
-                if (kISiPhone5){
-                    _loginConstraint.constant = 15;
-                } else if(kISiPhoneX){
-                    _loginConstraint.constant = 35;
-                }
-                else{
-                    _loginConstraint.constant = 30;
-                }
-                _loginConstraint.constant = 30;
+//                if (kISiPhone5){
+//                    _loginConstraint.constant = 15;
+//                } else if(kISiPhoneX){
+//                    _loginConstraint.constant = 35;
+//                }
+//                else{
+//                    _loginConstraint.constant = 30;
+//                }
+//                _loginConstraint.constant = 30;
                 self.passwordIcon.hidden = YES;
                 self.passwordRegistTextField.hidden = YES;
                 self.passwordTestField.secureTextEntry = YES;
                 
             }else{
-                if (kISiPhone5){
-                    _loginConstraint.constant = 55;
-                } else if(kISiPhoneX){
-                    _loginConstraint.constant = 70;
-                }
-                else{
-                    _loginConstraint.constant = 60;
-                }
+//                if (kISiPhone5){
+//                    _loginConstraint.constant = 55;
+//                } else if(kISiPhoneX){
+//                    _loginConstraint.constant = 70;
+//                }
+//                else{
+//                    _loginConstraint.constant = 60;
+//                }
                 self.passwordIcon.hidden = NO;
                 self.passwordRegistTextField.hidden = NO;
                 self.passwordTestField.secureTextEntry = NO;
@@ -308,6 +309,67 @@
     [WXApi sendReq:req];
 
 }
+
+- (void)wechatDidLoginNotification:(NSNotification *)text{
+    NSLog(@"%@",text.userInfo[@"code"]);
+    [self getWechatAccessTokenWithCode:text.userInfo[@"code"]];
+    
+}
+- (void)getWechatAccessTokenWithCode:(NSString *)code
+{
+    NSString *url =[NSString stringWithFormat:
+                    @"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",
+                    WechatAppKey,WechatSecrectKey,code];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *zoneUrl = [NSURL URLWithString:url];
+        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (data)
+            {
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
+                                                                    options:NSJSONReadingMutableContainers error:nil];
+                
+                NSLog(@"%@",dic);
+                NSString *accessToken = dic[@"access_token"];
+                NSString *openId = dic[@"openid"];
+                
+                [self getWechatUserInfoWithAccessToken:accessToken openId:openId];
+            }
+        });
+    });
+}
+- (void)getWechatUserInfoWithAccessToken:(NSString *)accessToken openId:(NSString *)openId
+{
+    NSString *url =[NSString stringWithFormat:
+                    @"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",accessToken,openId];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURL *zoneUrl = [NSURL URLWithString:url];
+        NSString *zoneStr = [NSString stringWithContentsOfURL:zoneUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *data = [zoneStr dataUsingEncoding:NSUTF8StringEncoding];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (data)
+            {
+                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
+                                                                    options:NSJSONReadingMutableContainers error:nil];
+                
+                NSLog(@"%@",dic);
+                
+                NSString *openId = [dic objectForKey:@"openid"];
+                NSString *memNickName = [dic objectForKey:@"nickname"];
+                NSString *memSex = [dic objectForKey:@"sex"];
+           
+//                [self loginWithOpenId:openId memNickName:memNickName memSex:memSex];
+            }
+        });
+        
+    });
+}
+
 - (void)log_by_otherWithType :(NSString *)type openId :(NSString *)openId accessToken :(NSString *)token{
 //    [SVProgressHUD show];
     NSMutableDictionary *parames = [NSMutableDictionary dictionary];
@@ -325,27 +387,7 @@
             
         }
         if ([result intValue] == 200) {
-//            [SVProgressHUD dismiss];
-            //判断是否绑定手机号
-            NSString *mobile = [json objectForKey:@"mobile"];
-            if (mobile != nil) {
-                //已绑定手机号则保存手机号
-                [USER_DEFAULT setObject:mobile forKey:@"mobile"];
-                [USER_DEFAULT setObject:[json objectForKey:@"userIcon"] forKey:@"icon_photo"];
-                [USER_DEFAULT setObject:[json objectForKey:@"frame"] forKey:@"frame_photo"];            }
-            [self dismissViewControllerAnimated:YES completion:^{
-                //判断是否关联手机号,没有则弹出提示框
-                NSString *mobiles = [USER_DEFAULT objectForKey:@"mobile"];
-                if (mobiles == nil) {
-                [PopPromptView showWithTag:100 target:self title:@"检测到您未关联手机号,\n是否立即关联"];
-                    
-                    return ;
-                }
-            }];
-            
-            [USER_DEFAULT setObject:[json objectForKey:@"sid"] forKey:@"sid"];
-            [USER_DEFAULT setObject:[json objectForKey:@"nickname"] forKey:@"nickname"];
-            
+//          
             //给个登录类型标记
             [USER_DEFAULT setObject:type forKey:@"accounttype"];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"backToDetailVC" object:@"nil"];
@@ -359,6 +401,12 @@
 //        [SVProgressHUD dismiss];
     }];
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"wechatDidLoginNotification" object:nil];
+}
+
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     

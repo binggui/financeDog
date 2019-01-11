@@ -273,7 +273,7 @@
             cell.imageView.image = [UIImage imageNamed:@"我的评论"];
         }else if (indexPath.section == 2 && indexPath.row == 0){
             cell.textLabel.text = @"个人设置";
-            cell.imageView.image = [UIImage imageNamed:@"个人设置"];
+            cell.imageView.image = [UIImage imageNamed:@"设置1"];
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         //2、调整大小

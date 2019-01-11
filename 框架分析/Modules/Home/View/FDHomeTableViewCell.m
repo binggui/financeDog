@@ -77,7 +77,7 @@
     //阅读量
     _readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _readBtn.frame = CGRectMake(self.leftImg.right + 13, self.leftImg.bottom - 23, btnWidth, 21);
-    [_readBtn setImage:[UIImage imageNamed:@"阅读量"] forState:UIControlStateNormal];
+    [_readBtn setImage:[UIImage imageNamed:@"阅读量1"] forState:UIControlStateNormal];
     [_readBtn setTitle:@"999+" forState:UIControlStateNormal];
     [_readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     _readBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 2);
@@ -87,7 +87,7 @@
     //回复人数
     _messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _messageBtn.frame = CGRectMake(_readBtn.right + marginNum, self.leftImg.bottom - 23, btnWidth, 21);
-    [_messageBtn setImage:[UIImage imageNamed:@"评论"] forState:UIControlStateNormal];
+    [_messageBtn setImage:[UIImage imageNamed:@"评论1"] forState:UIControlStateNormal];
     [_messageBtn setTitle:@"30" forState:UIControlStateNormal];
     [_messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     _messageBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 2);
@@ -97,7 +97,7 @@
     //收藏人数
     _collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, self.leftImg.bottom - 23, btnWidth, 21);
-    [_collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+    [_collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
     [_collectionBtn setTitle:@"12" forState:UIControlStateNormal];
     [_collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     _collectionBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 2);
@@ -107,7 +107,7 @@
     //分享按钮
     _shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, self.leftImg.bottom - 23, 21, 21);
-    [_shareBtn setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
+    [_shareBtn setImage:[UIImage imageNamed:@"分享1"] forState:UIControlStateNormal];
     _shareBtn.titleLabel.font = [UIFont systemFontOfSize: 13.0];
     _shareBtn.hidden = YES;
     [self.contentView  addSubview:_shareBtn];

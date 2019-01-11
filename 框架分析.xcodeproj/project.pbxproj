@@ -1423,7 +1423,7 @@
 				TargetAttributes = {
 					729BD84920AC320500767D92 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = CBG88Y2F2Y;
+						DevelopmentTeam = FJ5FELV34L;
 						ProvisioningStyle = Automatic;
 					};
 					72DA90E320E474CA00F2F4D5 = {
@@ -1834,13 +1834,13 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CBG88Y2F2Y;
+				DEVELOPMENT_TEAM = FJ5FELV34L;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/框架分析/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = "框架分析/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.finance.dogs;
+				PRODUCT_BUNDLE_IDENTIFIER = JinRongGouID;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1854,13 +1854,13 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CBG88Y2F2Y;
+				DEVELOPMENT_TEAM = FJ5FELV34L;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/框架分析/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = "框架分析/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.finance.dogs;
+				PRODUCT_BUNDLE_IDENTIFIER = JinRongGouID;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

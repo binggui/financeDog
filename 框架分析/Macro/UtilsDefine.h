@@ -71,7 +71,7 @@
 //瀑布流高度
 #define waterHeightChange 60
 //app整体色调
-#define appColorDefault @"#00486b"
+#define appColorDefault @"#0388ba"
 //适配
 #define KCurrentWidths(width)  width/375.0*KScreenWidth
 #define KCurrentHeights(height)  height/667.0*KScreenHeight
@@ -130,6 +130,7 @@
 
 //拼接字符串
 #define NSStringFormat(format,...) [NSString stringWithFormat:format,##__VA_ARGS__]
+
 
 //颜色
 #define KClearColor [UIColor clearColor]

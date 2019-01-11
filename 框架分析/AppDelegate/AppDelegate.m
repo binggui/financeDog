@@ -20,7 +20,7 @@
     [self initWindow];
     
     //微信
-    [WXApi registerApp:@"wx179f30dc5f504ad8"];
+    [WXApi registerApp:@"wx7e76534c5f78fa8d"];
 //    //初始化网络请求配置
 //    [self NetWorkConfig];
 //    
@@ -114,7 +114,7 @@
     
 //登录
     if([resp isKindOfClass:[SendAuthResp class]]) {
-        SendAuthResp* authResp = (SendAuthResp*)resp;
+         SendAuthResp *aresp = (SendAuthResp *)resp;
         /* Prevent Cross Site Request Forgery */
         switch (resp.errCode) {
             case WXSuccess:{
@@ -133,14 +133,14 @@
 //
 //                // 第三方平台SDK原始数据
 //                NSLog(@" originalResponse: %@", authResp.originalResponse);
+    
                 
+                    if (aresp.errCode== 0)
+                    {
+                        NSLog(@"code %@",aresp.code);
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"wechatDidLoginNotification" object:self userInfo:@{@"code":aresp.code}];
+                    }
                 
-                NSLog(@"RESP:code:%@,state:%@\n", authResp.code, authResp.state);
-                NSString *strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
-                NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [alert show];
             }
                 break;
             case WXErrCodeAuthDeny:

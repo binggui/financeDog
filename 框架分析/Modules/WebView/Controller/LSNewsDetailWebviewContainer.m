@@ -97,7 +97,7 @@ scrollview.contentSize=webview.contentSize+tableview.contentSize+tableview.conte
     NSNumber *longNumber = [NSNumber numberWithLong: str];
     NSString *longStr = [longNumber stringValue];
     [_requestUrl setValue:@"ios_1.0" forHTTPHeaderField:@"version"];
-    [_requestUrl setValue:longStr  forHTTPHeaderField:@"id"];
+    [_requestUrl setValue:longStr  forHTTPHeaderField:@"uid"];
     [_requestUrl setValue: [defaults objectForKey:KTokenMark] forHTTPHeaderField:@"token"];
 
     [self.webview loadRequest:_requestUrl];

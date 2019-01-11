@@ -103,7 +103,7 @@
     [_readBtn addTarget:self action:@selector(readNumber) forControlEvents:UIControlEventTouchUpInside];
     [_readBtn setTitle:@"635" forState:UIControlStateNormal];
     [_readBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_readBtn setImage:[UIImage imageNamed:@"阅读量"] forState:UIControlStateNormal];
+    [_readBtn setImage:[UIImage imageNamed:@"阅读量1"] forState:UIControlStateNormal];
     _readBtn.frame = CGRectMake(0, 0, 60, 40);
     _readBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [self initButton:_readBtn];
@@ -115,7 +115,7 @@
     [_collectionBtn addTarget:self action:@selector(makeACollection) forControlEvents:UIControlEventTouchUpInside];
     [_collectionBtn setTitle:@"30" forState:UIControlStateNormal];
     [_collectionBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+    [_collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
     _collectionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     _collectionBtn.frame = CGRectMake(0, 0, 60, 40);
     [self initButton:_collectionBtn];
@@ -123,7 +123,7 @@
     
 
     //分享按钮
-    UIImage *sharedIcon = [UIImage imageNamed:@"分享"];
+    UIImage *sharedIcon = [UIImage imageNamed:@"分享1"];
     sharedIcon = [sharedIcon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *customItem3 = [[UIBarButtonItem alloc]
                                     initWithImage:sharedIcon style:UIBarButtonItemStyleDone
@@ -170,10 +170,10 @@
     NSLog(@"点赞");
     _collectionFlag = !_collectionFlag;
     if(_collectionFlag){
-        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏选中"] forState:UIControlStateNormal];
+        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏1选中"] forState:UIControlStateNormal];
         [self.collectionBtn setTitle:@"31" forState:UIControlStateNormal];
     }else{
-        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
+        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
         [self.collectionBtn setTitle:@"30" forState:UIControlStateNormal];
     }
 

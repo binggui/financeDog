@@ -65,7 +65,7 @@
     self.tableHomeView.backgroundColor = [UIColor whiteColor];
     self.tableHomeView.sectionFooterHeight = 0;
     UIImageView *backImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 219)];
-    backImg.image = [UIImage imageNamed:@"背景"];
+    backImg.image = [UIImage imageNamed:@"背景1"];
     [self.view addSubview:backImg];
 //    self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableHomeView];
@@ -289,12 +289,12 @@
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KScreenWidth, 30)];
     headerView.backgroundColor = [UIColor whiteColor];
     UIView *pointVIew = [[UIView alloc]initWithFrame:CGRectMake(5, 5, 3, 20)];
-    pointVIew.backgroundColor = [GFICommonTool colorWithHexString:@"#03486c"];
+    pointVIew.backgroundColor = [GFICommonTool colorWithHexString:appColorDefault];
     [headerView addSubview:pointVIew];
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.right + 5, 5, 150, 20)];
     UIButton *moreListButton = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 110, 0, 100, 30)];
     [moreListButton setTitle:@"查看更多>>" forState:UIControlStateNormal];
-    [moreListButton setTitleColor:[GFICommonTool colorWithHexString:@"#00496c"] forState:UIControlStateNormal];
+    [moreListButton setTitleColor:[GFICommonTool colorWithHexString:appColorDefault] forState:UIControlStateNormal];
     moreListButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     moreListButton.titleLabel.font = [UIFont systemFontOfSize:14];
     moreListButton.tag = section;
