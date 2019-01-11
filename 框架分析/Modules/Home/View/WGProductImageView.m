@@ -43,7 +43,7 @@
 - (void)makeNextConVc
 {
     LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-    VC.URLString=kWebTestUrl;
+    VC.URLString=self.dict.jumpurl;
     VC.firstConfigute=YES;
     VC.title = @"详情";
     

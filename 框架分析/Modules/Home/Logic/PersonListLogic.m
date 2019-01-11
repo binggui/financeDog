@@ -8,7 +8,8 @@
 
 #import "PersonListLogic.h"
 //#import "GetWaterFallListAPI.h"
-#import "PersonModel.h"
+#import "CommonModel.h"
+#import "FDHomeModel.h"
 
 @interface PersonListLogic()
 @property (nonatomic,copy) NSArray * imgArray;
@@ -91,7 +92,7 @@
                 NSArray *tempArr = [json objectForKey:@"result"];
                 for (NSDictionary *dict in tempArr) {
                     
-                    PersonModel *model = [PersonModel mj_objectWithKeyValues:dict];
+                    FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
                     model.width = 150;
                     model.height = 150;
                     [tempNewsArr addObject:model];

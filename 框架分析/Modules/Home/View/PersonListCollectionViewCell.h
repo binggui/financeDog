@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PersonModel.h"
+#import "CommonModel.h"
+#import "FDHomeModel.h"
 
 @interface PersonListCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imgView;
-@property(nonatomic,strong)PersonModel *personModel;
+@property(nonatomic,strong)FDHomeModel *personModel;
 
 @end

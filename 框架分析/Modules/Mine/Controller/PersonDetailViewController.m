@@ -10,13 +10,11 @@
 #import "SDWebImage/UIImageView+WebCache.h"
 #import <AVFoundation/AVCaptureDevice.h>
 #import <AVFoundation/AVMediaFormat.h>
-#import "BGReadHistoryTableViewController.h"
 #import "BGSettingTableViewController.h"
-#import "BGMyCollectionTableViewController.h"
-#import "BGReadHistoryTableViewController.h"
 #import "BGCommentTableViewController.h"
 #import "BGMessageHistoryTableViewController.h"
 #import "CommonViewController.h"
+#import <SDWebImage/UIButton+WebCache.h>
 
 //#import "GFIMyImageView.h"
 
@@ -30,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *personButton;
 @property (strong, nonatomic) UILabel * messageNumbeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backImageTopConstrait;
+@property (strong, nonatomic) UIImage * personImg;
 
 @end
 
@@ -70,6 +69,13 @@
     [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
+    if (_personImg !=nil) {
+        
+        [_personButton setImage:_personImg forState:UIControlStateNormal];
+    }else{
+        
+        [_personButton sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"avatar"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"头像"]];
+    }
 
 //    self.bottomTableView.contentInset = UIEdgeInsetsMake( - NAV_HEIGHT, 0, 0, 0);
 //    self.view.frame = CGRectMake(0, -NAV_HEIGHT, 0, 0);
@@ -79,7 +85,7 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:@"#00486b"]];
+    [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:appColorDefault]];
     [self wr_setNavBarBackgroundAlpha:1];
     self.navigationController.navigationBar.translucent = NO;
 }
@@ -150,122 +156,53 @@
 //++++++++++++++++++++++++++++++++++++++++++++++
 
 
-#pragma mark -
-#pragma UIImagePickerController Delegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(__bridge NSString *)kUTTypeImage]) {
-        UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
-        [self performSelector:@selector(saveImage:)  withObject:img afterDelay:0.5];
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    //未完成
+    //压缩图片
+    //    NSData *fileData = UIImageJPEGRepresentation(image, 1.0);
+    //如果是相机,保存到相册
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera){
+        UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
     }
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)saveImage:(UIImage *)image {
-    UIImage *img = [self thumbnailWithImageWithoutScale:image size:CGSizeMake(93, 93)];
-    _imgData = UIImageJPEGRepresentation(img, 1.0f);
-    [self _submitAvatar];
-}
-
-- (UIImage *)thumbnailWithImageWithoutScale:(UIImage *)image size:(CGSize)asize
-{
-    UIImage *newimage;
-    if (nil == image) {
-        newimage = nil;
-    }
-    else{
-        CGSize oldsize = image.size;
-        CGRect rect;
-        if (asize.width/asize.height > oldsize.width/oldsize.height) {
-            rect.size.width = asize.height*oldsize.width/oldsize.height;
-            rect.size.height = asize.height;
-            rect.origin.x = (asize.width - rect.size.width)/2;
-            rect.origin.y = 0;
-        }
-        else{
-            rect.size.width = asize.width;
-            rect.size.height = asize.width*oldsize.height/oldsize.width;
-            rect.origin.x = 0;
-            rect.origin.y = (asize.height - rect.size.height)/2;
-        }
-        UIGraphicsBeginImageContext(asize);
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
-        UIRectFill(CGRectMake(0, 0, asize.width, asize.height));//clear background
-        [image drawInRect:rect];
-        newimage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    }
-    return newimage;
-}
-
-- (void)_submitAvatar{
-    NSInteger photoCapa = [_imgData length];
-    NSInteger newLength = photoCapa+4;
-    Byte *bytes = (Byte *)[_imgData bytes];
-    
-    uint8_t *newByte = malloc(sizeof(*newByte) * (newLength));//首部添加4个字节，暂时都为0
-    unsigned i;
-    for (i = 0; i < newLength; i++){
-        if (i==0 || i==1 || i==2 || i==3) {
-            newByte[i] = 0;
+    //    self.iconView.image = image;
+    [_personButton setImage:image forState:UIControlStateNormal];
+    _personImg = image;
+    //重点是上传
+    UIGraphicsBeginImageContext(CGSizeMake(100, 100));
+    // 绘制改变大小的图片
+    [image drawInRect:CGRectMake(0,0, 100, 100)];
+    // 从当前context中创建一个改变大小后的图片
+    UIImage* scaledImage =UIGraphicsGetImageFromCurrentImageContext();
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    //图片转二进制
+    NSData *fileData = UIImageJPEGRepresentation(scaledImage, 0.5);
+    UIImage * newImage = [UIImage imageWithData:fileData];
+    NSData *imageData = UIImagePNGRepresentation(newImage);
+    NSString *dataStr = [imageData base64EncodedStringWithOptions:0];
+    NSMutableDictionary *parames = [NSMutableDictionary dictionary];
+    [parames setObject:dataStr forKey:@"thumb"];
+    [HRHTTPTool postWithURL:kJRG_mythumb_info parameters:parames success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+            }
         }else{
-            newByte[i] = bytes[i-4];
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
         }
-    }
+    } failure:^(NSError *error) {
+        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+        NSLog(@"error == %@",error);
+    }];
     
-    NSData *imageData = [NSData dataWithBytesNoCopy:newByte length:newLength freeWhenDone:YES];
-    
-    [_personButton setImage:[UIImage imageWithData:_imgData] forState:UIControlStateNormal];
-//    //请求后台
-//    [super showHUDLoading:@""];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSInteger ret = [self _requestAvatar:imageData];
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            if (ret == retSuccCode) {
-//                [super hideHUDLoading];
-//                _newAvatar = _imgData;
-//                _imageView.image = [UIImage imageWithData:_imgData];
-//            }else if(ret == retUnloginCode){//去登陆
-//                [super hideHUDLoading];
-//                [GFICommonTool login:self];
-//            }else if(ret == retAccountInvalidCode){//账号封号 251
-//                [super showHUDTip:AccountInvalidError];
-//            }else if(ret == retAccountLockCode){//账号锁定 253
-//                [super showHUDTip:accountLockError];
-//            }else{
-//                [super showHUDTip:TEXT_SERVER_NOT_RESPOND];
-//            }
-//        });
-//    });
+    [picker dismissViewControllerAnimated:YES completion:nil];
     
 }
-
-//
-//- (NSInteger)_requestAvatar:(NSData *)imgData{
-//    NSInteger ret = interInitErrorCode;
-//    id res = [[GFINetWorkDataService sharedClientManager] requestWithURL:kIData_updateavata_url picData:imgData httpMethod:@"POST" mobileNo:nil];
-//    DLog(@"%@",res);
-//    if (res) {
-//        NSString *returnCode = [res objectForKey:kRtnKey];
-//        ret = [returnCode integerValue];
-//        
-//        if (ret == retSuccCode) {
-//            self.outFromPickerImage = 1;
-//        }
-//    }
-//    return ret;
-//}
-//++++++++++++++++++++++++++++++++++++++++++++++
-
-
-
-
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 
@@ -386,6 +323,7 @@
         UIStoryboard* sb = [UIStoryboard storyboardWithName:@"MainBase" bundle:nil];
         
         BGSettingTableViewController * settingViewController = [sb instantiateViewControllerWithIdentifier:@"SettingTableView"];
+        settingViewController.personSettingImg = self.personImg;
 
         [self.navigationController pushViewController:settingViewController animated:YES];
     }else if (indexPath.section == 3 && indexPath.row == 0){//退出登录

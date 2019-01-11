@@ -67,16 +67,19 @@
     }
     return self;
 }
--(void)setPersonModel:(PersonModel *)personModel{
+-(void)setPersonModel:(FDHomeModel *)personModel{
     _personModel=personModel;
 //    _imgView.backgroundColor=[UIColor colorWithHexString:personModel.imageAve];
     _imgView.backgroundColor=KWhiteColor;
-    [_imgView sd_setImageWithURL:[NSURL URLWithString:personModel.picture] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
-    _lblHobby.text=personModel.hobbys;
-    _lblFrom.text=personModel.city;
-//    _juli.text = personModel.juli;
-    [_readBtn setTitle:personModel.juli forState:UIControlStateNormal];
+    
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:personModel.img] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+    _lblHobby.text=personModel.des;
+    _lblFrom.text=personModel.source;
 
+    [_readBtn setTitle:personModel.readCount forState:UIControlStateNormal];
+
+    
+    
     CGFloat itemH = personModel.height * self.width / personModel.width;
     _imgView.frame=CGRectMake(0, 0, self.frame.size.width, itemH - waterHeightChange);
 

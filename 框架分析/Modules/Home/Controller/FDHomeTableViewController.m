@@ -12,7 +12,6 @@
 #import "WGAdvertisementView.h"
 #import "PersonDetailViewController.h"
 #import "BGLoginViewController.h"
-#import "BGMyCollectionTableViewController.h"
 #import "BGMessageHistoryTableViewController.h"
 #import "CXSearchController.h"
 #import "BGSearchTableViewController.h"
@@ -176,7 +175,7 @@
     UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
     button.frame=CGRectMake(0, 0, kScreenWidth - 100, 30);
     [backgroundV addSubview:button];
-    [button setTitle:@"搜内容/用户/咨询" forState:UIControlStateNormal];
+    [button setTitle:@"搜内容/标题/咨询" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(showAllQuestions) forControlEvents:UIControlEventTouchUpInside];
     button.titleLabel.font = [UIFont systemFontOfSize:13];
     [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -377,12 +376,7 @@
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录不做处理
         vc.hidesBottomBarWhenPushed = YES;
-        LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        
-        VC.URLString=kWebTestUrl;
-        VC.firstConfigute=YES;
-        VC.title = @"详情";
-        [self.navigationController pushViewController:VC animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
         return;
     }else {
         [GFICommonTool login:self];

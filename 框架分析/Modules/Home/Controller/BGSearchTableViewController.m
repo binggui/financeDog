@@ -54,9 +54,9 @@
 }
 -(void)searchHar{
     
-    UIView *backgroundV = [[UIView alloc]initWithFrame:CGRectMake(-20, 0, kScreenWidth - 50, 30)];
+    UIView *backgroundV = [[UIView alloc]initWithFrame:CGRectMake(-20, 0, kScreenWidth - 60, 30)];
     backgroundV.backgroundColor = [UIColor whiteColor];
-    _SearchButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth - 80, 30)];
+    _SearchButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth - 60, 30)];
     
     ViewRadius(backgroundV, 15);
     [_SearchButton setTitle:self.searchText forState:UIControlStateNormal];
@@ -70,7 +70,10 @@
     
 }
 -(void)goToSearchView:(NSString*)typeString{
+    [_logic.dataArray removeAllObjects];
+    [self.tableView reloadData];
     [_SearchButton setTitle:typeString forState:UIControlStateNormal];
+    _logic.searchText = typeString;
     //开始第一次数据拉取
     [self.tableView.mj_header beginRefreshing];
     
@@ -113,29 +116,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    
     //先判断是否登录
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录
-        
-        NSMutableArray *tempNewsArr = [NSMutableArray array];
-        NSArray *tempArr = self.logic.dataArray[indexPath.section];
-        for (NSDictionary *dict in tempArr) {
-            
-            FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
-            [tempNewsArr addObject:model];
-            
-        }
-        NSArray *cellarr = tempNewsArr.copy;
-        
-        FDHomeModel *didSelectedModel = cellarr[indexPath.row];
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString = didSelectedModel.url;
+        FDHomeModel *model = _logic.dataArray[indexPath.row];
+        VC.URLString = model.url;
         VC.firstConfigute=YES;
-        VC.model = cellarr[indexPath.row];
+        VC.model = model;
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];
-        
         
     }else{//未登录
         //为了显示未登录布局，不弹出登录框
@@ -163,12 +153,11 @@
     }else{
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }
-    
+    [self.tableView.mj_footer endRefreshing];
     if (_logic.dataArray.count == 0) {
         [OMGToast showWithText:@"亲,没有相关的咨询内容" topOffset:KScreenHeight/2 duration:3.0];
-    }else{
-         [self.tableView reloadData];
     }
+    [self.tableView reloadData];
 
    
 }

@@ -10,4 +10,5 @@
 
 @interface BGSettingTableViewController : UITableViewController
 @property (strong, nonatomic) NSMutableDictionary * personDic;
+@property (strong, nonatomic) UIImage * personSettingImg;
 @end

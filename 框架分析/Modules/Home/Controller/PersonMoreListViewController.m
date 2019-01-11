@@ -14,6 +14,7 @@
 #import "HomeViewController.h"
 #import "ProfileViewController.h"
 #import "PersonModel.h"
+#import "FDHomeModel.h"
 
 #define itemWidthHeight ((kScreenWidth-30)/2)
 
@@ -110,10 +111,10 @@
 
 #pragma mark ————— layout 代理 —————
 -(CGFloat)waterFlowLayout:(WaterFlowLayout *)WaterFlowLayout heightForWidth:(CGFloat)width andIndexPath:(NSIndexPath *)indexPath{
-    PersonModel *personModel = _logic.dataArray[indexPath.row];
-    if (personModel.hobbys && personModel.hobbysHeight == 0) {
+    FDHomeModel *personModel = _logic.dataArray[indexPath.row];
+    if (personModel.des && personModel.hobbysHeight == 0) {
         //计算hobby的高度 并缓存
-        CGFloat hobbyH=[personModel.hobbys heightForFont:FFont1 width:(KScreenWidth-30)/2-20];
+        CGFloat hobbyH=[personModel.des heightForFont:FFont1 width:(KScreenWidth-30)/2-20];
         if (hobbyH>43) {
             hobbyH=43;
         }
@@ -128,15 +129,23 @@
 //*******重写的时候需要走一句话
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //标记cell
-    [self.collectionView setCurrentIndexPath:indexPath];
-    
-    PersonListCollectionViewCell *cell =(PersonListCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-    
-    ProfileViewController *profileVC = [ProfileViewController new];
-    profileVC.headerImage = cell.imgView.image;
-    profileVC.isTransition = YES;
-    [self.navigationController pushViewController:profileVC animated:YES];
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    if (flag == finishLogin) {//已登录
+        FDHomeModel *model = _logic.dataArray[indexPath.row];
+        LSDetainViewController *VC=[[LSDetainViewController alloc]init];
+        VC.URLString = model.url;
+        VC.firstConfigute=YES;
+        VC.model = model;
+        VC.title = @"详情";
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
     
 }
 

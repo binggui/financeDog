@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UIButton * readBtn;
 @property (strong, nonatomic) UIButton * messageBtn;
 @property (strong, nonatomic) UIButton * collectionBtn;
+@property (strong, nonatomic) UIButton * shareBtn;
 @end
 
 @implementation FDHomeTableViewCell
@@ -45,7 +46,7 @@
     //描述
     self.desLab = [[UILabel alloc] initWithFrame:CGRectMake(self.leftImg.right+12, self.leftImg.top - 10, kScreenWidth-5-15-self.leftImg.width-15, 65)];
     self.desLab.backgroundColor = [UIColor clearColor];
-    self.desLab.font = [UIFont systemFontOfSize:14.0];
+    self.desLab.font = [UIFont systemFontOfSize:16.0];
     self.desLab.textColor = [GFICommonTool colorWithHexString:@"#383838"];
     
     [self.contentView addSubview:self.desLab];
@@ -57,6 +58,21 @@
     }
     NSInteger btnWidth = 60;
     NSInteger marginNum = (kScreenWidth - 30 - self.leftImg.width - 12 - 3*btnWidth - 21) / 3;
+    
+    //搜索  source
+    _sourceTitle = [[UILabel alloc]initWithFrame:CGRectMake(self.leftImg.right + 13, self.leftImg.bottom - 23, btnWidth, 21)];
+    _sourceTitle.backgroundColor = [UIColor clearColor];
+    _sourceTitle.font = [UIFont systemFontOfSize:14.0];
+    _sourceTitle.textColor = [GFICommonTool colorWithHexString:@"#383838"];
+    [self.contentView  addSubview:_sourceTitle];
+    
+    //发布时间
+    _publishTime = [[UILabel alloc]initWithFrame:CGRectMake(self.sourceTitle.right + 20, self.leftImg.bottom - 23, 120, 21)];
+    _publishTime.backgroundColor = [UIColor clearColor];
+    _publishTime.font = [UIFont systemFontOfSize:14.0];
+    _publishTime.textColor = [GFICommonTool colorWithHexString:@"#383838"];
+    [self.contentView  addSubview:_publishTime];
+    
     
     //阅读量
     _readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -89,12 +105,12 @@
     [self.contentView  addSubview:_collectionBtn];
     
     //分享按钮
-    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, self.leftImg.bottom - 23, 21, 21);
-    [shareBtn setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
-    shareBtn.titleLabel.font = [UIFont systemFontOfSize: 13.0];
-    shareBtn.hidden = YES;
-    [self.contentView  addSubview:shareBtn];
+    _shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _shareBtn.frame = CGRectMake(kScreenWidth - 21 - 15, self.leftImg.bottom - 23, 21, 21);
+    [_shareBtn setImage:[UIImage imageNamed:@"分享"] forState:UIControlStateNormal];
+    _shareBtn.titleLabel.font = [UIFont systemFontOfSize: 13.0];
+    _shareBtn.hidden = YES;
+    [self.contentView  addSubview:_shareBtn];
 
     //底线
     self.bottomline = [[UIView alloc] initWithFrame:CGRectMake(0, self.leftImg.bottom+15, kScreenWidth, 1/2.0)];
@@ -117,10 +133,37 @@
     [_leftImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
     _desLab.text = model.des;
     NSString *str =  model.des;
-    [_readBtn setTitle:model.readCount forState:UIControlStateNormal];
-    [_messageBtn setTitle:model.messageCount forState:UIControlStateNormal];
-    [_collectionBtn setTitle:model.collectionCount forState:UIControlStateNormal];
+
+    if (model.source !=nil && model.source.length != 0) {
+        _readBtn.hidden = YES;
+        _messageBtn.hidden = YES;
+        _collectionBtn.hidden = YES;
+        _shareBtn.hidden = YES;
+        _publishTime.hidden = NO;
+        _sourceTitle.hidden = NO;
+        _sourceTitle.text = model.source;
+        _publishTime.text =  [self returndate:model.publishTime];
+        
+    }else{
+        _readBtn.hidden = NO;
+        _messageBtn.hidden = NO;
+        _collectionBtn.hidden = NO;
+        _publishTime.hidden = YES;
+        _sourceTitle.hidden = YES;
+        [_readBtn setTitle:model.readCount forState:UIControlStateNormal];
+        [_messageBtn setTitle:model.messageCount forState:UIControlStateNormal];
+        [_collectionBtn setTitle:model.collectionCount forState:UIControlStateNormal];
+    }
 }
 
+- (NSString *)returndate:(NSString *)str1
+{
+    int x=[str1  intValue];
+    NSDate  *date1 = [NSDate dateWithTimeIntervalSince1970:x];
+    NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
+    [dateformatter setDateFormat:@"yyyy-MM-dd hh:mm"];
+    return [dateformatter stringFromDate:date1];
+    
+}
 
 @end

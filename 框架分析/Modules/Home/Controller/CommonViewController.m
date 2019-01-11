@@ -10,6 +10,7 @@
 #import "CommonListLogic.h"
 #import "FDHomeModel.h"
 #import "FDHomeTableViewCell.h"
+#import "CommonModel.h"
 
 @interface CommonViewController ()<UITableViewDelegate,UITableViewDataSource,CommonListLogicDelegate>
 @property(nonatomic,strong) CommonListLogic *logic;//逻辑层
@@ -105,8 +106,9 @@
     //先判断是否登录
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录
+        CommonModel *model = _logic.dataArray[indexPath.row];
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=kWebTestUrl;
+        VC.URLString = model.url;
         VC.firstConfigute=YES;
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];

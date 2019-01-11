@@ -16,6 +16,12 @@
  3-表示图片资讯
  */
 // 栏目类型
+@property (nonatomic, assign) float height;
+
+@property (nonatomic, assign) float width;
+
+@property (nonatomic,assign) float hobbysHeight;
+
 @property (nonatomic,assign) NSInteger column;
 
 @property (nonatomic, assign)NSInteger type;
@@ -28,6 +34,8 @@
 @property (nonatomic, copy)NSString *ID;
 //详情页URL
 @property (nonatomic, copy)NSString *url;
+
+@property (copy, nonatomic) NSString * jumpUrl;
 //阅读量
 @property (nonatomic, copy)NSString *readCount;// 暂不用
 //信息数
@@ -48,6 +56,10 @@
 
 //最新评论时间差
 @property (nonatomic,copy)NSString *timestamp;
+
+//搜索
+@property (copy, nonatomic) NSString * publishTime;
+@property (copy, nonatomic) NSString * source;
 
 
 @end

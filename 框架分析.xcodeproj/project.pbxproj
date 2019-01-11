@@ -25,8 +25,6 @@
 		7260263A21CB834C003649C9 /* BGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260263821CB834C003649C9 /* BGLoginViewController.m */; };
 		7260263B21CB834C003649C9 /* BGLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7260263921CB834C003649C9 /* BGLoginViewController.xib */; };
 		7260263E21CB849F003649C9 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260263C21CB849F003649C9 /* ProfileViewController.m */; };
-		7260264121CB9326003649C9 /* BGReadHistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260264021CB9326003649C9 /* BGReadHistoryTableViewController.m */; };
-		7260264421CB93D1003649C9 /* BGMyCollectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260264321CB93D1003649C9 /* BGMyCollectionTableViewController.m */; };
 		7260264821CB9421003649C9 /* BGSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260264621CB9421003649C9 /* BGSettingTableViewController.m */; };
 		7260264E21CC7C6C003649C9 /* HRScrollPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260264C21CC7C6C003649C9 /* HRScrollPageView.m */; };
 		7260264F21CC7C6C003649C9 /* HRPageHeaderview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7260264D21CC7C6C003649C9 /* HRPageHeaderview.m */; };
@@ -225,10 +223,6 @@
 		7260263921CB834C003649C9 /* BGLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BGLoginViewController.xib; sourceTree = "<group>"; };
 		7260263C21CB849F003649C9 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		7260263D21CB849F003649C9 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
-		7260263F21CB9326003649C9 /* BGReadHistoryTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGReadHistoryTableViewController.h; sourceTree = "<group>"; };
-		7260264021CB9326003649C9 /* BGReadHistoryTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGReadHistoryTableViewController.m; sourceTree = "<group>"; };
-		7260264221CB93D1003649C9 /* BGMyCollectionTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGMyCollectionTableViewController.h; sourceTree = "<group>"; };
-		7260264321CB93D1003649C9 /* BGMyCollectionTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGMyCollectionTableViewController.m; sourceTree = "<group>"; };
 		7260264521CB9421003649C9 /* BGSettingTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGSettingTableViewController.h; sourceTree = "<group>"; };
 		7260264621CB9421003649C9 /* BGSettingTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGSettingTableViewController.m; sourceTree = "<group>"; };
 		7260264A21CC7C6C003649C9 /* HRPageHeaderview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRPageHeaderview.h; sourceTree = "<group>"; };
@@ -784,10 +778,6 @@
 				726025EE21CA4981003649C9 /* PersonDetailViewController.h */,
 				726025EF21CA4981003649C9 /* PersonDetailViewController.m */,
 				726025F021CA4981003649C9 /* PersonDetailViewController.xib */,
-				7260263F21CB9326003649C9 /* BGReadHistoryTableViewController.h */,
-				7260264021CB9326003649C9 /* BGReadHistoryTableViewController.m */,
-				7260264221CB93D1003649C9 /* BGMyCollectionTableViewController.h */,
-				7260264321CB93D1003649C9 /* BGMyCollectionTableViewController.m */,
 				7260264521CB9421003649C9 /* BGSettingTableViewController.h */,
 				7260264621CB9421003649C9 /* BGSettingTableViewController.m */,
 				7260266321CCDE2B003649C9 /* HRChangeInfoViewController.h */,
@@ -1635,9 +1625,7 @@
 				72B91D2621D3310C00622EF6 /* HRHTTPToolWithSID.m in Sources */,
 				72B91D6221DDBA3700622EF6 /* MoreCommentLogic.m in Sources */,
 				72B8066221E5EFEC00410480 /* PersonMoreListViewController.m in Sources */,
-				7260264421CB93D1003649C9 /* BGMyCollectionTableViewController.m in Sources */,
 				726026C221D0859A003649C9 /* SelectCollectionLayout.m in Sources */,
-				7260264121CB9326003649C9 /* BGReadHistoryTableViewController.m in Sources */,
 				7260265B21CCB864003649C9 /* UIButton+MCLayout.m in Sources */,
 				727E7DB320AD65C000C6DDA4 /* RootNavigationController.m in Sources */,
 				727E7EA120AD74EE00C6DDA4 /* HomeViewController.m in Sources */,
@@ -1852,7 +1840,7 @@
 				INFOPLIST_FILE = "框架分析/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.aspire.hrhs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finance.dogs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1872,7 +1860,7 @@
 				INFOPLIST_FILE = "框架分析/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.aspire.hrhs;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finance.dogs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

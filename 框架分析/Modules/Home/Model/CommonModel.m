@@ -20,7 +20,11 @@
              @"messageCount":@"comment_count",
              @"img":@"thumbnail",
              @"time":@"published_time",
-             @"titleDes":@"post_excerpt"
+             @"titleDes":@"post_excerpt",
+             @"url":@"url",
+             @"jumpUrl":@"portal_url",
+             @"publishTime":@"update_time",
+             @"source":@"post_source"
              };
 
 }

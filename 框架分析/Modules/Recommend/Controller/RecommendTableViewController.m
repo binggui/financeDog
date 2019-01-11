@@ -80,19 +80,17 @@
     [self.headerView addSubview:pointVIew];
     //时间
     self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.right + 5 , pointVIew.top, 250, 21)];
-    self.timeLabel.text = @"2018-12-02 08:10";
     self.timeLabel.textColor = [GFICommonTool colorWithHexString:@"#c8c8c8"];
     self.timeLabel.font = [UIFont systemFontOfSize:14];
     [self.headerView addSubview:self.timeLabel];
     //标题
-   self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.left , pointVIew.bottom + 5, 250, 21)];
+   self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(pointVIew.left , pointVIew.bottom + 5, KScreenWidth - 30, 21)];
     self.titleLabel.text = self.topDic[@"post_title"];
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.headerView addSubview:self.titleLabel];
 //    详情
-    self.desLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.titleLabel.left , self.titleLabel.bottom + 5, 250, 21)];
-    self.desLabel.text = @"会计核算电话费会计师的咖啡店?";
+    self.desLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.titleLabel.left , self.titleLabel.bottom + 5, KScreenWidth - 30, 21)];
     self.desLabel.textColor = [GFICommonTool colorWithHexString:@"#c8c8c8"];
     self.desLabel.font = [UIFont systemFontOfSize:14];
     [self.headerView addSubview:self.desLabel];
@@ -104,7 +102,6 @@
     self.readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.readBtn.frame = CGRectMake(self.desLabel.left , self.desLabel.bottom + 10, btnWidth, 21);
     [self.readBtn setImage:[UIImage imageNamed:@"阅读量"] forState:UIControlStateNormal];
-    [self.readBtn setTitle:@"999+" forState:UIControlStateNormal];
     [self.readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     self.readBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
     self.readBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
@@ -114,7 +111,6 @@
     self.messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.messageBtn.frame = CGRectMake(self.readBtn.right + marginNum, self.readBtn.top, btnWidth, 21);
     [self.messageBtn setImage:[UIImage imageNamed:@"评论"] forState:UIControlStateNormal];
-    [self.messageBtn setTitle:@"30" forState:UIControlStateNormal];
     [self.messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     self.messageBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
     self.messageBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
@@ -124,7 +120,6 @@
     self.collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, _readBtn.top, btnWidth, 21);
     [self.collectionBtn setImage:[UIImage imageNamed:@"收藏"] forState:UIControlStateNormal];
-    [self.collectionBtn setTitle:@"12" forState:UIControlStateNormal];
     [self.collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
     self.collectionBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
     self.collectionBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
@@ -180,7 +175,7 @@
     if (flag == finishLogin) {//已登录
         
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=kWebTestUrl;
+        VC.URLString=_topDic[@"url"];
         VC.firstConfigute=YES;
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];
@@ -263,6 +258,7 @@
         FDHomeModel *model = _logic.dataArray[indexPath.row];
         VC.URLString = model.url;
         VC.firstConfigute=YES;
+        VC.model = model;
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];
         
@@ -351,12 +347,13 @@
                     [_headImg sd_setImageWithURL:[NSURL URLWithString:_topDic[@"thumbnail"]] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
 ////                    self.timeLabel.text = _topDic[@"published_time"];
                     self.titleLabel.text = _topDic[@"post_title"];
-                    self.titleLabel.text = _topDic[@"post_excerpt"];
-                
+                    self.desLabel.text = _topDic[@"post_excerpt"];
+                    self.timeLabel.text = [self returndate:_topDic[@"published_time"]];
                     [self.collectionBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"post_favorites"]]   forState:UIControlStateNormal];
                     [self.readBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"post_hits"]]   forState:UIControlStateNormal];
                     [self.messageBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"comment_count"]]   forState:UIControlStateNormal];
                     
+                 
                 }
                 
             }
@@ -375,6 +372,19 @@
     }];
     
 }
+
+- (NSString *)returndate:(NSString *)str1
+{
+    int x=[str1  intValue];
+    NSDate  *date1 = [NSDate dateWithTimeIntervalSince1970:x];
+    NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
+    [dateformatter setDateFormat:@"yyyy-MM-dd hh:mm"];
+    return [dateformatter stringFromDate:date1];
+    
+}
+
+
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -105,7 +105,7 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:@"#00486b"]];
+    [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:appColorDefault]];
     [self wr_setNavBarBackgroundAlpha:1];
 }
 
@@ -413,6 +413,7 @@
                     [defaults setObject:personData[@"mobile"] forKey:@"mobile"];
                     [defaults setObject:self.usersTestField.text forKey:@"user_name'"];
                     [defaults setObject:[GFICommonTool encodeData:self.passwordTestField.text] forKey:@"user_password"];
+                    
                     
 
 //                    [super writeDataToPlist:[json objectForKey:@"result"]];

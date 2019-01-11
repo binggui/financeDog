@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UIImageView *leftImg;//左边图片
 @property (nonatomic, strong) UILabel *titleLab;//标题
 @property (nonatomic, strong) UILabel *desLab;//描述
+@property (strong, nonatomic) UILabel * sourceTitle;
+@property (strong, nonatomic) UILabel * publishTime;
 @property (nonatomic, strong) UIButton *clickbtn;//按钮
 @property (nonatomic, strong) UILabel *btnLab;//按钮文字
 @property (nonatomic, strong) UIView *bottomline;//底部线

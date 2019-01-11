@@ -10,6 +10,8 @@
 
 @interface CommonModel : NSObject
 
+
+
 //图片地址
 @property (nonatomic, copy)NSString *img;
 //描述信息
@@ -31,5 +33,10 @@
 @property (copy, nonatomic) NSString * titleDes;//点赞数
 
 @property (copy, nonatomic) NSString * time;//点赞数
+
+@property (copy, nonatomic) NSString * jumpUrl;
+//搜索
+@property (copy, nonatomic) NSString * publishTime;
+@property (copy, nonatomic) NSString * source;
 
 @end

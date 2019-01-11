@@ -47,8 +47,11 @@
     NSNumber *longNumber = [NSNumber numberWithLong: str];
     NSString *longStr = [longNumber stringValue];
     
+    NSString *strText = [defaults objectForKey:KTokenMark];
+    NSLog(@"token = %@",strText);
+    
     [manager.requestSerializer setValue:@"ios_1.0" forHTTPHeaderField:@"version"];
-    [manager.requestSerializer setValue:longStr  forHTTPHeaderField:@"id"];
+    [manager.requestSerializer setValue:longStr  forHTTPHeaderField:@"uid"];
     [manager.requestSerializer setValue: [defaults objectForKey:KTokenMark] forHTTPHeaderField:@"token"];
     //     给接口命令字(从url中截取)
     NSArray *strArr = [URL componentsSeparatedByString:@"/"];

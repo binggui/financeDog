@@ -82,9 +82,9 @@
     }else if(_type == 3){//案例
         urlTemp = kJRG_exampleapi_info;
     }else if(_type == 4){//阅读记录
-        urlTemp = nil;
+        urlTemp = kJRG_myread_info ;
     }else if(_type == 5){//我的收藏
-        urlTemp = nil;
+        urlTemp = kJRG_myfavorite_info;
     }
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];

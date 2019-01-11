@@ -18,8 +18,10 @@
              @"goodCount":@"post_like",
              @"messageCount":@"comment_count",
              @"img":@"thumbnail",
-             @"url":@"portal_url"
+             @"url":@"url",
+             @"publishTime":@"update_time",
+             @"source":@"post_source"
              };
-    
+   
 }
 @end

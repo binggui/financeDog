@@ -27,7 +27,7 @@ UIColor *MainViewColor = nil;
     MainViewColor   = [UIColor colorWithRed:126/255.0 green:126/255.0 blue:126/255.0 alpha:1];
     
     // 设置导航栏默认的背景颜色
-    [UIColor wr_setDefaultNavBarBarTintColor:[GFICommonTool colorWithHexString:@"#00486b"]];
+    [UIColor wr_setDefaultNavBarBarTintColor:[GFICommonTool colorWithHexString:appColorDefault]];
     // 设置导航栏所有按钮的默认颜色
     [UIColor wr_setDefaultNavBarTintColor:[UIColor whiteColor]];
     // 设置导航栏标题默认颜色

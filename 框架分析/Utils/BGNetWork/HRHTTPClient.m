@@ -23,8 +23,7 @@ static dispatch_once_t onceToken;
         [_shareInstance setResponseSerializer:serializer];
         
         //如果报接受类型不一致请替换一致text/html或别的
-        _shareInstance.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
-        
+        _shareInstance.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
         
             //设置请求头
 //        声明请求的格式,这里需要与后台沟通,默认为二进制

@@ -32,7 +32,7 @@
         }
         if ([[UIDevice currentDevice].systemVersion floatValue] >= 6.0) {
             
-            _pageControl.pageIndicatorTintColor = [GFICommonTool colorWithHexString:@"#00486b"];
+            _pageControl.pageIndicatorTintColor = [GFICommonTool colorWithHexString:appColorDefault];
             _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
         }
         

@@ -26,11 +26,7 @@
     _logic = [HotListLogic new];
     _logic.delegagte = self;
     _logic.type = self.type;
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 -(void)setupUI{
     self.tableView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight - TAB_HEIGHT - TAB_HEIGHT - 40);
@@ -96,6 +92,7 @@
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
         VC.URLString = model.url;
         VC.firstConfigute=YES;
+        VC.model = model;
         VC.title = @"详情";
         [[self viewController] pushViewController:VC animated:YES];
         

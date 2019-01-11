@@ -14,8 +14,9 @@
 #import "UICollectionView+IndexPath.h"
 #import "HomeViewController.h"
 #import "ProfileViewController.h"
-#import "PersonModel.h"
 #import "WGAdvertisementView.h"
+#import "CommonModel.h"
+#import "FDHomeModel.h"
 
 #define itemWidthHeight ((kScreenWidth-30)/2)
 
@@ -191,10 +192,10 @@
 
 #pragma mark ————— layout 代理 —————
 -(CGFloat)waterFlowLayout:(WaterFlowLayout *)WaterFlowLayout heightForWidth:(CGFloat)width andIndexPath:(NSIndexPath *)indexPath{
-    PersonModel *personModel = _logic.dataArray[indexPath.row];
-    if (personModel.hobbys && personModel.hobbysHeight == 0) {
+    FDHomeModel *personModel = _logic.dataArray[indexPath.row];
+    if (personModel.des && personModel.hobbysHeight == 0) {
         //计算hobby的高度 并缓存
-        CGFloat hobbyH=[personModel.hobbys heightForFont:FFont1 width:(KScreenWidth-30)/2-20];
+        CGFloat hobbyH=[personModel.des heightForFont:FFont1 width:(KScreenWidth-30)/2-20];
         if (hobbyH>43) {
             hobbyH=43;
         }
@@ -222,10 +223,11 @@
     //先判断是否登录
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录
-        PersonModel *model = _logic.dataArray[indexPath.row];
+        FDHomeModel *model = _logic.dataArray[indexPath.row];
         LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString = model.jumpUrl;
+        VC.URLString = model.url;
         VC.firstConfigute=YES;
+        VC.model = model;
         VC.title = @"详情";
         [self.navigationController pushViewController:VC animated:YES];
         
@@ -265,11 +267,8 @@
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录不做处理
         vc.hidesBottomBarWhenPushed = YES;
-        LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=kWebTestUrl;
-        VC.firstConfigute=YES;
-        VC.title = @"详情";
-        [self.navigationController pushViewController:VC animated:YES];
+
+        [self.navigationController pushViewController:vc animated:YES];
         return;
     }else {
         [GFICommonTool login:self];

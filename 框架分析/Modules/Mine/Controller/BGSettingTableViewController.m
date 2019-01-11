@@ -23,9 +23,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *phoneNumber;
 
-
-
-
 @end
 
 @implementation BGSettingTableViewController
@@ -48,6 +45,12 @@
     self.phoneNumber.text = [defaults objectForKey:@"mobile"];
     self.sexSegment.selectedSegmentIndex = [defaults integerForKey:@"sex"];
     self.nameLabel.text = [defaults objectForKey:@"user_nickname"];
+    if (self.personSettingImg != nil) {
+        self.personImg.image = self.personSettingImg;
+    }else{
+        
+        [self.personImg sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"头像"]];
+    }
     
 }
 - (void)didReceiveMemoryWarning {
@@ -84,13 +87,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if(indexPath.section == 0 && indexPath .row == 0){//头像
-        UIActionSheet* actionSheet = [[UIActionSheet alloc]
-                                      initWithTitle:nil
-                                      delegate:self
-                                      cancelButtonTitle:@"取消"
-                                      destructiveButtonTitle:nil
-                                      otherButtonTitles:@"拍照",@"从相册选择",nil];
-        [actionSheet showInView:self.view];
+//        UIActionSheet* actionSheet = [[UIActionSheet alloc]
+//                                      initWithTitle:nil
+//                                      delegate:self
+//                                      cancelButtonTitle:@"取消"
+//                                      destructiveButtonTitle:nil
+//                                      otherButtonTitles:@"拍照",@"从相册选择",nil];
+//        [actionSheet showInView:self.view];
     }else if (indexPath.section == 0 && indexPath .row == 1){//昵称
         HRChangeInfoViewController *changeVC = [[HRChangeInfoViewController alloc]init];
         changeVC.backBlock = ^(NSString *str){
@@ -163,9 +166,14 @@
     //2.1立即同步
     [defaults synchronize];
 
+
+}
+- (void)dealloc
+{
     [self postUrl:kJRG_editsex_info andType:1];
     [self postUrl:kJRG_editnickname_info andType:2];
 }
+
 
 //网络请求
 - (void)postUrl:(NSString *)URl andType:(NSInteger )type{
@@ -173,9 +181,9 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    if (type == 1) {//验证码
+    if (type == 1) {//性别
         [params setObject:@(self.sexSegment.selectedSegmentIndex)  forKey:@"sex"];
-    }else if (type == 2){//登录
+    }else if (type == 2){//昵称
         [params setObject:self.nameLabel.text forKey:@"nickname"];
     }
     
@@ -272,6 +280,7 @@
     NSData *imageData = [NSData dataWithBytesNoCopy:newByte length:newLength freeWhenDone:YES];
     
     _personImg.image = [UIImage imageWithData:_imgData];
+    [self getPics:_imgData];
     //    //请求后台
     //    [super showHUDLoading:@""];
     //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -294,6 +303,29 @@
     //        });
     //    });
     
+}
+//网络请求
+- (void)getPics:(NSData *)imgData{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    NSString *imgStr = [imgData base64EncodedString];
+    [params setObject:imgStr forKey:@"imgData"];
+    
+    [HRHTTPTool postWithURL:kJRG_exampleapi_info parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+            }
+        }else{
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
+        }
+    } failure:^(NSError *error) {
+        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+        NSLog(@"error == %@",error);
+    }];
 }
 
 //

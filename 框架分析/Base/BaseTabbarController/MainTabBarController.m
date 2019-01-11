@@ -33,7 +33,7 @@
 -(void)setUpTabBar{
     //设置背景色 去掉分割线
 //        [self setValue:[XYTabBar new] forKey:@"tabBar"];
-    [self.tabBar setBackgroundColor:[GFICommonTool colorWithHexString:@"#00486b"]];
+    [self.tabBar setBackgroundColor:[GFICommonTool colorWithHexString:appColorDefault]];
         [self.tabBar setBackgroundImage:[UIImage new]];
     //通过这两个参数来调整badge位置
     //    [self.tabBar setTabIconWidth:29];
