@@ -101,7 +101,6 @@
                 for (NSDictionary *dict in tempArr) {
                     CommonModel *model = [CommonModel mj_objectWithKeyValues:dict];
                     [tempNewsArr addObject:model];
-                    
                 }
                 
                 if(tempNewsArr.count > 0){

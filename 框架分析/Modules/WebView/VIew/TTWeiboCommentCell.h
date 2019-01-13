@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BGCommentModel.h"
 
 @class WeiboCommentModel;
 
@@ -28,6 +29,7 @@
 @property (strong, nonatomic) NSString * likeCount;
 @property (nonatomic, weak) id <TTWeiboCommentCellDelegate> delegate;
 @property (assign, nonatomic) BOOL  goodFlag;
+@property (strong, nonatomic) BGCommentModel * model;
 
--(void)setDataModel:(WeiboCommentModel*)model;
+-(void)setDataModel:(BGCommentModel*)model;
 @end

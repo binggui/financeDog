@@ -9,9 +9,11 @@
 #import "BGMessageHistoryTableViewController.h"
 #import "BGCommentModel.h"
 #import "BGCommentTableViewCell.h"
+#import "BGMessageAndCommentLogic.h"
+#import "MessageAndCommentModel.h"
 
-@interface BGMessageHistoryTableViewController ()<UITableViewDataSource,UITableViewDelegate>
-
+@interface BGMessageHistoryTableViewController ()<UITableViewDataSource,UITableViewDelegate,BGMessageAndCommentLogicDelegate>
+@property(nonatomic,strong) BGMessageAndCommentLogic *logic;//逻辑层
 @end
 
 @implementation BGMessageHistoryTableViewController
@@ -20,11 +22,12 @@
     [super viewDidLoad];
     [self setupUI];
     [self.navigationItem setTitle:@"消息"];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //开始第一次数据拉取
+    [self.tableView.mj_header beginRefreshing];
+    //初始化逻辑类
+    _logic = [BGMessageAndCommentLogic new];
+    _logic.type = 1;
+    _logic.delegagte = self;
 }
 - (void)setupUI{
     self.tableView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight);
@@ -53,7 +56,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 10;
+    return _logic.dataArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row == 0){
@@ -65,19 +68,41 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
+    BGCommentTableViewCell *cell;
     //评论
-    //    BGCommentModel *model = self.dataArr[indexPath.row];
+    MessageAndCommentModel *model = _logic.dataArray[indexPath.row];
     static NSString *normalNewID = @"normalNew";
     cell = [tableView dequeueReusableCellWithIdentifier:normalNewID];
     if (cell == nil) {
         kAppDelegate.cellType = @"uncomment";
         cell = [[BGCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
     }
+    cell.model = model;
  
     return  cell;
 }
+#pragma mark ————— 下拉刷新 —————
+-(void)headerRereshing{
+    [_logic loadData];
+}
 
+#pragma mark ————— 上拉刷新 —————
+-(void)footerRereshing{
+    _logic.page+=1;
+    [_logic loadData];
+}
+
+#pragma mark ————— 数据拉取完成 渲染页面 —————
+-(void)requestDataCompleted{
+    [self.tableView.mj_header endRefreshing];
+    
+    if (_logic.dataArray.count % 10 == 0 && _logic.dataArray.count !=0) {
+        [self.tableView.mj_footer endRefreshing];
+    }else{
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    }
+    [self.tableView reloadData];
+}
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];

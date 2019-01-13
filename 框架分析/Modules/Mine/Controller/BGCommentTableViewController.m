@@ -12,10 +12,11 @@
 #import "FDHomeTableViewCell.h"
 #import "FDHomeTableViewCell.h"
 #import "FDHomeModel.h"
+#import "BGMessageAndCommentLogic.h"
+#import "MessageAndCommentModel.h"
 
-
-@interface BGCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate>
-
+@interface BGCommentTableViewController ()<UITableViewDataSource,UITableViewDelegate,BGMessageAndCommentLogicDelegate>
+@property(nonatomic,strong) BGMessageAndCommentLogic *logic;//逻辑层
 @end
 
 @implementation BGCommentTableViewController
@@ -24,11 +25,12 @@
     [super viewDidLoad];
     [self setupUI];
     [self.navigationItem setTitle:@"我的评论"];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //开始第一次数据拉取
+    [self.tableView.mj_header beginRefreshing];
+    //初始化逻辑类
+    _logic = [BGMessageAndCommentLogic new];
+    _logic.type = 1;
+    _logic.delegagte = self;
 }
 - (void)setupUI{
     self.tableView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight );
@@ -51,7 +53,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Incomplete implementation, return the number of sections
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -95,7 +97,28 @@
 
     
 }
+#pragma mark ————— 下拉刷新 —————
+-(void)headerRereshing{
+    [_logic loadData];
+}
 
+#pragma mark ————— 上拉刷新 —————
+-(void)footerRereshing{
+    _logic.page+=1;
+    [_logic loadData];
+}
+
+#pragma mark ————— 数据拉取完成 渲染页面 —————
+-(void)requestDataCompleted{
+    [self.tableView.mj_header endRefreshing];
+    
+    if (_logic.dataArray.count % 10 == 0 && _logic.dataArray.count !=0) {
+        [self.tableView.mj_footer endRefreshing];
+    }else{
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    }
+    [self.tableView reloadData];
+}
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
 //    if(section == 0){
 //        return nil;

@@ -111,6 +111,7 @@
         VC.URLString = model.url;
         VC.firstConfigute=YES;
         VC.title = @"详情";
+        VC.model =model;
         [self.navigationController pushViewController:VC animated:YES];
 
         

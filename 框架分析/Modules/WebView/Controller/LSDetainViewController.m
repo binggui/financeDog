@@ -22,6 +22,7 @@
 #import "DOPScrollableActionSheet.h"
 #import <WXApi.h>
 #import "BGShareModel.h"
+#import "BGCommentModel.h"
 
 
 static NSString *const cellfidf=@"TTWeiboCommentCell";
@@ -31,6 +32,9 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     DOPAction *_shareFriends;
     
 }
+@property (assign, nonatomic) NSInteger  personCollection;
+
+@property (assign, nonatomic) NSInteger  commentCount;
 
 @property (nonatomic,strong) NSMutableArray *datas;//底部tableview的数据
 @property (nonatomic,strong) NSMutableArray *cellDatas;//底部tableview的数据
@@ -48,6 +52,11 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 @property (assign, nonatomic) BOOL  collectionFlag;
 
 @property(nonatomic,strong) NSArray *dataArrs;//评论数据
+
+@property (strong, nonatomic) NSString * recommendCount;
+
+
+@property (strong, nonatomic) UILabel * headerTitle;
 @end
 
 @implementation LSDetainViewController
@@ -57,7 +66,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     self.navigationController.navigationBar.translucent=NO;
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.view.backgroundColor=[UIColor whiteColor];
-    
+    self.datas=@[].mutableCopy;
 
     [self setupViews1];
    
@@ -82,15 +91,17 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     container.tableview.delegate=self;
     container.tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     container.tableview.sectionHeaderHeight = 0;
+    container.tableview.sectionFooterHeight = 55;
     container.tableview.backgroundColor = [UIColor whiteColor];
     [container.tableview registerNib:[UINib nibWithNibName:@"TTWeiboCommentCell" bundle:nil] forCellReuseIdentifier:cellfidf];
     [container.tableview registerNib:[UINib nibWithNibName:@"TTWeiboCommentTwoCell" bundle:nil] forCellReuseIdentifier:cellTwofidf];
     container.webview.navigationDelegate=self;
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KScreenWidth,40)];
     headerView.backgroundColor = [UIColor whiteColor];
-    UILabel *headerTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
-    headerTitle.text = [NSString stringWithFormat:@"全部评论 (%@)",self.model.messageCount];
-    [headerView addSubview:headerTitle];
+    _headerTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
+    _recommendCount = self.model.messageCount;
+    _headerTitle.text = [NSString stringWithFormat:@"全部评论 (%@)",_recommendCount];
+    [headerView addSubview:_headerTitle];
     container.tableview.tableHeaderView  = headerView;
     self.detailWebviewContainer=container;
     
@@ -109,12 +120,14 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 - (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content{
     
     if (indexPath == nil ) {
-        [self.datas insertObject:content atIndex:0];
+        _recommendCount  = [NSString stringWithFormat:@"%ld",[_recommendCount integerValue] + 1 ];
+        [self getPics:content andType:2 andUrl:kJRG_portal_addcomment_info];
+
     }else{
         if (indexPath.row == 0 ) {
-            [self.cellDatas insertObject:content atIndex:0];
-        }else{
-            [self.cellDatas insertObject:content atIndex:(indexPath.row +1)];
+
+            [self getPics:content andType:3 andUrl:kJRG_portal_addcomment_info];
+            
         }
     }
     
@@ -124,6 +137,9 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
     
 }
+
+
+
 - (void)didSelectPeople:(NSIndexPath *) cellIndexPath; {
     
     [self alertPopView:cellIndexPath andPlaceHolderTitle:@"回复"];
@@ -149,15 +165,14 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 -(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     self.emptyView.hidden=YES;
-    self.datas=[NSMutableArray array];
+    
     self.cellDatas = [NSMutableArray array];
     //一般新闻评论每页数据都是20条
-    for (int i=0; i<4; i++) {
-        [self.datas addObject:@"慢速,电脑,阿曼达,阿萨德"];
-    }
-    for (int i=0; i<2; i++) {
-        [self.cellDatas addObject:@"爱死你了开发区网络卡建档立卡请问您"];
-    }
+    [self getPics:nil andType:1 andUrl:kJRG_portal_comment_info];
+
+    
+    [self.cellDatas addObject:@"爱死你了开发区网络卡建档立卡请问您"];
+   
     [self.detailWebviewContainer.tableview reloadData];
 
 }
@@ -171,18 +186,9 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 -(void)loadMoreData
 {
-    //延迟模拟网络请求
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        for (int i=0; i<2; i++) {
-            [self.datas addObject:@"1"];
-        }
-        if (self.datas.count>=60) {
-            [self.detailWebviewContainer.tableview.mj_footer endRefreshingWithNoMoreData];
-        }else{
-            [self.detailWebviewContainer.tableview.mj_footer endRefreshing];
-        }
-        [self.detailWebviewContainer.tableview reloadData];
-    });
+
+    [self getPics:nil andType:1 andUrl:kJRG_portal_comment_info];
+
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -191,22 +197,13 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.cellDatas.count ;
+    return 1;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     UITableViewCell *cell;
-    if(indexPath.row >=1){
-        TTWeiboCommentTwoCell *cellTwo= nil;
-        if (cellTwo==nil) {
-            cellTwo=[tableView dequeueReusableCellWithIdentifier:cellTwofidf];
-        }
-    
-        cellTwo.contentLabel.text = self.cellDatas[indexPath.row - 1];
-        
-        cell = cellTwo;
-    }else{
+ 
         //    WeiboCommentModel *model=_dataArrs[indexPath.row];
         TTWeiboCommentCell *cellOne= nil;
         if (cellOne==nil) {
@@ -217,10 +214,10 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
         cellOne.delegate = self;
         cellOne.remmentButton.tag = indexPath.section;
         cellOne.cellIndexPath = indexPath;
-        cellOne.contentLable.text = self.datas[indexPath.row];
+        cellOne.model = self.datas[indexPath.section];
         cell = cellOne;
         
-    }
+    
     return cell;
     
 }
@@ -240,7 +237,10 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     footerView.backgroundColor = [GFICommonTool colorWithHexString:@"#f1f5f9"];
     UILabel *headerTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, footerView.width - 30, 20)];
 
-    headerTitle.text = [NSString stringWithFormat:@"共%@条互动评论 > ",self.model.messageCount];
+    BGCommentModel *model = self.datas[section];
+    headerTitle.text = [NSString stringWithFormat:@"共%ld条互动评论 > ",(long)model.comment_more];
+
+    
     UITapGestureRecognizer *labelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToMore:)];
     [footerView addGestureRecognizer:labelTap];
     
@@ -257,7 +257,9 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+ 
     return 55;
+
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -377,12 +379,41 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     NSLog(@"点赞");
     _collectionFlag = !_collectionFlag;
     if(_collectionFlag){
+        
+        NSString *collection = [NSString stringWithFormat:@"%d",[self.model.collectionCount  intValue] + 1];
         [self.collectionBtn setImage:[UIImage imageNamed:@"收藏1选中"] forState:UIControlStateNormal];
-        [self.collectionBtn setTitle:@"31" forState:UIControlStateNormal];
+        [self.collectionBtn setTitle:collection forState:UIControlStateNormal];
+        _personCollection = 1;
     }else{
         [self.collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
-        [self.collectionBtn setTitle:@"30" forState:UIControlStateNormal];
+        [self.collectionBtn setTitle:self.model.collectionCount forState:UIControlStateNormal];
+        _personCollection = 0;
     }
+    [self postPicsCollection];
+    
+}
+//网络请求
+- (void)postPicsCollection{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [params setObject:self.model.ID  forKey:@"portal_id"];
+    [params setObject:@(_personCollection) forKey:@"status"];
+    
+    
+    
+    [HRHTTPTool postWithURL:kJRG_dofavourite_info parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+               
+                
+            }
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"error == %@",error);
+    }];
     
 }
 //分享
@@ -433,24 +464,59 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 }
 
 //网络请求
-- (void)getPics{
+- (void)getPics:(NSString*)content andType:(NSInteger)type andUrl:(NSString *)url{
 
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    [params setObject:@(3) forKey:@"arctical_id"];
+    if (type == 1) {
+        [params setObject:self.model.ID forKey:@"portal_id"];
+    }else if(type == 2){
+        [params setObject:self.model.ID forKey:@"portal_id"];
+        [params setObject:@(0) forKey:@"parent_id"];
+        [params setObject:@(2) forKey:@"to_user_id"];
+        [params setObject:content forKey:@"content"];
+    }else if (type == 3){
+        [params setObject:self.model.ID forKey:@"portal_id"];
+        [params setObject:@(2) forKey:@"parent_id"];
+        [params setObject:@(2) forKey:@"to_user_id"];
+        [params setObject:content forKey:@"content"];
+    }
     
-    [HRHTTPTool postWithURL:kJRG_comment_info parameters:params success:^(id json) {
+    [HRHTTPTool postWithURL:url parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
             if ([json isKindOfClass:[NSDictionary class]]) {
-                
-                NSMutableArray *tempNewsArr = [NSMutableArray array];
-                NSArray *tempArr = [json objectForKey:@"result"];
-                for (NSDictionary *dict in tempArr) {
-                    FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
-                    [tempNewsArr addObject:model];
+                if (type == 1) {
+                    NSMutableArray *tempNewsArr = [NSMutableArray array];
+                    NSArray *tempArr = [json objectForKey:@"result"];
+                    for (NSDictionary *dict in tempArr) {
+                        BGCommentModel *model = [BGCommentModel mj_objectWithKeyValues:dict];
+                        [tempNewsArr addObject:model];
+                        
+                    }
                     
+                    if(tempNewsArr.count > 0){
+                        
+                        self.datas = tempNewsArr.mutableCopy;
+                        
+                    }
+                    
+                    if (self.datas.count ==0 ||  self.datas.count %10 != 0) {
+                        [self.detailWebviewContainer.tableview.mj_footer endRefreshingWithNoMoreData];
+                    }else{
+                        [self.detailWebviewContainer.tableview.mj_footer endRefreshing];
+                    }
+                    [self.detailWebviewContainer.tableview reloadData];
+                }else{
+                    [self.datas removeAllObjects];
+                    
+                    [self getPics:nil andType:1 andUrl:kJRG_portal_comment_info];
+                    _headerTitle.text = [NSString stringWithFormat:@"全部评论 (%@)",_recommendCount];
                 }
+               
+                
+                
             }
         }else{
             [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
@@ -503,13 +569,13 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
     
     WXMediaMessage * message = [WXMediaMessage message];
-    message.title = @"这是一个分享标题";
-    message.description = @"我是分享内容";
+    message.title = @"分享标题";
+    message.description = self.model.des;
     [message setThumbImage:[UIImage imageNamed:@"DefaultImg"]];
     
     WXWebpageObject * webPageObject = [WXWebpageObject object];
-    //webPageObject.webpageUrl = @"https://douban.fm/?from_=shire_top_nav#/channel/153";
-    webPageObject.webpageUrl = @"这是一个链接";
+    webPageObject.webpageUrl = self.model.url;
+//    webPageObject.webpageUrl = @"这是一个链接";
     message.mediaObject = webPageObject;
     
     SendMessageToWXReq * req1 = [[SendMessageToWXReq alloc]init];

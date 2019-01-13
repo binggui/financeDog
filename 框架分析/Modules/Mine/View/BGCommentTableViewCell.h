@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MessageAndCommentModel.h"
 
 @interface BGCommentTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) NSString * cellType;
+@property (nonatomic, strong)MessageAndCommentModel *model;
 @end

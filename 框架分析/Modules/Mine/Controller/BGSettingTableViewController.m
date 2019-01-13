@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"个人设置"];
-
+    [self getPics];
     [self  setupUI];
     
 }
@@ -51,6 +51,24 @@
         
         [self.personImg sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"头像"]];
     }
+    
+}
+//网络请求
+- (void)getPics{
+    
+    [HRHTTPTool postWithURL:kJRG_getavatar_info parameters:nil success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+            [self.personImg sd_setImageWithURL:[json objectForKey:@"avatar"] placeholderImage:[UIImage imageNamed:@"头像"]];
+                
+            }
+        }
+    } failure:^(NSError *error) {
+       
+        NSLog(@"error == %@",error);
+    }];
     
 }
 - (void)didReceiveMemoryWarning {
@@ -196,11 +214,11 @@
 
             }
         }else{
-            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+//            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
             
         }
     } failure:^(NSError *error) {
-        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+//        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
         NSLog(@"error == %@",error);
     }];
 }
@@ -319,11 +337,11 @@
                 
             }
         }else{
-            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+//            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
             
         }
     } failure:^(NSError *error) {
-        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+//        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
         NSLog(@"error == %@",error);
     }];
 }

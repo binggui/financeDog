@@ -241,11 +241,10 @@
 }
 
 #pragma mark -代理方法，推出对应的广告
-- (void)pushAddViewController:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSNumber *)loadbybrowser desc:(NSNumber *)desc
+- (void)pushAddViewController:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSString *)loadbybrowser desc:(NSInteger)desc
 {
     [self.delegate pushAdVc:vc withloginFlag:mustlogin openWay:loadbybrowser desc:desc];
-    
-    DLog(@"_currentPage = %ld,desc = %@",(long)_currentPage - 1,desc);
+
     
 }
 

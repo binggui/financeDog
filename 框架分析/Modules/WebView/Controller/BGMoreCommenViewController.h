@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BGCommentModel.h"
 
 @interface BGMoreCommenViewController : RootViewController
-
+@property (assign, nonatomic) NSInteger  type;
+@property (strong, nonatomic) BGCommentModel * model;
 @end

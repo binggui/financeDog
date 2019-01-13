@@ -37,7 +37,7 @@
     self.leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 180/2, 180/2)];
     self.leftImg.contentMode = UIViewContentModeScaleToFill;
     self.leftImg.clipsToBounds = YES;
-    self.leftImg.image = [UIImage imageNamed:@"DefaultImg"];
+    self.leftImg.image = [UIImage imageNamed:@"头像"];
 //    if(![GFICommonTool isBlankString:[dic objectForKey:@"iconurl"]]){
 //        [self.leftImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"iconurl"]] placeholderImage:[UIImage imageNamed:@"placeholder_default"]];
 //    }
@@ -130,7 +130,7 @@
     _model = model;
     //    _imgView.backgroundColor=[UIColor colorWithHexString:personModel.imageAve];
     _leftImg.backgroundColor=KWhiteColor;
-    [_leftImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+    [_leftImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"头像"]];
     _desLab.text = model.des;
     NSString *str =  model.des;
 

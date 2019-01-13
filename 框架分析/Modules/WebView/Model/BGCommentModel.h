@@ -42,6 +42,9 @@
 
 @property (nonatomic, copy) NSString *comment_content;//评论内容
 
+@property (nonatomic, copy) NSString *comment_avatal;//头像
+
+@property (nonatomic, assign) NSInteger comment_more;//更多
 
 @end
 

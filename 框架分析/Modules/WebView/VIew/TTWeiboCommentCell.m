@@ -16,12 +16,13 @@
     [super awakeFromNib];
     // Initialization code
     _goodFlag = NO;
-    self.txImg.image = [UIImage imageNamed:@"DefaultImg"];
+    self.txImg.image = [UIImage imageNamed:@"头像"];
     [self.nameShow setTitle:@"按实际开发了" forState:0];
      [self.goodButton setTitle:[NSString stringWithFormat:@" %ld",12] forState:UIControlStateNormal];
     self.contentLable.text = @"老卡机是风口浪尖案例开始放假啊看来解放路卡就是放假奥拉夫卡死弗兰克静安寺";
     self.timeShowLabelNew.text = @"刚刚";
     self.timeShowLable.text = @"  ";
+    self.goodButton.hidden = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -41,24 +42,35 @@
     NSLog(@"点赞");
     _goodFlag = !_goodFlag;
     if(_goodFlag){
+        [self.goodButton setTitle:[NSString stringWithFormat:@"%ld",_model.comment_like + 1] forState:UIControlStateNormal];
         [self.goodButton setImage:[UIImage imageNamed:@"点赞选中"] forState:UIControlStateNormal];
-        [self.goodButton setTitle:@" 13" forState:UIControlStateNormal];
+    
     }else{
+        [self.goodButton setTitle:[NSString stringWithFormat:@"%ld",_model.comment_like] forState:UIControlStateNormal];
         [self.goodButton setImage:[UIImage imageNamed:@"点赞"] forState:UIControlStateNormal];
-        [self.goodButton setTitle:@" 12" forState:UIControlStateNormal];
+
     }
 }
+- (void)setModel:(BGCommentModel *)model{
+    [self.txImg sd_setImageWithURL:[NSURL URLWithString:model.comment_avatal]];
+    [self.nameShow setTitle:model.comment_name forState:0];
+    [self.goodButton setTitle:[NSString stringWithFormat:@"%ld",model.comment_like] forState:UIControlStateNormal];
 
--(void)setDataModel:(WeiboCommentModel*)model{
-    [self.txImg sd_setImageWithURL:[NSURL URLWithString:model.comment.user_profile_image_url]];
-    [self.nameShow setTitle:model.comment.user_name forState:0];
-    [self.goodButton setTitle:[NSString stringWithFormat:@"%ld",model.comment.digg_count] forState:UIControlStateNormal];
-
-    self.contentLable.text=model.comment.text;
-
-    long long time=model.comment.create_time;
+    self.contentLable.text=model.comment_content;
+    
+    long long time = model.comment_time;
     NSDate *timedate=[NSDate dateFromTimeInterval:time];
     NSString *timeStr=[NSDate detailTimeAgoString:timedate];
-    self.timeShowLable.text=[NSString stringWithFormat:@"%@ . 回复",timeStr];
+    self.timeShowLabelNew.text=[self returndate: [NSString stringWithFormat:@"%ld",model.comment_time ]];
+
+}
+- (NSString *)returndate:(NSString *)str1
+{
+    int x=[str1  intValue];
+    NSDate  *date1 = [NSDate dateWithTimeIntervalSince1970:x];
+    NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
+    [dateformatter setDateFormat:@"yyyy-MM-dd hh:mm"];
+    return [dateformatter stringFromDate:date1];
+    
 }
 @end

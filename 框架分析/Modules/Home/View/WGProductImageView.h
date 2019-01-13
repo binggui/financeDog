@@ -12,7 +12,7 @@
 
 @protocol WGProductImageViewDelegate <NSObject>
 @required
-- (void)pushAddViewController:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSNumber *)loadbybrowser desc:(NSNumber *)desc;
+- (void)pushAddViewController:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSString *)loadbybrowser desc:(NSInteger)desc;
 
 @end
 @interface WGProductImageView : UIImageView

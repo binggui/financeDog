@@ -99,9 +99,19 @@
 #define kExampleapiUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.exampleapi/"
 #define kEditpwdUrl @"http://jrg.yunmeitiweb.com/user/phoneapi.personalapi/"
 #define kcommentUrl @"http://jrg.yunmeitiweb.com/user/phoneapi.commentapi/"
+#define kportal_commentUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.commentapi/"
 #define kpushnewUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.pushnewapi/"
+#define kdofavouriteUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.pushnewapi/"
 
 
+#define kJRG_getparam_info  kportal_commentUrl  @"getparam"//文章获取阅读量
+
+#define kJRG_portal_addcomment_info kportal_commentUrl @"addcomment"//评论子类
+#define kJRG_portal_comment_info kportal_commentUrl @"comment"//评论子类
+#define kJRG_dofavourite_info kportal_commentUrl @"dofavourite"//收藏
+#define kJRG_comment_info kcommentUrl @"comment"//评论
+#define kJRG_bindwx kBaseUrl @"bindwx"   //绑定判断
+#define kJRG_isbindwx kBaseUrl @"isbindwx"   //绑定判断
 #define kJRG_regeister kBaseUrl @"regeister"   //注册
 #define kJRG_gettoken_info kBaseUrl @"gettoken"   //token
 #define kJRG_login kBaseUrl @"login"   //登录
@@ -119,10 +129,19 @@
 #define kJRG_editpwd_info kEditpwdUrl @"editpwd"//修改密码
 #define kJRG_editsex_info kEditpwdUrl @"editsex"//sex
 #define kJRG_editnickname_info kEditpwdUrl @"editnickname"//name
+#define kJRG_getavatar_info kEditpwdUrl @"getavatar"//头像地址
+#define kJRG_editphone_info kEditpwdUrl @"editphone"//修改手机号
+#define kJRG_sysmsg_info kEditpwdUrl @"sysmsg"//消息
+#define kJRG_mymsg_info kEditpwdUrl @"mymsg"//我的评论
+#define kJRG_getversion_info kEditpwdUrl @"getversion"//版本号
+
+
+
+
 #define kJRG_myread_info kEditpwdUrl @"myread"//阅读记录
 #define kJRG_myfavorite_info kEditpwdUrl @"myfavorite"//收藏记录mythumb
 #define kJRG_mythumb_info kEditpwdUrl @"mythumb"//上传头像
-#define kJRG_comment_info kcommentUrl @"comment"//评论
+
 
 /**开发服务器*/
 #define URL_main @"http://218.205.209.238/shark-miai-fubinggui"

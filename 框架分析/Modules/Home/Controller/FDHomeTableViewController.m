@@ -42,7 +42,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //请求主页轮播图图片
-    [self getPics];
+    [self getPics:1 andUrl:kJRG_index_info andId:0 andJumpUrl:nil];
+    [self getPics:3 andUrl:kJRG_getversion_info andId:0 andJumpUrl:nil];
+    
     //开始第一次数据拉取
     [self.tableHomeView.mj_header beginRefreshing];
     [self setupNavigation];
@@ -104,13 +106,26 @@
 }
 
 //网络请求
-- (void)getPics{
-
-    [HRHTTPTool postWithURL:kJRG_index_info parameters:nil success:^(id json) {
+- (void)getPics:(NSInteger)type andUrl:(NSString *)url andId:(NSInteger)ID andJumpUrl:(NSString *)jumpUrl{
+    
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    if (type ==1) {
+        params = nil;
+    }else if(type == 2){
+        [params setObject:@(ID) forKey:@"portal_id"];
+        
+    }else if(type == 3){
+        NSString *version = @"1";
+        [params setObject:version forKey:@"version"];
+        
+    }
+    
+    [HRHTTPTool postWithURL:url parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
             if ([json isKindOfClass:[NSDictionary class]]) {
-                
+                if (type ==1) {
+            
                 NSMutableArray *tempArr = [NSMutableArray array];
                 NSArray *picList = [json objectForKey:@"advert"];
                 for (NSDictionary *dict in picList) {
@@ -123,6 +138,25 @@
                     [_topView addSubview:_adview];
                 }else{
                     self.tableHomeView.tableHeaderView = [[UIView alloc]init];
+                }
+                }else if (type ==2){
+                   
+                    NSDictionary *dict = [json objectForKey:@"result"];
+                    FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+                    
+                    NSInteger flag = [GFICommonTool isLogin];
+                    if (flag == finishLogin) {//已登录不做处理
+                        LSDetainViewController *vc = [[LSDetainViewController alloc]init];
+                        vc.model = model;
+                        vc.URLString = jumpUrl;
+                        vc.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:vc animated:YES];
+                        return;
+                    }else {
+                        [GFICommonTool login:self];
+                    }
+                }else if (type == 3){
+//                    [self updateVersion];
                 }
             
             }
@@ -142,6 +176,22 @@
     
 }
 
+- (void) updateVersion {
+    // 初始化对话框
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认注销吗？" preferredStyle:UIAlertControllerStyleAlert];
+    // 确定注销
+    UIAlertAction *_okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
+        // 跳转appStore 页面
+       
+    }];
+    UIAlertAction * _cancelAction =[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    
+    [alert addAction:_okAction];
+    [alert addAction:_cancelAction];
+    
+    // 弹出对话框
+    [self presentViewController:alert animated:true completion:nil];
+}
 #pragma mark ————— 下拉刷新 —————
 -(void)headerRereshing{
 
@@ -196,11 +246,24 @@
     
 }
 -(void)showAllQuestions{
-    UIStoryboard* sb = [UIStoryboard storyboardWithName:@"CXShearchStoryboard" bundle:nil];
     
-    CXSearchController * searchC = [sb instantiateViewControllerWithIdentifier:@"CXSearch"];
-    searchC.delegate = self;
-    [self.navigationController presentViewController:searchC animated:NO completion:nil];
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    if (flag == finishLogin) {//已登录
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"CXShearchStoryboard" bundle:nil];
+        
+        CXSearchController * searchC = [sb instantiateViewControllerWithIdentifier:@"CXSearch"];
+        searchC.delegate = self;
+        [self.navigationController presentViewController:searchC animated:NO completion:nil];
+        
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
+    
+
     
 }
 -(void)personClickedOKbtn:(UIButton *)btn{
@@ -370,17 +433,18 @@
 }
 #pragma mark - WGProductImageView Delegate推出顶部广告条的链接
 
-- (void)pushAdVc:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSNumber *)loadbybrowser desc:(NSNumber *)desc
+- (void)pushAdVc:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSString *)loadbybrowser desc:(NSInteger)desc
 {
-    
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录不做处理
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self getPics:2 andUrl:kJRG_getparam_info andId:desc andJumpUrl:loadbybrowser];
         return;
     }else {
         [GFICommonTool login:self];
     }
+    
+    
+   
 }
 
 

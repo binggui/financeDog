@@ -5,7 +5,7 @@
 #define IMAGEVIEWHEIGHT 120.0
 //滚动视图类
 @protocol WGAdvertisementViewDelegate <NSObject>
-- (void)pushAdVc:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSNumber *)loadbybrowser desc:(NSNumber *)desc;
+- (void)pushAdVc:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSString *)loadbybrowser desc:(NSInteger)desc;
 @end
 
 @interface WGAdvertisementView : UIView<UIScrollViewDelegate,WGProductImageViewDelegate>

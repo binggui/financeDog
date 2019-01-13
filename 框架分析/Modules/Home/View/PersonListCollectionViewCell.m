@@ -72,7 +72,7 @@
 //    _imgView.backgroundColor=[UIColor colorWithHexString:personModel.imageAve];
     _imgView.backgroundColor=KWhiteColor;
     
-    [_imgView sd_setImageWithURL:[NSURL URLWithString:personModel.img] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:personModel.img] placeholderImage:[UIImage imageNamed:@"头像"]];
     _lblHobby.text=personModel.des;
     _lblFrom.text=personModel.source;
 

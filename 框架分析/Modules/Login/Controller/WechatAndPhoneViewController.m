@@ -1,72 +1,51 @@
 //
-//  BGForgetPasswordViewController.m
+//  WechatAndPhoneViewController.m
 //  框架分析
 //
-//  Created by FuBG02 on 2018/12/20.
-//  Copyright © 2018年 Jenocy. All rights reserved.
+//  Created by FuBG02 on 2019/1/12.
+//  Copyright © 2019年 Jenocy. All rights reserved.
 //
 
-#import "BGForgetPasswordViewController.h"
-@interface BGForgetPasswordViewController (){
+#import "WechatAndPhoneViewController.h"
+
+@interface WechatAndPhoneViewController (){
     dispatch_source_t _timer;
 }
-@property (weak, nonatomic) IBOutlet UIButton *isLookPassword;
-@property (weak, nonatomic) IBOutlet UIButton *sendCodeButton;
 @property (weak, nonatomic) IBOutlet UITextField *userTextfield;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextfield;
 @property (weak, nonatomic) IBOutlet UITextField *sendCodeTextfield;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sureButtonConstrait;
-@property (weak, nonatomic) IBOutlet UIImageView *passwordImg;
-@property (weak, nonatomic) IBOutlet UILabel *topTitleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *sendCodeButton;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextfield;
 
 @end
 
-@implementation BGForgetPasswordViewController
+@implementation WechatAndPhoneViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.isLookPassword.hidden = YES;
-    if (self.type == 1) {
-        self.sureButtonConstrait.constant = 30;
-        self.passwordTextfield.hidden = YES;
-        self.passwordImg.hidden = YES;
-        _topTitleLabel.text = @"修改手机号";
-    }else{
-        self.sureButtonConstrait.constant = 100;
-        self.passwordTextfield.hidden = NO;
-        self.passwordImg.hidden = NO;
-        _topTitleLabel.text = @"忘记密码";
-    }
-    
     // Do any additional setup after loading the view from its nib.
     //导航栏闪白条
     [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
-    [self customBackButton];
-}
-// 自定义返回按钮
-- (void)customBackButton{
-
     [self addNavigationItemWithImageNames:@[@"返回1"] isLeft:YES target:self action:@selector(backPreController) tags:@[@999]];
 }
 - (void)backPreController{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)isLookAction:(id)sender {
+- (IBAction)sure:(id)sender {
+    [self postUrl:kJRG_bindwx andType:2];
+    
+    
 }
-
-//发送验证码
 - (IBAction)sendCode:(id)sender {
-    
     [self postUrl:kJRG_phoneverify_info andType:1];
-    
 }
 - (void)countDown
 {
@@ -76,10 +55,10 @@
     /////////////添加倒计时
     __block int timeout= 60; //倒计时时间
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
- 
+    
     _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
-
-
+    
+    
     dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
     dispatch_source_set_event_handler(_timer, ^{
         if(timeout<=0){ //倒计时结束，关闭
@@ -111,49 +90,28 @@
     /////////////
     
 }
-//确定
-- (IBAction)goToModifiedPassword:(id)sender {
-    
-    
-    if (self.type == 1) {
-        [self postUrl:kJRG_editphone_info andType:3];
-        
-    }else{
-        [self postUrl:kJRG_editpwd_info andType:2];
-    }
-
-}
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-
-   [self.view endEditing:YES];
-
+    
+    [self.view endEditing:YES];
+    
 }
-
-
 //网络请求
 - (void)postUrl:(NSString *)URl andType:(NSInteger )type{
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    NSString *urlTemp = nil;
     if (type == 1) {//验证码
         [params setObject:self.userTextfield.text forKey:@"phone"];
- 
-    }else if (type == 2){//修改密码
         
+    }else if (type == 2){//绑定手机号
+        
+        [params setObject:self.openID forKey:@"openid"];
         [params setObject:self.passwordTextfield.text forKey:@"password"];
-        [params setObject:self.userTextfield.text forKey:@"phone"];
-        [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
-
-    }else if (type == 3){//修改手机号
-
         [params setObject:self.userTextfield.text forKey:@"phone"];
         [params setObject:self.sendCodeTextfield.text forKey:@"verify"];
         
     }
-        
-
     [HRHTTPTool postWithURL:URl parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
@@ -164,22 +122,30 @@
                     [OMGToast showWithText:@"验证码已下发" topOffset:KScreenHeight/2 duration:2.0];
                     [self countDown];
                     
-                }else if (type == 2){//修改密码
+                }else if (type == 2){//绑定成功返回的数据
+                    //登录成功,本地保存
                     NSUserDefaults *defaults = USER_DEFAULT;
-                    [defaults removeObjectForKey:kIsLoginScuu];
+                    [defaults setBool:YES forKey:kIsLoginScuu];
+                    NSString *str = [json objectForKey:KTokenMark] ;
+                    [defaults setObject:str forKey:KTokenMark];
+                    NSString *strTemp = [[json objectForKey:@"result"]  objectForKey:KidMark];
+                    [defaults setObject:strTemp forKey:KidMark];
+                    
+                    NSDictionary *personData = [json objectForKey:@"result"];
+                    //个人数据保存
+                    [defaults setInteger:[personData[@"sex"]  integerValue]  forKey:@"sex"];
+                    [defaults setObject:personData[@"user_nickname"] forKey:@"user_nickname"];
+                    [defaults setObject:personData[@"avatar"] forKey:@"avatar"];
+                    [defaults setObject:personData[@"mobile"] forKey:@"mobile"];
+                    [defaults setObject:self.userTextfield.text forKey:@"user_name'"];
                     [defaults setObject:[GFICommonTool encodeData:self.passwordTextfield.text] forKey:@"user_password"];
+
+                    //                    [super writeDataToPlist:[json objectForKey:@"result"]];
+                    //2.1立即同步
                     [defaults synchronize];
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                }else if (type == 3){
-                    [USER_DEFAULT setObject:self.userTextfield.text forKey:@"mobile"];
-                    [USER_DEFAULT synchronize];
-                    if (self.backMobileBlock) {
-                        self.backMobileBlock(self.userTextfield.text);
-                    }
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
                 }
-                
-              
+
             }
         }else{
             [super showHUDTip:[json objectForKey:@"error_msg"] duration:1.7];
@@ -189,7 +155,6 @@
         NSLog(@"error == %@",error);
     }];
 }
-
 /*
 #pragma mark - Navigation
 

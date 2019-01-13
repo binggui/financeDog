@@ -170,23 +170,10 @@
     
 }
 - (void)goToDetailViewcontroller{
-    //先判断是否登录
-    NSInteger flag = [GFICommonTool isLogin];
-    if (flag == finishLogin) {//已登录
-        
-        LSDetainViewController *VC=[[LSDetainViewController alloc]init];
-        VC.URLString=_topDic[@"url"];
-        VC.firstConfigute=YES;
-        VC.title = @"详情";
-        [self.navigationController pushViewController:VC animated:YES];
-        
-        
-    }else{//未登录
-        //为了显示未登录布局，不弹出登录框
-        
-        [GFICommonTool login:self];
-        
-    }
+    
+    
+    [self getPicsCount:[_topDic[@"id"] intValue]];
+    
 
 }
 - (void)didReceiveMemoryWarning {
@@ -312,13 +299,13 @@
     
     
     WXMediaMessage * message = [WXMediaMessage message];
-    message.title = @"这是一个分享标题";
-    message.description = @"我是分享内容";
+    message.title = @"分享标题";
+    message.description = _topDic[@"post_excerpt"];
     [message setThumbImage:[UIImage imageNamed:@"DefaultImg"]];
     
     WXWebpageObject * webPageObject = [WXWebpageObject object];
-    //webPageObject.webpageUrl = @"https://douban.fm/?from_=shire_top_nav#/channel/153";
-    webPageObject.webpageUrl = @"这是一个链接";
+    webPageObject.webpageUrl = _topDic[@"url"];
+//    webPageObject.webpageUrl = @"这是一个链接";
     message.mediaObject = webPageObject;
     
     SendMessageToWXReq * req1 = [[SendMessageToWXReq alloc]init];
@@ -344,7 +331,7 @@
                 if(picList.count > 0){
                     
                     _topDic = picList.copy;
-                    [_headImg sd_setImageWithURL:[NSURL URLWithString:_topDic[@"thumbnail"]] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+                    [_headImg sd_setImageWithURL:[NSURL URLWithString:_topDic[@"thumbnail"]] placeholderImage:[UIImage imageNamed:@"头像"]];
 ////                    self.timeLabel.text = _topDic[@"published_time"];
                     self.titleLabel.text = _topDic[@"post_title"];
                     self.desLabel.text = _topDic[@"post_excerpt"];
@@ -353,7 +340,6 @@
                     [self.readBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"post_hits"]]   forState:UIControlStateNormal];
                     [self.messageBtn setTitle:[NSString stringWithFormat:@"%@",_topDic[@"comment_count"]]   forState:UIControlStateNormal];
                     
-                 
                 }
                 
             }
@@ -373,6 +359,48 @@
     
 }
 
+//网络请求
+- (void)getPicsCount:(NSInteger)ID{
+    NSMutableDictionary *params = [NSMutableDictionary new];
+  
+    [params setObject:@(ID) forKey:@"portal_id"];
+        
+  
+    [HRHTTPTool postWithURL:kJRG_getparam_info parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *dict = [json objectForKey:@"result"];
+                FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+                
+                NSInteger flag = [GFICommonTool isLogin];
+                if (flag == finishLogin) {//已登录不做处理
+                    LSDetainViewController *vc = [[LSDetainViewController alloc]init];
+                    vc.model = model;
+                    vc.URLString = _topDic[@"url"];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:vc animated:YES];
+                    return;
+                }else {
+                    [GFICommonTool login:self];
+                }
+            }
+        }else if ([result intValue] == 251 || [result intValue] == 253){
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            
+        }else{
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+        }
+    } failure:^(NSError *error) {
+        [super showHUDTip:@"网络错误"];
+        NSLog(@"error == %@",error);
+    }];
+    
+}
 - (NSString *)returndate:(NSString *)str1
 {
     int x=[str1  intValue];

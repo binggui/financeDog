@@ -34,7 +34,7 @@
 -(void)setUpUI{
     self.cellType = kAppDelegate.cellType;
     _imgView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 40, 40)];
-    _imgView.image  = [UIImage imageNamed:@"DefaultImg"];
+    _imgView.image  = [UIImage imageNamed:@"头像"];
     ViewRadius(_imgView, 20);
     [self.contentView addSubview:_imgView];
     
@@ -78,12 +78,12 @@
     
     //评论
     
-    self.desBottomlabel = [[UILabel alloc] initWithFrame:CGRectMake(self.desLabel.left, self.desLabel.bottom + 5, kScreenWidth - 70, 21)];
+    self.desBottomlabel = [[UILabel alloc] initWithFrame:CGRectMake(self.desLabel.left, self.desLabel.bottom + 5, kScreenWidth - 70, 5)];
     self.desBottomlabel.backgroundColor = [UIColor clearColor];
     self.desBottomlabel.font = [UIFont systemFontOfSize:14.0];
     self.desBottomlabel.textColor = [GFICommonTool colorWithHexString:@"#383838"];
     self.desBottomlabel.font = [UIFont systemFontOfSize:13.0];
-    self.desBottomlabel.text = @"商量看都解封了市解阿斯达奥撒水电费放分裤";
+//    self.desBottomlabel.text = @"商量看都解封了市解阿斯达奥撒水电费放分裤";
     if (![_cellType isEqualToString:@"comment"]) {
         [self.contentView addSubview:self.desBottomlabel];
     }
@@ -101,6 +101,21 @@
     [self.contentView addSubview:self.bottomline];
     
     self.height = self.bottomline.bottom;
+    
+}
+- (void)setModel:(MessageAndCommentModel *)model{
+    self.titleLabel.text = model.name;
+    self.timeLabel.text = [self returndate: model.pushTime];
+    self.desLabel.text = model.content;
+}
+
+- (NSString *)returndate:(NSString *)str1
+{
+    int x=[str1  intValue];
+    NSDate  *date1 = [NSDate dateWithTimeIntervalSince1970:x];
+    NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
+    [dateformatter setDateFormat:@"yyyy-MM-dd hh:mm"];
+    return [dateformatter stringFromDate:date1];
     
 }
 

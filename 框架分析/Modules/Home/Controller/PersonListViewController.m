@@ -39,8 +39,8 @@
     //初始化逻辑类
     _logic = [PersonListLogic new];
     _logic.delegagte = self;
-    //轮播图
-    [self getPics];
+    //请求主页轮播图图片
+    [self getPics:1 andUrl:kJRG_exampleapi_info andId:0 andJumpUrl:nil];
     [self setupUI];
     //开始第一次数据拉取
     [self.collectionView.mj_header beginRefreshing];
@@ -96,37 +96,60 @@
     
 }
 //网络请求
-- (void)getPics{
-    //    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    //    [params setObject:@"12334555" forKey:@"APPID"];
-    //    [params setObject:@"JINRONGGOU" forKey:@"APPSERCERT"];
-    //    [params setObject:@"15860005125" forKey:@"phone"];
+- (void)getPics:(NSInteger)type andUrl:(NSString *)url andId:(NSInteger)ID andJumpUrl:(NSString *)jumpUrl{
     
-    [HRHTTPTool postWithURL:kJRG_exampleapi_info parameters:nil success:^(id json) {
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    if (type ==1) {
+        params = nil;
+    }else{
+        [params setObject:@(ID) forKey:@"portal_id"];
+        
+    }
+    
+    [HRHTTPTool postWithURL:url parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
             if ([json isKindOfClass:[NSDictionary class]]) {
-                
-                NSMutableArray *tempArr = [NSMutableArray array];
-                NSArray *picList = [json objectForKey:@"advert"];
-                for (NSDictionary *dict in picList) {
-                    WGAdvertisementModel *model = [WGAdvertisementModel mj_objectWithKeyValues:dict];
-                    [tempArr addObject:model];
+                if (type ==1) {
+                    
+                    NSMutableArray *tempArr = [NSMutableArray array];
+                    NSArray *picList = [json objectForKey:@"advert"];
+                    for (NSDictionary *dict in picList) {
+                        WGAdvertisementModel *model = [WGAdvertisementModel mj_objectWithKeyValues:dict];
+                        [tempArr addObject:model];
+                    }
+                    if(tempArr.count > 0){
+                        [_adview setImageInfos:tempArr];
+                        self.tableHomeView.tableHeaderView = _topView;
+                        [_topView addSubview:_adview];
+                    }else{
+                        self.tableHomeView.tableHeaderView = [[UIView alloc]init];
+                    }
+                }else{
+                    
+                    NSDictionary *dict = [json objectForKey:@"result"];
+                    FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
+                    
+                    NSInteger flag = [GFICommonTool isLogin];
+                    if (flag == finishLogin) {//已登录不做处理
+                        LSDetainViewController *vc = [[LSDetainViewController alloc]init];
+                        vc.model = model;
+                        vc.URLString = jumpUrl;
+                        vc.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:vc animated:YES];
+                        return;
+                    }else {
+                        [GFICommonTool login:self];
+                    }
                 }
                 
-                if(tempArr.count > 0){
-                    [_adview setImageInfos:tempArr];
-                }
-                
-                
-                //                //零时存储
-                //                NSMutableArray *tempArr = [NSMutableArray array];
-                //                NSArray *picList = [json objectForKey:@"advert"];
-                //
-                //                if(picList.count > 0){
-                //                    [_adview setImageInfos:picList];
-                //                }
             }
+        }else if ([result intValue] == 251 || [result intValue] == 253){
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            
         }else{
             [super showHUDTip:[json objectForKey:@"error_msg"]];
         }
@@ -134,7 +157,9 @@
         [super showHUDTip:@"网络错误"];
         NSLog(@"error == %@",error);
     }];
+    
 }
+
 //滚到最顶
 - (void) singleTapRobotAction:(UIGestureRecognizer *) gesture
 {
@@ -261,14 +286,12 @@
 
 #pragma mark - WGProductImageView Delegate推出顶部广告条的链接
 
-- (void)pushAdVc:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSNumber *)loadbybrowser desc:(NSNumber *)desc
+- (void)pushAdVc:(LSDetainViewController *)vc withloginFlag:(NSNumber *)mustlogin openWay:(NSString *)loadbybrowser desc:(NSInteger)desc
 {
     
     NSInteger flag = [GFICommonTool isLogin];
     if (flag == finishLogin) {//已登录不做处理
-        vc.hidesBottomBarWhenPushed = YES;
-
-        [self.navigationController pushViewController:vc animated:YES];
+        [self getPics:2 andUrl:kJRG_getparam_info andId:desc andJumpUrl:loadbybrowser];
         return;
     }else {
         [GFICommonTool login:self];

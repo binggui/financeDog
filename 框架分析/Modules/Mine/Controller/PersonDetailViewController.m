@@ -39,11 +39,10 @@
     // Do any additional setup after loading the view from its nib.
     [self setupUI];
 //    self.navigationController.title = @"个人中心";
-
+    [self getPics];
     [self.navigationItem setTitle:@"个人中心"];
 }
 -(void)setupUI{
-
     _backImageTopConstrait.constant = -NAV_HEIGHT;
     _bottomTableView.delegate  = self;
     _bottomTableView.dataSource = self;
@@ -69,20 +68,45 @@
     [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
-    if (_personImg !=nil) {
-        
-        [_personButton setImage:_personImg forState:UIControlStateNormal];
-    }else{
-        
-        [_personButton sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"avatar"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"头像"]];
-    }
+//    if (_personImg !=nil) {
+//
+//        [_personButton setImage:_personImg forState:UIControlStateNormal];
+//    }else{
+//
+//        [_personButton sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"avatar"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"头像"]];
+//    }
 
 //    self.bottomTableView.contentInset = UIEdgeInsetsMake( - NAV_HEIGHT, 0, 0, 0);
 //    self.view.frame = CGRectMake(0, -NAV_HEIGHT, 0, 0);
     self.navigationController.title = @"个人中心";
     
 }
-
+//网络请求
+- (void)getPics{
+    
+    [HRHTTPTool postWithURL:kJRG_getavatar_info parameters:nil success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                
+            [_personButton sd_setImageWithURL:[json objectForKey:@"avatar"] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"头像"]];
+            
+            }
+        }else if ([result intValue] == 251 || [result intValue] == 253){
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            
+        }else{
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+        }
+    } failure:^(NSError *error) {
+        [super showHUDTip:@"网络错误"];
+        NSLog(@"error == %@",error);
+    }];
+    
+}
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [self wr_setNavBarBarTintColor:[GFICommonTool colorWithHexString:appColorDefault]];
@@ -259,6 +283,7 @@
             cell.imageView.image = [UIImage imageNamed:@"我的消息"];
             _messageNumbeLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth - 60, 15, 20, 20)];
             _messageNumbeLabel.text = @"12";
+            _messageNumbeLabel.hidden = YES;
             _messageNumbeLabel.textAlignment = NSTextAlignmentCenter;
             _messageNumbeLabel.textColor = [UIColor whiteColor];
             ViewRadius(_messageNumbeLabel, 10);

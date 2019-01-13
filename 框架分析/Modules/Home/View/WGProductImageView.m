@@ -36,7 +36,7 @@
     NSString *str = self.dict.imgurl;
     
     ///////////////ceshi////////////////
-    [self sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"DefaultImg"] options:SDWebImageRefreshCached];
+    [self sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"头像"] options:SDWebImageRefreshCached];
     
 }
 
@@ -48,7 +48,7 @@
     VC.title = @"详情";
     
 
-    [self.delegate pushAddViewController:VC withloginFlag:nil openWay:nil desc:self.dict.content];
+    [self.delegate pushAddViewController:VC withloginFlag:nil openWay:self.dict.jumpurl desc:self.dict.desc];
     
     
 }

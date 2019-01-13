@@ -9,7 +9,7 @@
 #import "BGLoginViewController.h"
 #import "BGForgetPasswordViewController.h"
 #import <WXApi.h>
-
+#import "WechatAndPhoneViewController.h"
 
 @interface BGLoginViewController ()<UITextFieldDelegate>{
     dispatch_source_t _timer;
@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
 @property (weak, nonatomic) IBOutlet UIButton *weTalkButton;
 @property (weak, nonatomic) IBOutlet UIButton *QQBotton;
+@property (weak, nonatomic) IBOutlet UILabel *topTitle;
+
 @property (strong, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *loginConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *VendorLoginConstraint;
@@ -30,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backImgTopConstrait;
 @property (weak, nonatomic) IBOutlet UIButton *sendCodeButton;
 @property (assign, nonatomic) BOOL  passswordLookFlag;
+@property (strong, nonatomic) NSString * openId;
 
 @end
 
@@ -57,14 +60,7 @@
     [self.navigationController.navigationBar.subviews objectAtIndex:0].hidden = YES;
     [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     [self wr_setNavBarBackgroundAlpha:0];
-    if (kISiPhone5){
-        _VendorLoginConstraint.constant = 15;
-    } else if(kISiPhoneX){
-        _VendorLoginConstraint.constant = 30;
-    }
-    else{
-        _VendorLoginConstraint.constant = 25;
-    }
+
     ViewRadius(_weTalkButton, 30);
     ViewRadius(_QQBotton, 30);
 
@@ -97,9 +93,12 @@
 
     
     [_usersTestField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-//    [_passwordRegistTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    [self addNavigationItemWithImageNames:@[@"返回1"] isLeft:YES target:self action:@selector(backPreController) tags:@[@999]];
 }
-
+- (void)backPreController{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -261,28 +260,15 @@
         [UIView animateWithDuration:0.5 animations:^{
             self.showFlag = !self.showFlag;
             if(self.showFlag){
-//                if (kISiPhone5){
-//                    _loginConstraint.constant = 15;
-//                } else if(kISiPhoneX){
-//                    _loginConstraint.constant = 35;
-//                }
-//                else{
-//                    _loginConstraint.constant = 30;
-//                }
-//                _loginConstraint.constant = 30;
+                _topTitle.text = @"账号登录";
+                _loginConstraint.constant = 30;
                 self.passwordIcon.hidden = YES;
                 self.passwordRegistTextField.hidden = YES;
                 self.passwordTestField.secureTextEntry = YES;
                 
             }else{
-//                if (kISiPhone5){
-//                    _loginConstraint.constant = 55;
-//                } else if(kISiPhoneX){
-//                    _loginConstraint.constant = 70;
-//                }
-//                else{
-//                    _loginConstraint.constant = 60;
-//                }
+                _loginConstraint.constant = 75;
+                _topTitle.text = @"账号注册";
                 self.passwordIcon.hidden = NO;
                 self.passwordRegistTextField.hidden = NO;
                 self.passwordTestField.secureTextEntry = NO;
@@ -358,6 +344,8 @@
                                                                     options:NSJSONReadingMutableContainers error:nil];
                 
                 NSLog(@"%@",dic);
+                self.openId = [dic objectForKey:@"openid"];
+                [self postUrl:kJRG_isbindwx andType:4];
                 
                 NSString *openId = [dic objectForKey:@"openid"];
                 NSString *memNickName = [dic objectForKey:@"nickname"];
@@ -432,6 +420,10 @@
         [params setObject:self.passwordTestField.text forKey:@"password"];
         [params setObject:self.usersTestField.text forKey:@"phone"];
 
+    }else if (type == 4){//绑定判断
+        
+        [params setObject:self.openId forKey:@"openid"];
+        
     }
     
 
@@ -462,8 +454,6 @@
                     [defaults setObject:self.usersTestField.text forKey:@"user_name'"];
                     [defaults setObject:[GFICommonTool encodeData:self.passwordTestField.text] forKey:@"user_password"];
                     
-                    
-
 //                    [super writeDataToPlist:[json objectForKey:@"result"]];
                     //2.1立即同步
                     [defaults synchronize];
@@ -473,6 +463,30 @@
                     //转换登录界面
                     [self registUserAction:nil];
                     
+                }else if (type == 4){
+                    if ([[json objectForKey:@"is_bind"] intValue] == 1) {
+                        //登录成功,本地保存
+                        NSUserDefaults *defaults = USER_DEFAULT;
+                        [defaults setBool:YES forKey:kIsLoginScuu];
+                        NSString *str = [json objectForKey:KTokenMark] ;
+                        [defaults setObject:str forKey:KTokenMark];
+                        NSString *strTemp = [[json objectForKey:@"result"]  objectForKey:KidMark];
+                        [defaults setObject:strTemp forKey:KidMark];
+                        
+                        NSDictionary *personData = [json objectForKey:@"result"];
+                        //个人数据保存
+                        [defaults setInteger:[personData[@"sex"]  integerValue]  forKey:@"sex"];
+                        [defaults setObject:personData[@"user_nickname"] forKey:@"user_nickname"];
+                        [defaults setObject:personData[@"avatar"] forKey:@"avatar"];
+                        [defaults setObject:personData[@"mobile"] forKey:@"mobile"];
+                        [defaults setObject:self.usersTestField.text forKey:@"user_name'"];
+                        [defaults setObject:[GFICommonTool encodeData:self.passwordTestField.text] forKey:@"user_password"];
+                        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                    }else{
+                        WechatAndPhoneViewController *vc = [[WechatAndPhoneViewController alloc]init];
+                        vc.openID = self.openId;
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }
                 }
             }
         }else{
