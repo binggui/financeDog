@@ -1865,6 +1865,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FJ5FELV34L;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/框架分析/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = "框架分析/Supporting Files/Info.plist";
@@ -1885,6 +1886,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FJ5FELV34L;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/框架分析/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = "框架分析/Supporting Files/Info.plist";
