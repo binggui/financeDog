@@ -26,7 +26,7 @@
              @"comment_time":@"create_time",
              @"comment_name":@"full_name",
              @"comment_content":@"content",
-             @"comment_avatal":@"user_avatal",
+             @"comment_avatal":@"avatar",
              @"comment_more":@"comment_more"
              
              };

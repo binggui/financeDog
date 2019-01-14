@@ -62,6 +62,8 @@
     NSDate *timedate=[NSDate dateFromTimeInterval:time];
     NSString *timeStr=[NSDate detailTimeAgoString:timedate];
     self.timeShowLabelNew.text=[self returndate: [NSString stringWithFormat:@"%ld",model.comment_time ]];
+    
+    [self.txImg  sd_setImageWithURL:[NSURL URLWithString:model.comment_avatal] placeholderImage:[UIImage imageNamed:@"头像"]];
 
 }
 - (NSString *)returndate:(NSString *)str1

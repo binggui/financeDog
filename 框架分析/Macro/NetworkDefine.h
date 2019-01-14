@@ -104,6 +104,8 @@
 #define kdofavouriteUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.pushnewapi/"
 
 
+#define kJRG_getchildcomment_info  kportal_commentUrl  @"getchildcomment"//文章获取阅读量
+
 #define kJRG_getparam_info  kportal_commentUrl  @"getparam"//文章获取阅读量
 
 #define kJRG_portal_addcomment_info kportal_commentUrl @"addcomment"//评论子类

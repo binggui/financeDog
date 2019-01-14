@@ -57,7 +57,7 @@
     self.timeLabel.text = @"2018-12-12 09:12";
     if ([_cellType isEqualToString:@"comment"]) {
         //评论
-        self.desLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.imgView.bottom + 10, kScreenWidth - 15, 50)];
+        self.desLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.left, self.imgView.bottom + 10, kScreenWidth - 15, 50)];
     }else{
         //消息
         self.desLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.left, self.imgView.bottom + 5, kScreenWidth - 70, 35)];
@@ -104,9 +104,17 @@
     
 }
 - (void)setModel:(MessageAndCommentModel *)model{
-    self.titleLabel.text = model.name;
-    self.timeLabel.text = [self returndate: model.pushTime];
-    self.desLabel.text = model.content;
+    if (model.recommend_name != nil && model.recommend_name.length >0) {
+        self.titleLabel.text = model.recommend_name;
+        self.timeLabel.text = [self returndate: model.recommend_time];
+        self.desLabel.text = model.content;
+    }else{
+        self.titleLabel.text = model.name;
+        self.timeLabel.text = [self returndate: model.pushTime];
+        self.desLabel.text = model.content;
+    }
+    
+
 }
 
 - (NSString *)returndate:(NSString *)str1

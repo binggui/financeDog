@@ -17,10 +17,14 @@
 #import "WGAdvertisementView.h"
 #import "CommonModel.h"
 #import "FDHomeModel.h"
+#import "CXSearchController.h"
+#import "PersonDetailViewController.h"
+#import "BGMessageHistoryTableViewController.h"
+#import "BGSearchTableViewController.h"
 
 #define itemWidthHeight ((kScreenWidth-30)/2)
 
-@interface PersonListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,WaterFlowLayoutDelegate,XYTransitionProtocol,PersonListLogicDelegate,WGAdvertisementViewDelegate>{
+@interface PersonListViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,WaterFlowLayoutDelegate,XYTransitionProtocol,PersonListLogicDelegate,WGAdvertisementViewDelegate,CXSearchControllerDelegate>{
     WGAdvertisementView *_adview;
     NSMutableArray *_ads;
 }
@@ -42,11 +46,107 @@
     //请求主页轮播图图片
     [self getPics:1 andUrl:kJRG_exampleapi_info andId:0 andJumpUrl:nil];
     [self setupUI];
+    [self setupNavigation];
     //开始第一次数据拉取
     [self.collectionView.mj_header beginRefreshing];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+}
+
+-(void)setupNavigation{
+    //    [self wr_setNavBarBarTintColor:[UIColor clearColor]];
+    //    [self wr_setNavBarBackgroundAlpha:0];
+    //    self.tableView.contentInset = UIEdgeInsetsMake( - NAV_HEIGHT, 0, 0, 0);
+    [self addNavigationItemWithImageNames:@[@"个人"] isLeft:YES target:self action:@selector(personClickedOKbtn:) tags:@[@999]];
+    [self addNavigationItemWithImageNames:@[@"消息"] isLeft:NO target:self action:@selector(naviBtnClick:) tags:@[@1000]];
+    
+    UIView *backgroundV = [[UIView alloc]initWithFrame:CGRectMake(20, 20, kScreenWidth - 100, 30)];
+    backgroundV.backgroundColor = [UIColor whiteColor];
+    ViewRadius(backgroundV, 15);
+    UIButton * button =[UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame=CGRectMake(0, 0, kScreenWidth - 100, 30);
+    [backgroundV addSubview:button];
+    [button setTitle:@"搜内容/标题/咨询" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(showAllQuestions) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font = [UIFont systemFontOfSize:13];
+    [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    //    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    button.titleEdgeInsets = UIEdgeInsetsMake(0, -30, 0, 0);
+    
+    UIView *pointVIew = [[UIView alloc]initWithFrame:CGRectMake(backgroundV.width - 45, 7, 2, 16)];
+    pointVIew.backgroundColor = [UIColor grayColor];
+    [backgroundV addSubview:pointVIew];
+    
+    UILabel *searchLabel = [[UILabel alloc]initWithFrame:CGRectMake(backgroundV.width - 40, 0, 40, 30)];
+    searchLabel.text = @"搜索";
+    searchLabel.textColor = [UIColor grayColor];
+    searchLabel.font = [UIFont systemFontOfSize:13];
+    [backgroundV addSubview:searchLabel];
+    self.navigationItem.titleView =backgroundV;
+    
+    
+}
+-(void)showAllQuestions{
+    
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    if (flag == finishLogin) {//已登录
+        UIStoryboard* sb = [UIStoryboard storyboardWithName:@"CXShearchStoryboard" bundle:nil];
+        
+        CXSearchController * searchC = [sb instantiateViewControllerWithIdentifier:@"CXSearch"];
+        searchC.delegate = self;
+        [self.navigationController presentViewController:searchC animated:NO completion:nil];
+        
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
+    
+    
+    
+}
+-(void)personClickedOKbtn:(UIButton *)btn{
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    if (flag == finishLogin) {//已登录
+        PersonDetailViewController *personC = [[PersonDetailViewController alloc]init];
+        [self.navigationController pushViewController:personC animated:YES];
+        
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
+    
+    //    [self.navigationController presentModalViewController:personC animated:YES];
+    
+}
+-(void)naviBtnClick:(UIButton *)btn{
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    if (flag == finishLogin) {//已登录
+        BGMessageHistoryTableViewController *messageHistoryC = [[BGMessageHistoryTableViewController alloc]init];
+        [self.navigationController pushViewController:messageHistoryC animated:YES];
+        
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
+    
+}
+-(void)goToSearchView:(NSString*)typeString{
+    
+    
+    BGSearchTableViewController *searchResultC = [[BGSearchTableViewController alloc]init];
+    searchResultC.searchText = typeString;
+    [self.navigationController pushViewController:searchResultC animated:NO];
+    
 }
 #pragma mark ————— 初始化页面 —————
 -(void)setupUI{
@@ -273,15 +373,6 @@
 
 -(BOOL)isNeedTransition{
     return YES;
-}
-
-
--(void)naviBtnClick:(UIButton *)btn{
-    // 初始化对话框
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"对不起,尚未开发!" preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
-    // 弹出对话框
-    [self presentViewController:alert animated:true completion:nil];
 }
 
 #pragma mark - WGProductImageView Delegate推出顶部广告条的链接

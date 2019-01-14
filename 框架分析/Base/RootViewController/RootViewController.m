@@ -374,6 +374,37 @@
  *
  *  @return UITableView
  */
+- (UITableView *)tableCommentView
+{
+    if (_tableCommentView == nil) {
+        _tableCommentView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenHeight - TAB_HEIGHT) style:UITableViewStyleGrouped];
+        _tableCommentView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        //        _tableView.estimatedRowHeight = 0;
+        //        _tableView.estimatedSectionHeaderHeight = 0;
+        //        _tableView.estimatedSectionFooterHeight = 0;
+        
+        //头部刷新
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRereshing)];
+        header.automaticallyChangeAlpha = YES;
+        header.lastUpdatedTimeLabel.hidden = YES;
+        _tableCommentView.mj_header = header;
+        
+        //底部刷新
+        _tableCommentView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
+        //        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+        //        _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+        
+        _tableCommentView.backgroundColor=CViewBgColor;
+        _tableCommentView.scrollsToTop = YES;
+        _tableCommentView.tableFooterView = [[UIView alloc] init];
+    }
+    return _tableCommentView;
+}
+/**
+ *  懒加载UITableView
+ *
+ *  @return UITableView
+ */
 - (UITableView *)tableView
 {
     if (_tableView == nil) {

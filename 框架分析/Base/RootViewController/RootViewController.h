@@ -34,8 +34,10 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UICollectionView * collectionView;
+
 @property (nonatomic,strong) UIImageView *robotImageView; //滚回顶部
 @property (strong, nonatomic) UITableView * tableHomeView;;
+@property (strong, nonatomic) UITableView * tableCommentView;
 - (AppDelegate *)appDelegate;
 
 //用第三方插件显示网络加载提示

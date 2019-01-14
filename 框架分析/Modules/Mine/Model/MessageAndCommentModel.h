@@ -16,4 +16,16 @@
 @property (copy, nonatomic) NSString * target;
 @property (copy, nonatomic) NSString * title;
 @property (copy, nonatomic) NSString * name;
+
+@property (nonatomic, copy)NSString *recommend_name;
+@property (copy, nonatomic) NSString * recommend_user_id;
+@property (nonatomic, copy)NSString *recommend_time;
+@property (copy, nonatomic) NSString * recommend_post_id;
+@property (nonatomic, copy)NSString *recommend_title;
+@property (copy, nonatomic) NSString * recommend_hits;
+@property (nonatomic, copy)NSString *recommend_favorites;
+@property (copy, nonatomic) NSString * recommend_like;
+@property (copy, nonatomic) NSString * recommend_count;
+@property (copy, nonatomic) NSString * recommend_url;
+
 @end

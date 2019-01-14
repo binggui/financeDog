@@ -30,6 +30,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 @interface LSDetainViewController ()<UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate,TTWeiboCommentCellDelegate,popViewDelegate>{
     DOPAction *_shareWeixin;
     DOPAction *_shareFriends;
+    NSInteger indexRow;
     
 }
 @property (assign, nonatomic) NSInteger  personCollection;
@@ -69,7 +70,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     self.datas=@[].mutableCopy;
 
     [self setupViews1];
-   
+    indexRow = 0;
     _collectionFlag = NO;
     self.navigationController.title = self.title;
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -127,6 +128,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
         if (indexPath.row == 0 ) {
 
             [self getPics:content andType:3 andUrl:kJRG_portal_addcomment_info];
+            indexRow = indexPath.row;
             
         }
     }
@@ -197,7 +199,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 2;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -474,12 +476,12 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     }else if(type == 2){
         [params setObject:self.model.ID forKey:@"portal_id"];
         [params setObject:@(0) forKey:@"parent_id"];
-        [params setObject:@(2) forKey:@"to_user_id"];
+        [params setObject:@(indexRow) forKey:@"to_user_id"];
         [params setObject:content forKey:@"content"];
     }else if (type == 3){
         [params setObject:self.model.ID forKey:@"portal_id"];
-        [params setObject:@(2) forKey:@"parent_id"];
-        [params setObject:@(2) forKey:@"to_user_id"];
+        [params setObject:@(indexRow) forKey:@"parent_id"];
+        [params setObject:@(indexRow) forKey:@"to_user_id"];
         [params setObject:content forKey:@"content"];
     }
     

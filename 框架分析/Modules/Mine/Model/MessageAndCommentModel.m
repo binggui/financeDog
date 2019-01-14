@@ -7,7 +7,6 @@
 //
 
 #import "MessageAndCommentModel.h"
-
 @implementation MessageAndCommentModel
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName{
@@ -18,8 +17,18 @@
              @"imgurl":@"image",
              @"target":@"target",
              @"title":@"title",
-             @"name":@"user_nickname"
+             @"name":@"user_nickname",
+             @"recommend_name":@"full_name",
+             @"recommend_user_id":@"user_id",
+             @"recommend_time":@"create_time",
+             @"recommend_post_id":@"post_id",
+             @"recommend_title":@"post_title",
+             @"recommend_hits":@"post_hits",
+             @"recommend_favorites":@"post_favorites",
+             @"recommend_like":@"post_like",
+             @"recommend_count":@"comment_count",
+             @"recommend_url":@"url"
              };
-    
+
 }
 @end

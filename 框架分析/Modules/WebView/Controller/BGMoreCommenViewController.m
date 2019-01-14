@@ -10,11 +10,13 @@
 #import "TTWeiboCommentTwoCell.h"
 #import "TTWeiboCommentCell.h"
 #import "popView.h"
+#import "MoreCommentLogic.h"
 
 static NSString *const cellfidf=@"TTWeiboCommentCell";
 
-@interface BGMoreCommenViewController ()<UITableViewDelegate,UITableViewDataSource,popViewDelegate,TTWeiboCommentCellDelegate>
+@interface BGMoreCommenViewController ()<UITableViewDelegate,UITableViewDataSource,popViewDelegate,TTWeiboCommentCellDelegate,MoreCommentLogicDelegate>
 @property (nonatomic, strong)popView *popview;
+@property(nonatomic,strong) MoreCommentLogic *logic;//逻辑层
 @end
 
 @implementation BGMoreCommenViewController
@@ -24,10 +26,10 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
     [self setupUI];
     // Do any additional setup after loading the view.
     //开始第一次数据拉取
-//    [self.tableView.mj_header beginRefreshing];
+    [self.tableView.mj_header beginRefreshing];
     //初始化逻辑类
-//    _logic = [CommonListLogic new];
-//    _logic.delegagte = self;
+    _logic = [MoreCommentLogic new];
+    _logic.delegagte = self;
 }
 -(void)setupUI{
     [self.navigationItem setTitle:self.title];
@@ -48,24 +50,29 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark ————— 下拉刷新 —————
+-(void)headerRereshing{
+    [_logic loadData];
+}
 
-//#pragma mark ————— 下拉刷新 —————
-//-(void)headerRereshing{
-//    [_logic loadData];
-//}
-//
-//#pragma mark ————— 上拉刷新 —————
-//-(void)footerRereshing{
-//    _logic.page+=1;
-//    [_logic loadData];
-//}
-//
-//#pragma mark ————— 数据拉取完成 渲染页面 —————
-//-(void)requestDataCompleted{
-//    [self.tableView.mj_footer endRefreshing];
-//    [self.tableView.mj_header endRefreshing];
-//    [self.tableView reloadData];
-//}
+#pragma mark ————— 上拉刷新 —————
+-(void)footerRereshing{
+    _logic.page+=1;
+    [_logic loadData];
+}
+
+#pragma mark ————— 数据拉取完成 渲染页面 —————
+-(void)requestDataCompleted{
+    [self.tableView.mj_header endRefreshing];
+    
+    if (_logic.dataArray.count % 10 == 0 && _logic.dataArray.count !=0) {
+        [self.tableView.mj_footer endRefreshing];
+    }else{
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    }
+    
+    [self.tableView reloadData];
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -75,17 +82,19 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 10;
+    return _logic.dataArray.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TTWeiboCommentCell *cell= nil;
+    BGCommentModel *model = _logic.dataArray[indexPath.row];
     if (cell==nil) {
         cell=[tableView dequeueReusableCellWithIdentifier:cellfidf];
     }
     cell.cellIndexPath = indexPath;
     cell.delegate = self;
+    cell.model = model;
     return cell;
 }
 //- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -117,6 +126,39 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
 
 - (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content{
      [OMGToast showWithText:@"回复了" topOffset:KScreenHeight/2 duration:3.0];
+    [self getPics:content andType:3 andUrl:kJRG_portal_addcomment_info];
     
+}
+//网络请求
+- (void)getPics:(NSString*)content andType:(NSInteger)type andUrl:(NSString *)url{
+    
+    
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    
+        [params setObject:_object_id forKey:@"portal_id"];
+        [params setObject:_parent_id forKey:@"parent_id"];
+        [params setObject:_parent_id forKey:@"to_user_id"];
+        [params setObject:content forKey:@"content"];
+    
+    
+    [HRHTTPTool postWithURL:url parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+               
+                [_logic.dataArray removeAllObjects];
+                    
+                [self getPics:nil andType:1 andUrl:kJRG_portal_comment_info];
+                [self.tableView reloadData];
+                
+            }
+        }else{
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
+        }
+    } failure:^(NSError *error) {
+        [OMGToast showWithText:@"网络错误" topOffset:KScreenHeight/2 duration:1.7];
+        NSLog(@"error == %@",error);
+    }];
 }
 @end

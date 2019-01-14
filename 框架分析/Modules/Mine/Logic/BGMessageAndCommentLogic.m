@@ -54,7 +54,7 @@
                 for (NSDictionary *dict in tempArr) {
                     MessageAndCommentModel *model = [MessageAndCommentModel mj_objectWithKeyValues:dict];
                     [tempNewsArr addObject:model];
-                    
+
                 }
                 
                 if(tempNewsArr.count > 0){
