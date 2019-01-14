@@ -56,7 +56,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 @property (strong, nonatomic) NSString * recommendCount;
 
-
+@property (strong, nonatomic) UIImageView * shareImg;
 @property (strong, nonatomic) UILabel * headerTitle;
 @end
 
@@ -68,7 +68,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.view.backgroundColor=[UIColor whiteColor];
     self.datas=@[].mutableCopy;
-
+    _shareImg = [[UIImageView alloc]init];
+    [_shareImg sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
     [self setupViews1];
     indexRow = 0;
     _collectionFlag = NO;
@@ -571,9 +572,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     WXMediaMessage * message = [WXMediaMessage message];
     message.title = self.model.des;
     message.description = self.model.excerpt;
-    UIImageView *img = [[UIImageView alloc]init];
-    [img sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
-    [message setThumbImage:img.image];
+
+    [message setThumbImage:_shareImg.image];
     
     WXWebpageObject * webPageObject = [WXWebpageObject object];
     webPageObject.webpageUrl = self.model.url;
