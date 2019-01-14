@@ -92,7 +92,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     container.tableview.delegate=self;
     container.tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     container.tableview.sectionHeaderHeight = 0;
-    container.tableview.sectionFooterHeight = 55;
+    container.tableview.sectionFooterHeight = 0;
     container.tableview.backgroundColor = [UIColor whiteColor];
     [container.tableview registerNib:[UINib nibWithNibName:@"TTWeiboCommentCell" bundle:nil] forCellReuseIdentifier:cellfidf];
     [container.tableview registerNib:[UINib nibWithNibName:@"TTWeiboCommentTwoCell" bundle:nil] forCellReuseIdentifier:cellTwofidf];
@@ -127,15 +127,11 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     }else{
         if (indexPath.row == 0 ) {
 
+            indexRow = indexPath.section ;
             [self getPics:content andType:3 andUrl:kJRG_portal_addcomment_info];
-            indexRow = indexPath.row;
             
         }
     }
-    
-
-
-    [self.detailWebviewContainer.tableview reloadData];
     
     
 }
@@ -151,9 +147,9 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 {
     if (scrollView==self.detailWebviewContainer.scrollview) {
         if (scrollView.contentOffset.y>=self.detailWebviewContainer.webview.scrollView.contentSize.height-self.view.frame.size.height+44+46) {
-            self.title=@"贵哥博客";
+            self.title=@"详情";
         }else{
-            self.title=@"";
+            self.title=@"详情";
         }
     }
 }
@@ -201,13 +197,39 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 {
     return 2;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.row == 0) {
+        return 95;
+    }else{
+        
+        BGCommentModel *model = self.datas[indexPath.section];
+        if (model.comment_more >0) {
+            return 30;
+        }else{
+            return 0;
+        }
+    }
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    
     UITableViewCell *cell;
- 
-        //    WeiboCommentModel *model=_dataArrs[indexPath.row];
+    if(indexPath.row >=1){
+        TTWeiboCommentTwoCell *cellTwo= nil;
+        if (cellTwo==nil) {
+            cellTwo=[tableView dequeueReusableCellWithIdentifier:cellTwofidf];
+        }
+        
+        cellTwo.model = self.datas[indexPath.section];
+        
+        cell = cellTwo;
+    }else{
         TTWeiboCommentCell *cellOne= nil;
+        
         if (cellOne==nil) {
             cellOne=[tableView dequeueReusableCellWithIdentifier:cellfidf];
         }
@@ -216,10 +238,11 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
         cellOne.delegate = self;
         cellOne.remmentButton.tag = indexPath.section;
         cellOne.cellIndexPath = indexPath;
+        cellOne.type = 1;
         cellOne.model = self.datas[indexPath.section];
         cell = cellOne;
         
-    
+    }
     return cell;
     
 }
@@ -227,42 +250,14 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row != 0) {
-        [self alertPopView:indexPath andPlaceHolderTitle:@"给丙贵回复"];
+        BGMoreCommenViewController *mooreC = [[BGMoreCommenViewController alloc]init];
+        mooreC.model = self.datas[indexPath.section];
+        mooreC.object_id = [self.model.ID integerValue]; 
+        [self.navigationController pushViewController:mooreC animated:YES];
     }
 }
 
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *backgorundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KScreenWidth, 55)];
-    backgorundView.backgroundColor = [UIColor whiteColor];
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(73, 0, KScreenWidth - 93,40)];
-    footerView.backgroundColor = [GFICommonTool colorWithHexString:@"#f1f5f9"];
-    UILabel *headerTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, footerView.width - 30, 20)];
-
-    BGCommentModel *model = self.datas[section];
-    headerTitle.text = [NSString stringWithFormat:@"共%ld条互动评论 > ",(long)model.comment_more];
-
-    
-    UITapGestureRecognizer *labelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToMore:)];
-    [footerView addGestureRecognizer:labelTap];
-    
-    UIView *footerLineView = [[UIView alloc]initWithFrame:CGRectMake(0, backgorundView.bottom - 2, KScreenWidth ,2)];
-    footerLineView.backgroundColor = [GFICommonTool colorWithHexString:@"#f2f5f5"];
-    [footerView addSubview:headerTitle];
-    [backgorundView addSubview:footerView];
-    [backgorundView addSubview:footerLineView];
-    return backgorundView;
-}
-- (void)goToMore:(NSInteger)type{
-    BGMoreCommenViewController *mooreC = [[BGMoreCommenViewController alloc]init];
-    [self.navigationController pushViewController:mooreC animated:YES];
-    
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
- 
-    return 55;
-
-}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setupTabbar];
@@ -474,14 +469,17 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     if (type == 1) {
         [params setObject:self.model.ID forKey:@"portal_id"];
     }else if(type == 2){
+        BGCommentModel *model = self.datas [indexRow];
+        NSInteger userId = model.comment_user_id;
         [params setObject:self.model.ID forKey:@"portal_id"];
         [params setObject:@(0) forKey:@"parent_id"];
-        [params setObject:@(indexRow) forKey:@"to_user_id"];
+        [params setObject:@(userId) forKey:@"to_user_id"];
         [params setObject:content forKey:@"content"];
     }else if (type == 3){
+        BGCommentModel *model = self.datas [indexRow];
         [params setObject:self.model.ID forKey:@"portal_id"];
-        [params setObject:@(indexRow) forKey:@"parent_id"];
-        [params setObject:@(indexRow) forKey:@"to_user_id"];
+        [params setObject:@(model.comment_id) forKey:@"parent_id"];
+        [params setObject:@(model.comment_beUserd_id) forKey:@"to_user_id"];
         [params setObject:content forKey:@"content"];
     }
     
@@ -571,9 +569,11 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
     
     WXMediaMessage * message = [WXMediaMessage message];
-    message.title = @"分享标题";
-    message.description = self.model.des;
-    [message setThumbImage:[UIImage imageNamed:@"DefaultImg"]];
+    message.title = self.model.des;
+    message.description = self.model.excerpt;
+    UIImageView *img = [[UIImageView alloc]init];
+    [img sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
+    [message setThumbImage:img.image];
     
     WXWebpageObject * webPageObject = [WXWebpageObject object];
     webPageObject.webpageUrl = self.model.url;

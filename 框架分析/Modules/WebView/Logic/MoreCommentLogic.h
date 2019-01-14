@@ -21,6 +21,9 @@
 @property (nonatomic,strong) NSMutableArray * dataArray;//数据源
 @property (nonatomic,assign) NSInteger  page;//页码
 @property (assign, nonatomic) NSInteger  type;
+@property (assign, nonatomic) NSInteger  parent_id;
+@property (assign, nonatomic) NSInteger  object_id;
+
 @property(nonatomic,weak)id<MoreCommentLogicDelegate> delegagte;
 
 /**

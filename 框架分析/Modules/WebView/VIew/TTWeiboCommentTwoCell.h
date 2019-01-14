@@ -10,6 +10,8 @@
 #import "BGCommentModel.h"
 
 @interface TTWeiboCommentTwoCell : UITableViewCell
+
+
 @property (weak, nonatomic) IBOutlet UIView *backView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 

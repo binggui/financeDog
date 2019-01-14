@@ -37,8 +37,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     [params setObject:@(self.page + 1) forKey:@"index"];
-    [params setObject:@(66) forKey:@"parent_id"];
-    [params setObject:@(2) forKey:@"object_id"];
+    [params setObject:@(self.parent_id) forKey:@"parent_id"];
+    [params setObject:@(self.object_id) forKey:@"object_id"];
     [HRHTTPTool postWithURL:kJRG_getchildcomment_info parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {

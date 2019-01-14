@@ -18,11 +18,12 @@
     _goodFlag = NO;
     self.txImg.image = [UIImage imageNamed:@"头像"];
     [self.nameShow setTitle:@"按实际开发了" forState:0];
-     [self.goodButton setTitle:[NSString stringWithFormat:@" %ld",12] forState:UIControlStateNormal];
+    [self.goodButton setTitle:[NSString stringWithFormat:@" %d",12] forState:UIControlStateNormal];
     self.contentLable.text = @"老卡机是风口浪尖案例开始放假啊看来解放路卡就是放假奥拉夫卡死弗兰克静安寺";
     self.timeShowLabelNew.text = @"刚刚";
     self.timeShowLable.text = @"  ";
     self.goodButton.hidden = YES;
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -52,6 +53,11 @@
     }
 }
 - (void)setModel:(BGCommentModel *)model{
+    if (model.comment_more != nil ) {
+        self.remmentButton.hidden = NO;
+    }else{
+        self.remmentButton.hidden = YES;
+    }
     [self.txImg sd_setImageWithURL:[NSURL URLWithString:model.comment_avatal]];
     [self.nameShow setTitle:model.comment_name forState:0];
     [self.goodButton setTitle:[NSString stringWithFormat:@"%ld",model.comment_like] forState:UIControlStateNormal];

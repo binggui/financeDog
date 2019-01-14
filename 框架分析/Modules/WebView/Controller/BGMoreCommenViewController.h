@@ -12,6 +12,6 @@
 @interface BGMoreCommenViewController : RootViewController
 @property (assign, nonatomic) NSInteger  type;
 @property (strong, nonatomic) BGCommentModel * model;
-@property (copy, nonatomic) NSString *parent_id;//文章评论
-@property (copy, nonatomic) NSString *object_id;
+@property (assign, nonatomic) NSInteger  parent_id;
+@property (assign, nonatomic) NSInteger  object_id;
 @end

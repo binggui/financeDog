@@ -25,10 +25,13 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
     [super viewDidLoad];
     [self setupUI];
     // Do any additional setup after loading the view.
+    [self.navigationItem setTitle:@"评论"];
     //开始第一次数据拉取
     [self.tableView.mj_header beginRefreshing];
     //初始化逻辑类
     _logic = [MoreCommentLogic new];
+    _logic.parent_id = self.model.comment_id;
+    _logic.object_id = self.object_id;
     _logic.delegagte = self;
 }
 -(void)setupUI{
@@ -45,7 +48,9 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 85;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -88,12 +93,14 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TTWeiboCommentCell *cell= nil;
+    
     BGCommentModel *model = _logic.dataArray[indexPath.row];
     if (cell==nil) {
         cell=[tableView dequeueReusableCellWithIdentifier:cellfidf];
     }
     cell.cellIndexPath = indexPath;
     cell.delegate = self;
+    cell.type = 2;
     cell.model = model;
     return cell;
 }
@@ -126,7 +133,7 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
 
 - (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content{
      [OMGToast showWithText:@"回复了" topOffset:KScreenHeight/2 duration:3.0];
-    [self getPics:content andType:3 andUrl:kJRG_portal_addcomment_info];
+    [self getPics:content andType:indexPath.row andUrl:kJRG_portal_addcomment_info];
     
 }
 //网络请求
@@ -135,9 +142,9 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
     
     NSMutableDictionary *params = [NSMutableDictionary new];
     
-        [params setObject:_object_id forKey:@"portal_id"];
-        [params setObject:_parent_id forKey:@"parent_id"];
-        [params setObject:_parent_id forKey:@"to_user_id"];
+//        [params setObject:_object_id forKey:@"portal_id"];
+//        [params setObject:_parent_id forKey:@"parent_id"];
+//        [params setObject:_parent_id forKey:@"to_user_id"];
         [params setObject:content forKey:@"content"];
     
     

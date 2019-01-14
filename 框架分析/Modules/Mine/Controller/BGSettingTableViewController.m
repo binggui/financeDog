@@ -34,15 +34,24 @@
     [self  setupUI];
     
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+
+{
+    
+    return section ==0?0.1f:8.0f;// 0.1f:防止tableView顶部留白一块
+    
+}
 -(void)setupUI {
     NSUserDefaults *defaults = USER_DEFAULT;
-//    self.phoneNumber.text = [self.personDic objectForKey:@"mobile"];
+    self.automaticallyAdjustsScrollViewInsets = false;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.tableFooterView = [[UIView alloc]init];
     ViewBorderRadius(_personImg, 30, 1, KBlackColor);
 //    ViewRadius(self.sexSegment, 15);
-    self.phoneNumber.text = [defaults objectForKey:@"mobile"];
+    
+    NSString *numberString = [[defaults objectForKey:@"mobile"] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+    self.phoneNumber.text = numberString;
     self.sexSegment.selectedSegmentIndex = [defaults integerForKey:@"sex"];
     self.nameLabel.text = [defaults objectForKey:@"user_nickname"];
     if (self.personSettingImg != nil) {
@@ -51,8 +60,11 @@
         
         [self.personImg sd_setImageWithURL:[NSURL URLWithString:[USER_DEFAULT objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"头像"]];
     }
+
+  
     
 }
+
 //网络请求
 - (void)getPics{
     
@@ -123,7 +135,9 @@
     }else if (indexPath.section == 1 && indexPath .row == 0){//手机号
         BGForgetPasswordViewController *forgetPasswordC = [[BGForgetPasswordViewController alloc]init];
         forgetPasswordC.backMobileBlock = ^(NSString *str) {
-            self.phoneNumber.text = str;
+            NSString *numberString = [str stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+            self.phoneNumber.text = numberString;
+
         };
         forgetPasswordC.type = 1;
         [self.navigationController pushViewController:forgetPasswordC animated:YES];

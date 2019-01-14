@@ -20,7 +20,8 @@
              @"img":@"thumbnail",
              @"url":@"url",
              @"publishTime":@"update_time",
-             @"source":@"post_source"
+             @"source":@"post_source",
+             @"excerpt":@"post_excerpt"
              };
    
 }

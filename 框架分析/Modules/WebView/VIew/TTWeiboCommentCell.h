@@ -18,6 +18,7 @@
 @end
 
 @interface TTWeiboCommentCell : UITableViewCell
+@property (assign, nonatomic) NSInteger  type;
 @property (weak, nonatomic) IBOutlet UIButton *goodButton;
 @property (weak, nonatomic) IBOutlet UIImageView *txImg;
 @property (weak, nonatomic) IBOutlet UIButton *nameShow;

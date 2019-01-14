@@ -16,6 +16,8 @@
  3-表示图片资讯
  */
 // 栏目类型
+@property (strong, nonatomic) NSString * excerpt;
+
 @property (nonatomic, assign) float height;
 
 @property (nonatomic, assign) float width;
@@ -47,6 +49,7 @@
 @property (strong, nonatomic) NSString * CommentCount;
 //标题
 @property (nonatomic, copy)NSString *title;
+
 //图片数组(type == 3时存在)
 @property (nonatomic, copy)NSArray *pics;
 // /“独家”或“专题”等小图标url
