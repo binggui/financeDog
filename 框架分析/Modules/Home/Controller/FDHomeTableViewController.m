@@ -319,6 +319,9 @@
     return self.logic.dataArraySection.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [self tableView:tableView cellForRowAtIndexPath:indexPath].height;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSArray *tempArr = self.logic.dataArray[section];
     return tempArr.count;

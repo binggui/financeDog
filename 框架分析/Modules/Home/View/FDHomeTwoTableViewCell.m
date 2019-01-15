@@ -31,18 +31,8 @@
 
 -(void)setUpUI{
     
-    //左边图片
-    self.leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 180/2, 180/2)];
-    self.leftImg.contentMode = UIViewContentModeScaleToFill;
-    self.leftImg.clipsToBounds = YES;
-    self.leftImg.image = [UIImage imageNamed:@"头像"];
-    //    if(![GFICommonTool isBlankString:[dic objectForKey:@"iconurl"]]){
-    //        [self.leftImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"iconurl"]] placeholderImage:[UIImage imageNamed:@"placeholder_default"]];
-    //    }
-    [self.contentView addSubview:self.leftImg];
-    
     //描述
-    self.desLab = [[UILabel alloc] initWithFrame:CGRectMake(self.leftImg.right+12, self.leftImg.top - 10, kScreenWidth-5-15-self.leftImg.width-15, 65)];
+    self.desLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, kScreenWidth-30, 30)];
     self.desLab.backgroundColor = [UIColor clearColor];
     self.desLab.font = [UIFont systemFontOfSize:16.0];
     self.desLab.textColor = [GFICommonTool colorWithHexString:@"#383838"];
@@ -54,13 +44,24 @@
     if(self.desLab.height > 75){
         self.desLab.height = 75;
     }
+    
+    //大图片
+    self.leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, self.desLab.bottom + 5, kScreenWidth-30, 100)];
+    self.leftImg.contentMode = UIViewContentModeScaleToFill;
+    self.leftImg.clipsToBounds = YES;
+    self.leftImg.image = [UIImage imageNamed:@"头像"];
+
+    [self.contentView addSubview:self.leftImg];
+    
+
+    
     NSInteger btnWidth = 60;
-    NSInteger marginNum = (kScreenWidth - 30 - self.leftImg.width - 12 - 3*btnWidth - 21) / 3;
+    NSInteger marginNum = (kScreenWidth - 30 - 3*btnWidth) / 2;
     
     
     //阅读量
     _readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _readBtn.frame = CGRectMake(self.leftImg.right + 13, self.leftImg.bottom - 23, btnWidth, 21);
+    _readBtn.frame = CGRectMake(15, self.leftImg.bottom + 10, btnWidth, 21);
     [_readBtn setImage:[UIImage imageNamed:@"阅读量1"] forState:UIControlStateNormal];
     [_readBtn setTitle:@"999+" forState:UIControlStateNormal];
     [_readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
@@ -70,7 +71,7 @@
     
     //回复人数
     _messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _messageBtn.frame = CGRectMake(_readBtn.right + marginNum, self.leftImg.bottom - 23, btnWidth, 21);
+    _messageBtn.frame = CGRectMake(_readBtn.right + marginNum, self.leftImg.bottom + 10, btnWidth, 21);
     [_messageBtn setImage:[UIImage imageNamed:@"评论1"] forState:UIControlStateNormal];
     [_messageBtn setTitle:@"30" forState:UIControlStateNormal];
     [_messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
@@ -80,7 +81,7 @@
     
     //收藏人数
     _collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, self.leftImg.bottom - 23, btnWidth, 21);
+    _collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, self.leftImg.bottom + 10, btnWidth, 21);
     [_collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
     [_collectionBtn setTitle:@"12" forState:UIControlStateNormal];
     [_collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
@@ -97,18 +98,12 @@
     [self.contentView  addSubview:_shareBtn];
     
     //底线
-    self.bottomline = [[UIView alloc] initWithFrame:CGRectMake(0, self.leftImg.bottom+15, kScreenWidth, 1/2.0)];
+    self.bottomline = [[UIView alloc] initWithFrame:CGRectMake(0, _readBtn.bottom + 10, kScreenWidth, 1/2.0)];
     self.bottomline.backgroundColor = [GFICommonTool colorWithHexString:@"#e7e7e7"];
     [self.contentView addSubview:self.bottomline];
     
     self.height = self.bottomline.bottom;
-    //    //button文字的偏移量
-    //    self.clickbtn.titleEdgeInsets = UIEdgeInsetsMake(0,  -(self.clickbtn.imageView.frame.origin.x+self.clickbtn.imageView.frame.size.width), 0, 0);
-    //    //button图片的偏移量
-    //    self.clickbtn.imageEdgeInsets = UIEdgeInsetsMake(0, -(self.clickbtn.imageView.frame.origin.x ), 0, self.clickbtn.imageView.frame.origin.x);
-    
-    
-    
+
 }
 -(void)setModel:(FDHomeModel *)model{
     _model = model;
@@ -116,7 +111,7 @@
     _leftImg.backgroundColor=KWhiteColor;
     [_leftImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"头像"]];
     _desLab.text = model.des;
-    NSString *str =  model.des;
+
     
     if (model.source !=nil && model.source.length != 0) {
         _readBtn.hidden = YES;

@@ -57,7 +57,7 @@
         self.desLab.height = 75;
     }
     NSInteger btnWidth = 60;
-    NSInteger marginNum = (kScreenWidth - 30 - self.leftImg.width - 12 - 3*btnWidth - 21) / 3;
+    NSInteger marginNum = (kScreenWidth - 30 - self.leftImg.width - 12 - 2*btnWidth - 21) / 3;
     
     //搜索  source
     _sourceTitle = [[UILabel alloc]initWithFrame:CGRectMake(self.leftImg.right + 13, self.leftImg.bottom - 23, btnWidth, 21)];

@@ -10,6 +10,7 @@
 #import "FDHomeModel.h"
 #import "FDHomeTableViewCell.h"
 #import "HotListLogic.h"
+#import "FDHomeTwoTableViewCell.h"
 
 @interface BGHotPointTableViewController ()<UITableViewDataSource,UITableViewDelegate,HotListLogicDelegate>
 @property(nonatomic,strong) HotListLogic *logic;//逻辑层
@@ -68,20 +69,35 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FDHomeTableViewCell *cell;
-    //普通咨询
-    static NSString *normalNewID = @"normalNew";
-    cell = [tableView dequeueReusableCellWithIdentifier:normalNewID];
-    if (cell == nil) {
-        cell = [[FDHomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
+    UITableViewCell *cell;
+    if (indexPath.row % 2 == 1){
+        FDHomeTwoTableViewCell *celltwo;
+        //普通咨询
+        static NSString *normalNewID = @"normalTwoNew";
+        celltwo = [tableView dequeueReusableCellWithIdentifier:normalNewID];
+        if (celltwo == nil) {
+            celltwo = [[FDHomeTwoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
+        }
+        
+        celltwo.model = _logic.dataArray[indexPath.row];
+        cell = celltwo;
+    }else{
+        FDHomeTableViewCell *cellone;
+        //普通咨询
+        static NSString *normalNewID = @"normalOneNew";
+        cellone = [tableView dequeueReusableCellWithIdentifier:normalNewID];
+        if (cellone == nil) {
+            cellone = [[FDHomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
+        }
+        
+        cellone.model = _logic.dataArray[indexPath.row];
+        cell = cellone;
     }
-    
-    cell.model = _logic.dataArray[indexPath.row];
-    
+   
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 126;
+    return [self tableView:tableView cellForRowAtIndexPath:indexPath].height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

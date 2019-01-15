@@ -57,10 +57,10 @@
     self.timeLabel.text = @"2018-12-12 09:12";
     if ([_cellType isEqualToString:@"comment"]) {
         //评论
-        self.desLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.left, self.imgView.bottom + 10, kScreenWidth - 15, 50)];
+        self.desLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.imgView.bottom + 10, kScreenWidth - 15, 40)];
     }else{
         //消息
-        self.desLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.left, self.imgView.bottom + 5, kScreenWidth - 70, 35)];
+        self.desLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.imgView.bottom + 5, kScreenWidth - 70, 35)];
     }
    
     self.desLabel.backgroundColor = [UIColor clearColor];
@@ -72,8 +72,8 @@
     [self.desLabel alignTop];
     self.desLabel.numberOfLines = 0;
 
-    if(self.desLabel.height > 50){
-        self.desLabel.height = 50;
+    if(self.desLabel.height > 40){
+        self.desLabel.height = 40;
     }
     
     //评论
@@ -91,10 +91,10 @@
     //底线
     if ([_cellType isEqualToString:@"comment"]) {
 
-        self.bottomline = [[UIView alloc] initWithFrame:CGRectMake(0, self.desLabel.bottom+10, KScreenWidth, 1/2.0)];
+        self.bottomline = [[UIView alloc] initWithFrame:CGRectMake(0, self.desLabel.bottom+5, KScreenWidth, 1/2.0)];
     }else{
 
-        self.bottomline = [[UIView alloc] initWithFrame:CGRectMake(0, self.desBottomlabel.bottom+10, KScreenWidth, 1/2.0)];
+        self.bottomline = [[UIView alloc] initWithFrame:CGRectMake(0, self.desBottomlabel.bottom+5, KScreenWidth, 1/2.0)];
     }
 
     self.bottomline.backgroundColor = [GFICommonTool colorWithHexString:@"#e7e7e7"];

@@ -153,7 +153,6 @@
     }else{
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }
-    [self.tableView.mj_footer endRefreshing];
     if (_logic.dataArray.count == 0) {
         [OMGToast showWithText:@"亲,没有相关的咨询内容" topOffset:KScreenHeight/2 duration:3.0];
     }
