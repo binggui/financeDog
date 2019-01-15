@@ -76,6 +76,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     page = 1;
     _collectionFlag = NO;
     self.navigationController.title = self.title;
+    [self.navigationItem setTitle:@"详情"];
     self.extendedLayoutIncludesOpaqueBars = YES;
     [self.view bringSubviewToFront:self.emptyView];
 //    [self.view addSubview:self.robotImageView];
