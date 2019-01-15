@@ -110,7 +110,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     self.detailWebviewContainer=container;
     
     [self.view addSubview:container];
-
+    [self setupNavigation];
+    
     
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
@@ -119,6 +120,45 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     [self loadClick:nil];
 }
 
+-(void)setupNavigation{
+    //    [self wr_setNavBarBarTintColor:[UIColor clearColor]];
+    //    [self wr_setNavBarBackgroundAlpha:0];
+    //    self.tableView.contentInset = UIEdgeInsetsMake( - NAV_HEIGHT, 0, 0, 0);
+    [self addNavigationItemWithImageNames:@[@"个人"] isLeft:NO target:self action:@selector(gotoShared) tags:@[@999]];
+}
+
+- (void)addNavigationItemWithImageNames:(NSArray *)imageNames isLeft:(BOOL)isLeft target:(id)target action:(SEL)action tags:(NSArray *)tags
+{
+    NSMutableArray * items = [[NSMutableArray alloc] init];
+    //调整按钮位置
+    //    UIBarButtonItem* spaceItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    //    //将宽度设为负值
+    //    spaceItem.width= -5;
+    //    [items addObject:spaceItem];
+    NSInteger i = 0;
+    for (NSString * imageName in imageNames) {
+        UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+        btn.frame = CGRectMake(0, 0, 30, 30);
+        [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+        
+        if (isLeft) {
+            [btn setContentEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
+        }else{
+            [btn setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, -10)];
+        }
+        
+        btn.tag = [tags[i++] integerValue];
+        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:btn];
+        [items addObject:item];
+        
+    }
+    if (isLeft) {
+        self.navigationItem.leftBarButtonItems = items;
+    } else {
+        self.navigationItem.rightBarButtonItems = items;
+    }
+}
 #pragma mark - CircleCellDelegate,LikeUserCellDelegate
 
 - (void)sendContentText:(NSIndexPath *)indexPath andContent: (NSString *)content{
@@ -332,7 +372,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
                                     initWithImage:sharedIcon style:UIBarButtonItemStyleDone
                                     target:self action:@selector(gotoShared)];
     
-    NSArray *arr1 = [[NSArray alloc]initWithObjects:customItem1,spaceItem,customItem2,customItem4,customItem3, nil];
+    NSArray *arr1 = [[NSArray alloc]initWithObjects:customItem1,spaceItem,customItem2,customItem4, nil];
     self.toolbarItems = arr1;
 }
 //将按钮设置为图片在上，文字在下
@@ -430,9 +470,19 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     }];
     NSArray *actions = @[@"分享给好友", @[_shareWeixin, _shareFriends]];
     //    NSArray *actions = @[@"分享到", @[_shareWeixin, _shareFriends, _shareQQFriend, _shareQQZone]];
-    
     DOPScrollableActionSheet *as = [[DOPScrollableActionSheet alloc] initWithActionArray:actions];
-    [as show];
+    
+    //先判断是否登录
+    NSInteger flag = [GFICommonTool isLogin];
+    if (flag == finishLogin) {//已登录
+        [as show];
+    }else{//未登录
+        //为了显示未登录布局，不弹出登录框
+        
+        [GFICommonTool login:self];
+        
+    }
+   
 }
 
 
