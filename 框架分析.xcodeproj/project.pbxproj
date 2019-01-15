@@ -163,6 +163,7 @@
 		72B91D8921DF76C400622EF6 /* DOPScrollableActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8821DF76C400622EF6 /* DOPScrollableActionSheet.m */; };
 		72B91D8C21E06EFD00622EF6 /* BGSearchListLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8B21E06EFD00622EF6 /* BGSearchListLogic.m */; };
 		72B91D8F21E3091500622EF6 /* BGCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B91D8E21E3091500622EF6 /* BGCommentModel.m */; };
+		72CED1CA21EDACE000057067 /* FDHomeTwoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CED1C921EDACE000057067 /* FDHomeTwoTableViewCell.m */; };
 		72D5F6FD21C9DD6A00646D65 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D5F6FB21C9DD6A00646D65 /* AppDelegate.m */; };
 		72D5F6FE21C9DD6A00646D65 /* AppDelegate+AppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D5F6FC21C9DD6A00646D65 /* AppDelegate+AppService.m */; };
 		72DA90E720E474CA00F2F4D5 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DA90E620E474CA00F2F4D5 /* ____Tests.m */; };
@@ -447,6 +448,8 @@
 		72B91D8B21E06EFD00622EF6 /* BGSearchListLogic.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGSearchListLogic.m; sourceTree = "<group>"; };
 		72B91D8D21E3091500622EF6 /* BGCommentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGCommentModel.h; sourceTree = "<group>"; };
 		72B91D8E21E3091500622EF6 /* BGCommentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGCommentModel.m; sourceTree = "<group>"; };
+		72CED1C821EDACE000057067 /* FDHomeTwoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDHomeTwoTableViewCell.h; sourceTree = "<group>"; };
+		72CED1C921EDACE000057067 /* FDHomeTwoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDHomeTwoTableViewCell.m; sourceTree = "<group>"; };
 		72D5F6F921C9DD6A00646D65 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		72D5F6FA21C9DD6A00646D65 /* AppDelegate+AppService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+AppService.h"; sourceTree = "<group>"; };
 		72D5F6FB21C9DD6A00646D65 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1086,6 +1089,8 @@
 				726025E721CA3262003649C9 /* WGProductImageView.m */,
 				726025CC21CA1486003649C9 /* FDHomeTableViewCell.h */,
 				726025CD21CA1486003649C9 /* FDHomeTableViewCell.m */,
+				72CED1C821EDACE000057067 /* FDHomeTwoTableViewCell.h */,
+				72CED1C921EDACE000057067 /* FDHomeTwoTableViewCell.m */,
 				727E7EAA20AD755800C6DDA4 /* PersonListCollectionViewCell.h */,
 				727E7EAB20AD755800C6DDA4 /* PersonListCollectionViewCell.m */,
 				727E7EAC20AD755800C6DDA4 /* WaterFallCollectionViewCell.h */,
@@ -1678,6 +1683,7 @@
 				7260263E21CB849F003649C9 /* ProfileViewController.m in Sources */,
 				726026C321D0859A003649C9 /* CXTexeFileBgView.m in Sources */,
 				72A74B7F21E9E9D8000F2E4B /* MessageAndCommentModel.m in Sources */,
+				72CED1CA21EDACE000057067 /* FDHomeTwoTableViewCell.m in Sources */,
 				72B91D4321DC972600622EF6 /* LSDetainViewController.m in Sources */,
 				72B91D8C21E06EFD00622EF6 /* BGSearchListLogic.m in Sources */,
 				72B91D5121DCBB9E00622EF6 /* WeiboCommentModel.m in Sources */,

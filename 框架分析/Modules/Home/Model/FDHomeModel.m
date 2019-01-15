@@ -21,7 +21,8 @@
              @"url":@"url",
              @"publishTime":@"update_time",
              @"source":@"post_source",
-             @"excerpt":@"post_excerpt"
+             @"excerpt":@"post_excerpt",
+             @"user_id":@"user_id" 
              };
    
 }

@@ -74,7 +74,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     BGCommentTableViewCell *cell;
-    MessageAndCommentModel *model = self.logic.dataArray[indexPath.row];
+    MessageAndCommentModel *model = self.logic.dataArray[indexPath.section];
     static NSString *normalNewID = @"normalNew";
     cell = [tableView dequeueReusableCellWithIdentifier:normalNewID];
     if (cell == nil) {
@@ -129,7 +129,7 @@
     self.leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 180/2, 180/2)];
     self.leftImg.contentMode = UIViewContentModeScaleToFill;
     self.leftImg.clipsToBounds = YES;
-    self.leftImg.image = [UIImage imageNamed:@"头像"];
+    [self.leftImg sd_setImageWithURL:model.img placeholderImage:[UIImage imageNamed:@"头像"]];
     //    if(![GFICommonTool isBlankString:[dic objectForKey:@"iconurl"]]){
     //        [self.leftImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"iconurl"]] placeholderImage:[UIImage imageNamed:@"placeholder_default"]];
     //    }

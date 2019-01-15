@@ -66,8 +66,7 @@
                     [tempArr addObject:model];
                 }
                 if(tempArr.count > 0){
-                    
-                    self.dataArray = tempArr.mutableCopy;
+                    [self.dataArray addObjectsFromArray:tempArr];
                     if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
                         [self.delegagte requestDataCompleted];
                     }

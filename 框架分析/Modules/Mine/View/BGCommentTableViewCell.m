@@ -104,10 +104,12 @@
     
 }
 - (void)setModel:(MessageAndCommentModel *)model{
+    
     if (model.recommend_name != nil && model.recommend_name.length >0) {
         self.titleLabel.text = model.recommend_name;
         self.timeLabel.text = [self returndate: model.recommend_time];
         self.desLabel.text = model.content;
+        [self.imgView sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"头像"]];
     }else{
         self.titleLabel.text = model.name;
         self.timeLabel.text = [self returndate: model.pushTime];

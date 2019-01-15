@@ -49,7 +49,7 @@ static NSString *const cellfidf=@"TTWeiboCommentCell";
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 85;
+    return 95;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

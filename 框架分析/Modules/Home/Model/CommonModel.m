@@ -24,7 +24,8 @@
              @"url":@"url",
              @"jumpUrl":@"portal_url",
              @"publishTime":@"update_time",
-             @"source":@"post_source"
+             @"source":@"post_source",
+             @"user_id":@"user_id" 
              };
 
 }

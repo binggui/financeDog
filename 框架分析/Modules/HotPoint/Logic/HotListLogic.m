@@ -132,7 +132,7 @@
                 
                 if(tempNewsArr.count > 0){
                     
-                    self.dataArray = tempNewsArr.mutableCopy;
+                    [self.dataArray addObjectsFromArray:tempNewsArr];
                   
                 }
                 if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {

@@ -69,7 +69,9 @@
 //网络请求
 - (void)getPics{
 
-
+    if (_page == 0) {
+        [_dataArray removeAllObjects];
+    }
     [HRHTTPTool postWithURL:kJRG_index_info parameters:nil success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
@@ -85,7 +87,7 @@
                 }
                 if(tempNewsArr.count > 0){
                     
-                    self.dataArray = tempNewsArr.mutableCopy;
+                    [self.dataArray addObjectsFromArray:tempNewsArr];
                     if (self.delegagte && [self.delegagte respondsToSelector:@selector(requestDataCompleted)]) {
                         
                             [self.delegagte requestDataCompleted];

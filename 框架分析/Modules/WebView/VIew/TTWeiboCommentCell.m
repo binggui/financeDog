@@ -53,10 +53,10 @@
     }
 }
 - (void)setModel:(BGCommentModel *)model{
-    if (model.comment_more != nil ) {
-        self.remmentButton.hidden = NO;
-    }else{
+    if (model.comment_activity_id != nil ) {
         self.remmentButton.hidden = YES;
+    }else{
+        self.remmentButton.hidden = NO;
     }
     [self.txImg sd_setImageWithURL:[NSURL URLWithString:model.comment_avatal]];
     [self.nameShow setTitle:model.comment_name forState:0];

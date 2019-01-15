@@ -16,6 +16,8 @@
 @property (copy, nonatomic) NSString * target;
 @property (copy, nonatomic) NSString * title;
 @property (copy, nonatomic) NSString * name;
+@property (copy, nonatomic) NSString * avatar;
+@property (copy, nonatomic) NSString * img;
 
 @property (nonatomic, copy)NSString *recommend_name;
 @property (copy, nonatomic) NSString * recommend_user_id;

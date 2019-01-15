@@ -34,6 +34,8 @@
 //对应详情页的id
 #pragma warning
 @property (nonatomic, copy)NSString *ID;
+
+@property (nonatomic, copy)NSString *user_id;
 //详情页URL
 @property (nonatomic, copy)NSString *url;
 

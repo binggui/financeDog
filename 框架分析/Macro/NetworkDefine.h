@@ -109,7 +109,7 @@
 #define kJRG_getparam_info  kportal_commentUrl  @"getparam"//文章获取阅读量
 
 #define kJRG_portal_addcomment_info kportal_commentUrl @"addcomment"//评论子类
-#define kJRG_portal_comment_info kportal_commentUrl @"comment"//评论子类
+#define kJRG_portal_comment_info kportal_commentUrl @"comment"//文章评论
 #define kJRG_dofavourite_info kportal_commentUrl @"dofavourite"//收藏
 #define kJRG_comment_info kcommentUrl @"comment"//评论
 #define kJRG_bindwx kBaseUrl @"bindwx"   //绑定判断

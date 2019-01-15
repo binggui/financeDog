@@ -31,6 +31,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     DOPAction *_shareWeixin;
     DOPAction *_shareFriends;
     NSInteger indexRow;
+    NSInteger page;
     
 }
 @property (assign, nonatomic) NSInteger  personCollection;
@@ -72,6 +73,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     [_shareImg sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
     [self setupViews1];
     indexRow = 0;
+    page = 1;
     _collectionFlag = NO;
     self.navigationController.title = self.title;
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -185,7 +187,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 -(void)loadMoreData
 {
-
+    page += 1;
     [self getPics:nil andType:1 andUrl:kJRG_portal_comment_info];
 
 }
@@ -469,12 +471,11 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
     if (type == 1) {
         [params setObject:self.model.ID forKey:@"portal_id"];
+        [params setObject:@(page) forKey:@"index"];
     }else if(type == 2){
-        BGCommentModel *model = self.datas [indexRow];
-        NSInteger userId = model.comment_user_id;
         [params setObject:self.model.ID forKey:@"portal_id"];
         [params setObject:@(0) forKey:@"parent_id"];
-        [params setObject:@(userId) forKey:@"to_user_id"];
+        [params setObject:self.model.user_id forKey:@"to_user_id"];
         [params setObject:content forKey:@"content"];
     }else if (type == 3){
         BGCommentModel *model = self.datas [indexRow];
@@ -497,9 +498,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
                         
                     }
                     
-                    if(tempNewsArr.count > 0){
-                        
-                        self.datas = tempNewsArr.mutableCopy;
+                    if(tempNewsArr.count > 0 && tempNewsArr !=nil){
+                        [self.datas addObjectsFromArray:tempNewsArr];
                         
                     }
                     
@@ -510,8 +510,9 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
                     }
                     [self.detailWebviewContainer.tableview reloadData];
                 }else{
-                    [self.datas removeAllObjects];
                     
+                    [self.datas removeAllObjects];
+                    page = 1;
                     [self getPics:nil andType:1 andUrl:kJRG_portal_comment_info];
                     _headerTitle.text = [NSString stringWithFormat:@"全部评论 (%@)",_recommendCount];
                 }
@@ -572,8 +573,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     WXMediaMessage * message = [WXMediaMessage message];
     message.title = self.model.des;
     message.description = self.model.excerpt;
-
-    [message setThumbImage:_shareImg.image];
+    UIImage *img = [UIImage imageWithData:[self imageWithImage:_shareImg.image scaledToSize:CGSizeMake(300, 300)]];
+    [message setThumbImage:img];
     
     WXWebpageObject * webPageObject = [WXWebpageObject object];
     webPageObject.webpageUrl = self.model.url;
@@ -589,5 +590,18 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
     
 }
+// ------这种方法对图片既进行压缩，又进行裁剪
+- (NSData *)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return UIImageJPEGRepresentation(newImage, 0.8);
+}
+
+
+
+
 
 @end

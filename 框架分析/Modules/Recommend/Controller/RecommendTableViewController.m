@@ -34,6 +34,7 @@
 @property (strong, nonatomic) UIButton * readBtn;
 @property (strong, nonatomic) UIButton * messageBtn;
 @property (strong, nonatomic) UIButton * collectionBtn;
+@property (strong, nonatomic) UIImageView * shareImg;
 @end
 
 @implementation RecommendTableViewController
@@ -50,6 +51,8 @@
     _logic = [CommonListLogic new];
     _logic.type = 2;
     _logic.delegagte = self;
+    _shareImg = [[UIImageView alloc]init];
+    [_shareImg sd_setImageWithURL:[NSURL URLWithString:_topDic[@"thumbnail"]]];
 
 }
 -(void)setupNavigation{
@@ -397,9 +400,11 @@
     
     
     WXMediaMessage * message = [WXMediaMessage message];
-    message.title = @"分享标题";
+    message.title = _topDic[@"post_title"];
     message.description = _topDic[@"post_excerpt"];
-    [message setThumbImage:[UIImage imageNamed:@"DefaultImg"]];
+    
+    UIImage *img = [UIImage imageWithData:[self imageWithImage:_shareImg.image scaledToSize:CGSizeMake(300, 300)]];
+    [message setThumbImage:img];
     
     WXWebpageObject * webPageObject = [WXWebpageObject object];
     webPageObject.webpageUrl = _topDic[@"url"];
@@ -414,6 +419,15 @@
     [WXApi sendReq:req1];
 
     
+}
+// ------这种方法对图片既进行压缩，又进行裁剪
+- (NSData *)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return UIImageJPEGRepresentation(newImage, 0.8);
 }
 
 //网络请求

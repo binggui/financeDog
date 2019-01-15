@@ -38,5 +38,6 @@
 //搜索
 @property (copy, nonatomic) NSString * publishTime;
 @property (copy, nonatomic) NSString * source;
+@property (copy, nonatomic) NSString * user_id;
 
 @end

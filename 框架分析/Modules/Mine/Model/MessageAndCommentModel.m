@@ -27,7 +27,9 @@
              @"recommend_favorites":@"post_favorites",
              @"recommend_like":@"post_like",
              @"recommend_count":@"comment_count",
-             @"recommend_url":@"url"
+             @"recommend_url":@"url",
+             @"avatar":@"avatar",
+             @"img":@"thumbnail"
              };
 
 }
