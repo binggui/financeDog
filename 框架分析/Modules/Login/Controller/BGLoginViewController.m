@@ -66,7 +66,7 @@
 
     if (self.showFlag) {//登录1,注册0
         _usersTestField.placeholder = @"输入手机号/用户名";
-        _passwordTestField.placeholder = @"输入密码";
+        _passwordTestField.placeholder = @"密码至少6位";
         _passwordTestField.secureTextEntry = YES;
         [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
         [_registerButton setTitle:@"新用户注册账号" forState:UIControlStateNormal];

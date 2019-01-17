@@ -41,7 +41,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    [self.view addSubview:self.robotImageView];
 }
 
 - (void)didReceiveMemoryWarning {

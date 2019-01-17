@@ -11,6 +11,7 @@
 #import "FDHomeTableViewCell.h"
 #import "HotListLogic.h"
 #import "FDHomeTwoTableViewCell.h"
+#import "FDHomeThreeTableViewCell.h"
 
 @interface BGHotPointTableViewController ()<UITableViewDataSource,UITableViewDelegate,HotListLogicDelegate>
 @property(nonatomic,strong) HotListLogic *logic;//逻辑层
@@ -30,12 +31,13 @@
 
 }
 -(void)setupUI{
-    self.tableView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight - TAB_HEIGHT - TAB_HEIGHT - 40);
+    self.tableView.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight - TAB_HEIGHT - TAB_HEIGHT - 60);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.sectionFooterHeight = 0;
     [self.view addSubview:self.tableView];
     self.robotImageView.frame = CGRectMake(kScreenWidth-62, self.tableView.frame.size.height - 90, 42, 42);
+    self.robotImageView.hidden=YES;
     [self.view addSubview:self.robotImageView];
     
     self.tableView.rowHeight = 126;
@@ -49,6 +51,14 @@
 
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
 
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+
+    if(scrollView.contentOffset.y >= scrollHeightDefault) {
+            self.robotImageView.hidden=NO;
+        }else{
+            self.robotImageView.hidden=YES;
+        }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -70,18 +80,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
-    if (indexPath.row % 2 == 1){
-        FDHomeTwoTableViewCell *celltwo;
+    
+    FDHomeModel *model = _logic.dataArray[indexPath.row];
+    if (model.is_show  == 1){
+        FDHomeTwoTableViewCell *cellone;
         //普通咨询
         static NSString *normalNewID = @"normalTwoNew";
-        celltwo = [tableView dequeueReusableCellWithIdentifier:normalNewID];
-        if (celltwo == nil) {
-            celltwo = [[FDHomeTwoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
+        cellone = [tableView dequeueReusableCellWithIdentifier:normalNewID];
+        if (cellone == nil) {
+            cellone = [[FDHomeTwoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
         }
         
-        celltwo.model = _logic.dataArray[indexPath.row];
-        cell = celltwo;
-    }else{
+        cellone.model = model;
+        cell = cellone;
+    }else if (model.is_show  == 2){
         FDHomeTableViewCell *cellone;
         //普通咨询
         static NSString *normalNewID = @"normalOneNew";
@@ -90,7 +102,18 @@
             cellone = [[FDHomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
         }
         
-        cellone.model = _logic.dataArray[indexPath.row];
+        cellone.model = model;
+        cell = cellone;
+    }else if (model.is_show  == 3){
+        FDHomeThreeTableViewCell *cellone;
+        //普通咨询
+        static NSString *normalNewID = @"normalThreeNew";
+        cellone = [tableView dequeueReusableCellWithIdentifier:normalNewID];
+        if (cellone == nil) {
+            cellone = [[FDHomeThreeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalNewID];
+        }
+        
+        cellone.model = model;
         cell = cellone;
     }
    

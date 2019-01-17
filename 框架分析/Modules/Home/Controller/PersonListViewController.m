@@ -193,6 +193,7 @@
     self.collectionView.dataSource = self;
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.robotImageView];
+    self.robotImageView.hidden=YES;
     
 }
 //网络请求
@@ -268,6 +269,14 @@
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     
     
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if(scrollView.contentOffset.y >= scrollHeightDefault) {
+        self.robotImageView.hidden=NO;
+    }else{
+        self.robotImageView.hidden=YES;
+    }
 }
 #pragma mark ————— 下拉刷新 —————
 -(void)headerRereshing{

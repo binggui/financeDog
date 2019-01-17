@@ -26,7 +26,14 @@
 
 @property (nonatomic,assign) NSInteger column;
 
+@property (nonatomic, assign)NSInteger is_show;
+//图片地址
+@property (nonatomic, copy)NSArray *photos;
+
 @property (nonatomic, assign)NSInteger type;
+
+@property (nonatomic, assign)NSInteger is_fav;
+
 //图片地址
 @property (nonatomic, copy)NSString *img;
 //描述信息

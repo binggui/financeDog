@@ -44,11 +44,11 @@
     _goodFlag = !_goodFlag;
     if(_goodFlag){
         [self.goodButton setTitle:[NSString stringWithFormat:@"%ld",_model.comment_like + 1] forState:UIControlStateNormal];
-        [self.goodButton setImage:[UIImage imageNamed:@"点赞选中"] forState:UIControlStateNormal];
+        [self.goodButton setImage:[UIImage imageNamed:@"点赞选中3"] forState:UIControlStateNormal];
     
     }else{
         [self.goodButton setTitle:[NSString stringWithFormat:@"%ld",_model.comment_like] forState:UIControlStateNormal];
-        [self.goodButton setImage:[UIImage imageNamed:@"点赞"] forState:UIControlStateNormal];
+        [self.goodButton setImage:[UIImage imageNamed:@"点赞3"] forState:UIControlStateNormal];
 
     }
 }

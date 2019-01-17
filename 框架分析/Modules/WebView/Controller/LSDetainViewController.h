@@ -15,5 +15,5 @@
 @property (nonatomic,assign) BOOL firstConfigute;
 @property (strong, nonatomic) NSString * title;
 @property (strong, nonatomic) FDHomeModel * model;
-
+@property (assign, nonatomic) NSInteger  ID;
 @end

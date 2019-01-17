@@ -22,7 +22,13 @@
              @"publishTime":@"update_time",
              @"source":@"post_source",
              @"excerpt":@"post_excerpt",
-             @"user_id":@"user_id" 
+             @"user_id":@"user_id",
+             @"is_show":@"is_show",
+             @"photos":@"photos",
+             @"is_fav":@"is_fav"
+             
+             
+             
              };
    
 }

@@ -115,7 +115,7 @@
     [_collectionBtn addTarget:self action:@selector(makeACollection) forControlEvents:UIControlEventTouchUpInside];
     [_collectionBtn setTitle:@"30" forState:UIControlStateNormal];
     [_collectionBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
+    [_collectionBtn setImage:[UIImage imageNamed:@"收藏3"] forState:UIControlStateNormal];
     _collectionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     _collectionBtn.frame = CGRectMake(0, 0, 60, 40);
     [self initButton:_collectionBtn];

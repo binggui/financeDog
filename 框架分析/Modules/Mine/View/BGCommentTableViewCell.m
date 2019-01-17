@@ -114,6 +114,7 @@
         self.titleLabel.text = model.name;
         self.timeLabel.text = [self returndate: model.pushTime];
         self.desLabel.text = model.content;
+        [self.imgView sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:[UIImage imageNamed:@"金融狗"]];
     }
     
 

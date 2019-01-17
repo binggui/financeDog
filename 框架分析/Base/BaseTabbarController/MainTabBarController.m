@@ -70,7 +70,7 @@
     controller.tabBarItem.image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     controller.tabBarItem.selectedImage = [[UIImage imageNamed:selectImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     //未选中字体颜色
-    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[GFICommonTool colorWithHexString:@"#a0a0a0"],NSFontAttributeName:SYSTEMFONT(10.0f)} forState:UIControlStateNormal];
+    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[GFICommonTool colorWithHexString:@"#e0e0e0"],NSFontAttributeName:SYSTEMFONT(10.0f)} forState:UIControlStateNormal];
     
     //选中字体颜色
     [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:SYSTEMFONT(10.0f)} forState:UIControlStateSelected];

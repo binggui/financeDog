@@ -35,7 +35,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     
 }
 @property (assign, nonatomic) NSInteger  personCollection;
-
+@property (assign, nonatomic) NSInteger  personGood;
 @property (assign, nonatomic) NSInteger  commentCount;
 
 @property (nonatomic,strong) NSMutableArray *datas;//底部tableview的数据
@@ -47,11 +47,14 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 @property (nonatomic, strong)popView *popview;
 
+@property (strong, nonatomic) UIButton * goodBtn;
+
 @property (strong, nonatomic) UIButton * collectionBtn;
 
 @property (strong, nonatomic) UIButton * readBtn;
 
 @property (assign, nonatomic) BOOL  collectionFlag;
+
 
 @property(nonatomic,strong) NSArray *dataArrs;//评论数据
 
@@ -59,6 +62,8 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 
 @property (strong, nonatomic) UIImageView * shareImg;
 @property (strong, nonatomic) UILabel * headerTitle;
+@property (strong, nonatomic) FDHomeModel *getParamsModel;
+
 @end
 
 @implementation LSDetainViewController
@@ -72,9 +77,10 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     _shareImg = [[UIImageView alloc]init];
     [_shareImg sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
     [self setupViews1];
+    [self getPicsCount:self.model.ID];
     indexRow = 0;
     page = 1;
-    _collectionFlag = NO;
+    _personGood = 0;
     self.navigationController.title = self.title;
     [self.navigationItem setTitle:@"详情"];
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -125,7 +131,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     //    [self wr_setNavBarBarTintColor:[UIColor clearColor]];
     //    [self wr_setNavBarBackgroundAlpha:0];
     //    self.tableView.contentInset = UIEdgeInsetsMake( - NAV_HEIGHT, 0, 0, 0);
-    [self addNavigationItemWithImageNames:@[@"个人"] isLeft:NO target:self action:@selector(gotoShared) tags:@[@999]];
+    [self addNavigationItemWithImageNames:@[@"分享2"] isLeft:NO target:self action:@selector(gotoShared) tags:@[@999]];
 }
 
 - (void)addNavigationItemWithImageNames:(NSArray *)imageNames isLeft:(BOOL)isLeft target:(id)target action:(SEL)action tags:(NSArray *)tags
@@ -357,23 +363,18 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     _collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [_collectionBtn addTarget:self action:@selector(makeACollection) forControlEvents:UIControlEventTouchUpInside];
-    [_collectionBtn setTitle:self.model.collectionCount forState:UIControlStateNormal];
-    [_collectionBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [_collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
-    _collectionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     _collectionBtn.frame = CGRectMake(0, 0, 60, 40);
-    [self initButton:_collectionBtn];
     UIBarButtonItem *customItem4 = [[UIBarButtonItem alloc]initWithCustomView:_collectionBtn];
     
+    //点赞按钮
+    _goodBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    //分享按钮
-    UIImage *sharedIcon = [UIImage imageNamed:@"分享1"];
-    sharedIcon = [sharedIcon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *customItem3 = [[UIBarButtonItem alloc]
-                                    initWithImage:sharedIcon style:UIBarButtonItemStyleDone
-                                    target:self action:@selector(gotoShared)];
+    [_goodBtn addTarget:self action:@selector(makeAGood) forControlEvents:UIControlEventTouchUpInside];
+    [_goodBtn setImage:[UIImage imageNamed:@"点赞3"] forState:UIControlStateNormal];
+    _goodBtn.frame = CGRectMake(0, 0, 60, 40);
+    UIBarButtonItem *customItem3 = [[UIBarButtonItem alloc]initWithCustomView:_goodBtn];
     
-    NSArray *arr1 = [[NSArray alloc]initWithObjects:customItem1,spaceItem,customItem2,customItem4, nil];
+    NSArray *arr1 = [[NSArray alloc]initWithObjects:customItem1,spaceItem,customItem2,customItem4,customItem3, nil];
     self.toolbarItems = arr1;
 }
 //将按钮设置为图片在上，文字在下
@@ -413,44 +414,100 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
 //阅读量
 - (void)readNumber{
     NSLog(@"阅读量");
-}
 
+   
+}
+//点赞
+- (void)makeAGood{
+
+    if (_personGood == 0) {
+        
+        
+        NSLog(@"按实际覅");
+        [self postPicsCollection:kJRG_dolike_info andType:1 andCollection:0];
+    }
+    
+
+    
+    
+    
+}
 //收藏
 - (void)makeACollection{
-    NSLog(@"点赞");
     _collectionFlag = !_collectionFlag;
     if(_collectionFlag){
-        
-        NSString *collection = [NSString stringWithFormat:@"%d",[self.model.collectionCount  intValue] + 1];
-        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏1选中"] forState:UIControlStateNormal];
-        [self.collectionBtn setTitle:collection forState:UIControlStateNormal];
         _personCollection = 1;
     }else{
-        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
-        [self.collectionBtn setTitle:self.model.collectionCount forState:UIControlStateNormal];
         _personCollection = 0;
     }
-    [self postPicsCollection];
+    [self postPicsCollection:kJRG_dofavourite_info andType:_personCollection andCollection:1];
     
 }
-//网络请求
-- (void)postPicsCollection{
+
+//获取浏览数收藏状态
+- (void)getPicsCount:(NSString *)ID{
+    NSMutableDictionary *params = [NSMutableDictionary new];
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:ID forKey:@"portal_id"];
     
-    [params setObject:self.model.ID  forKey:@"portal_id"];
-    [params setObject:@(_personCollection) forKey:@"status"];
-    
-    
-    
-    [HRHTTPTool postWithURL:kJRG_dofavourite_info parameters:params success:^(id json) {
+    [HRHTTPTool postWithURL:kJRG_getparam_info parameters:params success:^(id json) {
         NSString *result = [json objectForKey:@"error_code"];
         if ([result intValue] == 200) {
             if ([json isKindOfClass:[NSDictionary class]]) {
                 
-               
+                NSDictionary *dict = [json objectForKey:@"result"];
+                self.getParamsModel = [FDHomeModel mj_objectWithKeyValues:dict];
                 
+                if (self.getParamsModel.is_fav == 0) {
+                    [self.collectionBtn setImage:[UIImage imageNamed:@"收藏3"] forState:UIControlStateNormal];
+                    _collectionFlag = NO;
+                }else{
+                    [self.collectionBtn setImage:[UIImage imageNamed:@"收藏选中3"] forState:UIControlStateNormal];
+                    _collectionFlag = YES;
+                }
             }
+        }
+    } failure:^(NSError *error) {
+      
+        NSLog(@"error == %@",error);
+    }];
+    
+}
+
+//点赞收藏上传
+- (void)postPicsCollection:(NSString *)url andType:(NSInteger)type andCollection:(NSInteger)flag{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (flag == 1) {
+        [params setObject:self.model.ID  forKey:@"portal_id"];
+        [params setObject:@(type) forKey:@"status"];
+    }else{
+        [params setObject:self.model.ID  forKey:@"object_id"];
+    }
+
+    [HRHTTPTool postWithURL:url parameters:params success:^(id json) {
+        NSString *result = [json objectForKey:@"error_code"];
+        if ([result intValue] == 200) {
+            if ([json isKindOfClass:[NSDictionary class]]) {
+                if (flag == 1) {
+                    if (type == 0) {
+                        
+                        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏3"] forState:UIControlStateNormal];
+      
+                        [OMGToast showWithText:@"取消收藏" topOffset:KScreenHeight/2 duration:1.7];
+                    }else{
+                        [self.collectionBtn setImage:[UIImage imageNamed:@"收藏选中3"] forState:UIControlStateNormal];
+                        [OMGToast showWithText:@"收藏成功" topOffset:KScreenHeight/2 duration:1.7];
+                    }
+                }else{
+                        [self.goodBtn setImage:[UIImage imageNamed:@"点赞选中3"] forState:UIControlStateNormal];
+                        _personGood = 1;
+                        [OMGToast showWithText:@"点赞成功" topOffset:KScreenHeight/2 duration:1.7];
+                }
+            }
+        }else{
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
         }
     } failure:^(NSError *error) {
         NSLog(@"error == %@",error);
@@ -485,8 +542,6 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     }
    
 }
-
-
 
 -(UIImageView *)robotImageView{
     if (_robotImageView == nil) {
@@ -625,7 +680,7 @@ static NSString *const cellTwofidf=@"TTWeiboCommentTwoCell";
     message.title = self.model.des;
     message.description = self.model.excerpt;
     UIImage *img = [UIImage imageWithData:[self imageWithImage:_shareImg.image scaledToSize:CGSizeMake(300, 300)]];
-    [message setThumbImage:img];
+    [message setThumbImage:[UIImage imageNamed:@"金融狗"]];
     
     WXWebpageObject * webPageObject = [WXWebpageObject object];
     webPageObject.webpageUrl = self.model.url;

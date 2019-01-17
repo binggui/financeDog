@@ -129,6 +129,7 @@
 		727E7EC220AD76CA00C6DDA4 /* RootWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 727E7EC120AD76CA00C6DDA4 /* RootWebViewController.m */; };
 		727E7EC620AD774000C6DDA4 /* EmitterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 727E7EC520AD774000C6DDA4 /* EmitterViewController.m */; };
 		727FDB1121E37F7D0039FBDC /* BGShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 727FDB1021E37F7D0039FBDC /* BGShareModel.m */; };
+		729683ED21EDDCA200588FB6 /* FDHomeThreeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 729683EC21EDDCA200588FB6 /* FDHomeThreeTableViewCell.m */; };
 		72A74B7721E9D9FF000F2E4B /* WechatAndPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A74B7521E9D9FF000F2E4B /* WechatAndPhoneViewController.m */; };
 		72A74B7821E9D9FF000F2E4B /* WechatAndPhoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72A74B7621E9D9FF000F2E4B /* WechatAndPhoneViewController.xib */; };
 		72A74B7B21E9E77B000F2E4B /* BGMessageAndCommentLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A74B7A21E9E77B000F2E4B /* BGMessageAndCommentLogic.m */; };
@@ -383,6 +384,8 @@
 		727E7EC520AD774000C6DDA4 /* EmitterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmitterViewController.m; sourceTree = "<group>"; };
 		727FDB0F21E37F7D0039FBDC /* BGShareModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BGShareModel.h; sourceTree = "<group>"; };
 		727FDB1021E37F7D0039FBDC /* BGShareModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BGShareModel.m; sourceTree = "<group>"; };
+		729683EB21EDDCA200588FB6 /* FDHomeThreeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDHomeThreeTableViewCell.h; sourceTree = "<group>"; };
+		729683EC21EDDCA200588FB6 /* FDHomeThreeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDHomeThreeTableViewCell.m; sourceTree = "<group>"; };
 		729BD84A20AC320600767D92 /* 框架分析.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "框架分析.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72A74B7421E9D9FF000F2E4B /* WechatAndPhoneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WechatAndPhoneViewController.h; sourceTree = "<group>"; };
 		72A74B7521E9D9FF000F2E4B /* WechatAndPhoneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WechatAndPhoneViewController.m; sourceTree = "<group>"; };
@@ -1091,6 +1094,8 @@
 				726025CD21CA1486003649C9 /* FDHomeTableViewCell.m */,
 				72CED1C821EDACE000057067 /* FDHomeTwoTableViewCell.h */,
 				72CED1C921EDACE000057067 /* FDHomeTwoTableViewCell.m */,
+				729683EB21EDDCA200588FB6 /* FDHomeThreeTableViewCell.h */,
+				729683EC21EDDCA200588FB6 /* FDHomeThreeTableViewCell.m */,
 				727E7EAA20AD755800C6DDA4 /* PersonListCollectionViewCell.h */,
 				727E7EAB20AD755800C6DDA4 /* PersonListCollectionViewCell.m */,
 				727E7EAC20AD755800C6DDA4 /* WaterFallCollectionViewCell.h */,
@@ -1636,6 +1641,7 @@
 				72B91D3C21DC66FF00622EF6 /* NSObject+Function.m in Sources */,
 				72B91D3F21DC94F900622EF6 /* LSNewsDetailWebviewContainer.m in Sources */,
 				72B91D3521D37F6700622EF6 /* CommonListLogic.m in Sources */,
+				729683ED21EDDCA200588FB6 /* FDHomeThreeTableViewCell.m in Sources */,
 				72B91D8421DF368100622EF6 /* OMGToastShow.m in Sources */,
 				727E7EBB20AD75D800C6DDA4 /* UICollectionView+IndexPath.m in Sources */,
 				727E7EC220AD76CA00C6DDA4 /* RootWebViewController.m in Sources */,

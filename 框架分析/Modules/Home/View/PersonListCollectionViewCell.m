@@ -19,7 +19,9 @@
 @property (strong, nonatomic) UIView *line1;//线1
 @property (strong, nonatomic) UIView *line2;//线2
 @property (strong, nonatomic) UIButton * readBtn;
-
+@property (strong, nonatomic) UIButton * messageBtn;
+@property (strong, nonatomic) UIButton * collectionBtn;
+@property (strong, nonatomic) UIButton * shareBtn;
 @end
 @implementation PersonListCollectionViewCell
 
@@ -40,30 +42,46 @@
         _lblHobby.font=FFont1;
         [self addSubview:_lblHobby];
         
-        _line1=[[UIView alloc]initWithFrame:CGRectMake(0, _lblHobby.bottom+10, frame.size.width, 0.5)];
+        _line1=[[UIView alloc]initWithFrame:CGRectMake(0, _lblHobby.bottom + 10, frame.size.width, 1)];
         _line1.backgroundColor=CLineColor;
         [self addSubview:_line1];
+    
+        NSInteger btnWidth = 50;
+        if (kISiPhone5) {
+            btnWidth = 40;
+        }
+        NSInteger marginNum = (frame.size.width - 20 - 3*btnWidth) / 2;
         
-        _lblFrom=[[UILabel alloc]initWithFrame:CGRectMake(10, _line1.bottom +10, frame.size.width - 80, 21)];
-        _lblFrom.textColor=CFontColor2;
-        _lblFrom.font=FFont1;
-        [self addSubview:_lblFrom];
-        
-        
+        //阅读量
         _readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _readBtn.frame = CGRectMake(frame.size.width - 70, _lblFrom.top - 23, 60, 21);
-        [_readBtn setImage:[UIImage imageNamed:@"浏览"] forState:UIControlStateNormal];
-        [_readBtn setTitle:@"1600" forState:UIControlStateNormal];
+        _readBtn.frame = CGRectMake(10, _line1.bottom +10, btnWidth, 21);
+        [_readBtn setImage:[UIImage imageNamed:@"阅读量1"] forState:UIControlStateNormal];
+        [_readBtn setTitle:@"999+" forState:UIControlStateNormal];
         [_readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
-        _readBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 0);
+        _readBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 2);
         _readBtn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
         [self  addSubview:_readBtn];
         
-//        _juli=[[UILabel alloc]initWithFrame:CGRectMake(self.width - 80, _line1.bottom +10, 70, 15)];
-//        _juli.textAlignment = NSTextAlignmentRight;
-//        _juli.textColor=CFontColor2;
-//        _juli.font=FFont1;
-//        [self addSubview:_juli];
+        //回复人数
+        _messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _messageBtn.frame = CGRectMake(_readBtn.right + marginNum, self.readBtn.top, btnWidth, 21);
+        [_messageBtn setImage:[UIImage imageNamed:@"评论1"] forState:UIControlStateNormal];
+        [_messageBtn setTitle:@"30" forState:UIControlStateNormal];
+        [_messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
+        _messageBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 2);
+        _messageBtn.titleLabel.font = [UIFont systemFontOfSize: 13.0];
+        [self  addSubview:_messageBtn];
+        
+        //收藏人数
+        _collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, self.readBtn.top, btnWidth, 21);
+        [_collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
+        [_collectionBtn setTitle:@"12" forState:UIControlStateNormal];
+        [_collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
+        _collectionBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -8, 0, 2);
+        _collectionBtn.titleLabel.font = [UIFont systemFontOfSize: 13.0];
+        [self addSubview:_collectionBtn];
+        
     }
     return self;
 }
@@ -86,7 +104,9 @@
     _lblHobby.frame=CGRectMake(10, _imgView.bottom+10, self.frame.size.width-20, personModel.hobbysHeight);
 
     _line1.top=_lblHobby.bottom+10;
-    _lblFrom.top=_line1.bottom+10;
-    _readBtn.top = _lblFrom.top;
+    _readBtn.top=_line1.bottom+10;
+    _messageBtn.top = _readBtn.top;
+    _collectionBtn.top = _readBtn.top;
+    
 }
 @end

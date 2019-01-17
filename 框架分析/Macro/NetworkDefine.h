@@ -102,6 +102,7 @@
 #define kportal_commentUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.commentapi/"
 #define kpushnewUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.pushnewapi/"
 #define kdofavouriteUrl @"http://jrg.yunmeitiweb.com/portal/phoneapi.pushnewapi/"
+#define kdolikeUrl @"http://jrg.yunmeitiweb.com/portal/news/"
 
 
 #define kJRG_getchildcomment_info  kportal_commentUrl  @"getchildcomment"//文章获取阅读量
@@ -111,6 +112,9 @@
 #define kJRG_portal_addcomment_info kportal_commentUrl @"addcomment"//评论子类
 #define kJRG_portal_comment_info kportal_commentUrl @"comment"//文章评论
 #define kJRG_dofavourite_info kportal_commentUrl @"dofavourite"//收藏
+#define kJRG_dolike_info kdolikeUrl @"dolike"//点赞
+
+
 #define kJRG_comment_info kcommentUrl @"comment"//评论
 #define kJRG_bindwx kBaseUrl @"bindwx"   //绑定判断
 #define kJRG_isbindwx kBaseUrl @"isbindwx"   //绑定判断

@@ -40,7 +40,6 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

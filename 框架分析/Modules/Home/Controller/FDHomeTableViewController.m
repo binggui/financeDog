@@ -280,7 +280,7 @@
         
     }
 
-//    [self.navigationController presentModalViewController:personC animated:YES];
+
     
 }
 -(void)naviBtnClick:(UIButton *)btn{

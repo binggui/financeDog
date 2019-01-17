@@ -46,7 +46,7 @@
     }
     
     //大图片
-    self.leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, self.desLab.bottom + 5, kScreenWidth-30, 100)];
+    self.leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, self.desLab.bottom + 5, kScreenWidth-30, 135)];
     self.leftImg.contentMode = UIViewContentModeScaleToFill;
     self.leftImg.clipsToBounds = YES;
     self.leftImg.image = [UIImage imageNamed:@"头像"];
@@ -56,12 +56,13 @@
 
     
     NSInteger btnWidth = 60;
+    NSInteger btnHeight = 30;
     NSInteger marginNum = (kScreenWidth - 30 - 3*btnWidth) / 2;
     
     
     //阅读量
     _readBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _readBtn.frame = CGRectMake(15, self.leftImg.bottom + 10, btnWidth, 21);
+    _readBtn.frame = CGRectMake(15, self.leftImg.bottom + 10, btnWidth, btnHeight);
     [_readBtn setImage:[UIImage imageNamed:@"阅读量1"] forState:UIControlStateNormal];
     [_readBtn setTitle:@"999+" forState:UIControlStateNormal];
     [_readBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
@@ -71,7 +72,7 @@
     
     //回复人数
     _messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _messageBtn.frame = CGRectMake(_readBtn.right + marginNum, self.leftImg.bottom + 10, btnWidth, 21);
+    _messageBtn.frame = CGRectMake(_readBtn.right + marginNum, self.leftImg.bottom + 10, btnWidth, btnHeight);
     [_messageBtn setImage:[UIImage imageNamed:@"评论1"] forState:UIControlStateNormal];
     [_messageBtn setTitle:@"30" forState:UIControlStateNormal];
     [_messageBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];
@@ -81,7 +82,7 @@
     
     //收藏人数
     _collectionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, self.leftImg.bottom + 10, btnWidth, 21);
+    _collectionBtn.frame = CGRectMake(_messageBtn.right + marginNum, self.leftImg.bottom + 10, btnWidth, btnHeight);
     [_collectionBtn setImage:[UIImage imageNamed:@"收藏1"] forState:UIControlStateNormal];
     [_collectionBtn setTitle:@"12" forState:UIControlStateNormal];
     [_collectionBtn setTitleColor:[GFICommonTool colorWithHexString:@"#c8c8c8"] forState:UIControlStateNormal];

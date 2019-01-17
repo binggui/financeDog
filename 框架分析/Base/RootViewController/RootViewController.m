@@ -52,6 +52,7 @@
     return  appDelegate;
 }
 
+
 //用第三方插件显示网络加载提示
 #pragma mark - MBProgress
 - (void)showHUDLoading:(NSString *)title{
@@ -457,7 +458,15 @@
     NSIndexPath* indexPat = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView scrollToRowAtIndexPath:indexPat atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
+}
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if(scrollView.contentOffset.y >= scrollHeightDefault) {
+        self.robotImageView.hidden=NO;
+    }else{
+        self.robotImageView.hidden=YES;
+    }
 }
 
 /**

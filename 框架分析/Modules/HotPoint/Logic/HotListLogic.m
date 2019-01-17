@@ -127,7 +127,6 @@
                 for (NSDictionary *dict in tempArr) {
                   FDHomeModel *model = [FDHomeModel mj_objectWithKeyValues:dict];
                     [tempNewsArr addObject:model];
-                    
                 }
                 
                 if(tempNewsArr.count > 0){
