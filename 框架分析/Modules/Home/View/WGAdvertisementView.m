@@ -209,6 +209,7 @@
     if (_timer) {
         
         _currentPage = (NSInteger)(_scrollView.contentOffset.x/CGRectGetWidth(self.frame));
+        
         [UIView animateWithDuration:0.25 animations:^{
             
             [_scrollView setContentOffset:CGPointMake((_currentPage+1)*CGRectGetWidth(self.frame), 0)];

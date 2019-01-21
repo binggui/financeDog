@@ -136,7 +136,6 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-    NSString *urlTemp = nil;
     if (type == 1) {//验证码
         [params setObject:self.userTextfield.text forKey:@"phone"];
  
@@ -181,8 +180,14 @@
                 
               
             }
+        }else if ([result intValue] == 251 || [result intValue] == 253){
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
+            
         }else{
-            [super showHUDTip:[json objectForKey:@"error_msg"] duration:1.7];
+            [super showHUDTip:[json objectForKey:@"error_msg"]];
         }
     } failure:^(NSError *error) {
         [super showHUDTip:@"网络错误" duration:1.7];

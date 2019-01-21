@@ -381,8 +381,15 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"backToDetailVC" object:@"nil"];
             //            [self dismissViewControllerAnimated:YES completion:nil];
             
+        }else if ([result intValue] == 251 || [result intValue] == 253){
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
         }else{
-            [OMGToast showWithText:[json objectForKey:@"errMsg"] topOffset:180.0f duration:1.0];
+            [OMGToast showWithText:[json objectForKey:@"error_msg"] topOffset:KScreenHeight/2 duration:1.7];
+            
         }
     } failure:^(NSError *error) {
         //        NSLog(@"%@",error);
@@ -442,6 +449,10 @@
                     [defaults setBool:YES forKey:kIsLoginScuu];
                     NSString *str = [json objectForKey:KTokenMark] ;
                     [defaults setObject:str forKey:KTokenMark];
+                    NSString *strExpire = [json objectForKey:Kexpire_timeMark] ;
+                    [defaults setObject:strExpire forKey:Kexpire_timeMark];
+                    
+                    
                     NSString *strTemp = [[json objectForKey:@"result"]  objectForKey:KidMark];
                     [defaults setObject:strTemp forKey:KidMark];
                     

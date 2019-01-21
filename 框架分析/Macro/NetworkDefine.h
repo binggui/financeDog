@@ -142,8 +142,6 @@
 #define kJRG_getversion_info kEditpwdUrl @"getversion"//版本号
 
 
-
-
 #define kJRG_myread_info kEditpwdUrl @"myread"//阅读记录
 #define kJRG_myfavorite_info kEditpwdUrl @"myfavorite"//收藏记录mythumb
 #define kJRG_mythumb_info kEditpwdUrl @"mythumb"//上传头像

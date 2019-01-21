@@ -57,7 +57,9 @@
 #define kEncodePW @"passwd"//加密密码
 #define kIsLoginScuu @"islogin"//是否登录成功标志位
 #define KTokenMark @"token" //获取token
-#define KidMark @"id" //获取token
+#define KidMark @"id" //获取id
+#define Kexpire_timeMark @"expire_time" //获取token过期时间
+
 #define finishLogin 1
 #define autoLogin 2
 

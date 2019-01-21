@@ -41,7 +41,9 @@
 //    
 //    //广告页
 //    [AppManager appStart];
+    //版本号检查
     
+
     return YES;
 }
 

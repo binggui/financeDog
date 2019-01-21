@@ -43,8 +43,8 @@
     [super viewDidLoad];
     //请求主页轮播图图片
     [self getPics:1 andUrl:kJRG_index_info andId:0 andJumpUrl:nil];
-    [self getPics:3 andUrl:kJRG_getversion_info andId:0 andJumpUrl:nil];
-    
+//    [self getPics:3 andUrl:kJRG_getversion_info andId:0 andJumpUrl:nil];
+    [self tokenExpireTime];
     //开始第一次数据拉取
     [self.tableHomeView.mj_header beginRefreshing];
     [self setupNavigation];
@@ -54,6 +54,44 @@
     [self setupUI];
 
 }
+
+- (void)tokenExpireTime{
+    NSUserDefaults *defaults = USER_DEFAULT;
+    NSString *expireTime = [defaults objectForKey:Kexpire_timeMark];
+    if (expireTime != nil) {
+        //当前时间
+        NSString *currentTime = [self getNowTime] ;
+        
+        NSInteger compareDay = [self compare:currentTime to:expireTime];
+        
+        if (compareDay <=5) {
+            //过期
+            NSUserDefaults *defaults = USER_DEFAULT;
+            [defaults removeObjectForKey:kIsLoginScuu];
+            [defaults synchronize];
+        }
+    }
+
+}
+- (NSString *)getNowTime {
+    
+    //获取系统时间戳
+    NSDate* date1 = [NSDate date];
+    NSTimeInterval time1 =[date1 timeIntervalSince1970];
+    NSString *timeString = [NSString stringWithFormat:@"%.0f",time1];
+    NSLog(@"系统时间戳:%@",timeString);
+    return timeString;
+    
+}
+//比较两个日期大小
+-(NSInteger)compare:(NSString *)startTime to:(NSString *)endTime{
+    
+    NSInteger compareData = [endTime integerValue] - [startTime integerValue];
+    compareData = compareData / 86400;
+    
+    return compareData;
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 
@@ -115,8 +153,10 @@
         [params setObject:@(ID) forKey:@"portal_id"];
         
     }else if(type == 3){
-        NSString *version = @"1";
-        [params setObject:version forKey:@"version"];
+        // app版本
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        [params setObject:@(1.0) forKey:@"version"];
         
     }
     
@@ -156,7 +196,11 @@
                         [GFICommonTool login:self];
                     }
                 }else if (type == 3){
-//                    [self updateVersion];
+                    int is_new = json[@"is_new"];
+                    if (is_new == 1){
+                        [self updateVersion];
+                    }
+                    
                 }
             
             }
@@ -178,13 +222,14 @@
 
 - (void) updateVersion {
     // 初始化对话框
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认注销吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"有新的版本可以更新!!" preferredStyle:UIAlertControllerStyleAlert];
     // 确定注销
-    UIAlertAction *_okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
+    UIAlertAction *_okAction = [UIAlertAction actionWithTitle:@"确定更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
         // 跳转appStore 页面
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/fang-kai-na-san-guo/id680465449?mt=8"]];
        
     }];
-    UIAlertAction * _cancelAction =[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * _cancelAction =[UIAlertAction actionWithTitle:@"取消更新" style:UIAlertActionStyleCancel handler:nil];
     
     [alert addAction:_okAction];
     [alert addAction:_cancelAction];
