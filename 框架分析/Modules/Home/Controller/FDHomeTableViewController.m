@@ -239,20 +239,16 @@
 
 - (void) updateVersion:(NSString *)url {
     // 初始化对话框
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"有新的版本可以更新!!" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"有新的版本!!!" preferredStyle:UIAlertControllerStyleAlert];
     // 确定注销
     UIAlertAction *_okAction = [UIAlertAction actionWithTitle:@"立即更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
         //跳转到更新页面
-        DLog(@"升级地址是：%@",url);
-        if (![url isEqualToString:@""] && url != nil) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-            
-        }
-        
-        //版本号作为key，可以下一个版本出现是再提示
-        NSUserDefaults *defaults = USER_DEFAULT;
-        [defaults setObject:_updateVersion forKey:kVersion];
-        [defaults synchronize];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+
+    //版本号作为key，可以下一个版本出现是再提示
+    NSUserDefaults *defaults = USER_DEFAULT;
+    [defaults setObject:_updateVersion forKey:kVersion];
+    [defaults synchronize];
         
     }];
     UIAlertAction * _cancelAction =[UIAlertAction actionWithTitle:@"稍后更新" style:UIAlertActionStyleCancel handler:nil];
