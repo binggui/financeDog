@@ -125,6 +125,9 @@
 //当前语言
 #define CurrentLanguage (［NSLocale preferredLanguages] objectAtIndex:0])
 
+//版本更新flag
+#define kVersion  @"version"
+
 //-------------------打印日志-------------------------
 //DEBUG  模式下打印日志,当前行
 #ifdef DEBUG

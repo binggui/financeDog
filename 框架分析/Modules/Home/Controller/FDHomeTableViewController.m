@@ -35,6 +35,7 @@
 //@property (strong, nonatomic)  UITableView *tableView;
 @property (nonatomic ,strong) UIView *topView;
 @property(nonatomic,strong) FDHomeListLogic *logic;//逻辑层
+@property (strong, nonatomic) NSString * updateVersion;
 @end
 
 @implementation FDHomeTableViewController
@@ -43,7 +44,12 @@
     [super viewDidLoad];
     //请求主页轮播图图片
     [self getPics:1 andUrl:kJRG_index_info andId:0 andJumpUrl:nil];
-//    [self getPics:3 andUrl:kJRG_getversion_info andId:0 andJumpUrl:nil];
+    
+ 
+    [self getPics:3 andUrl:kJRG_getversion_info andId:0 andJumpUrl:nil];//检查版本
+        
+
+    
     [self tokenExpireTime];
     //开始第一次数据拉取
     [self.tableHomeView.mj_header beginRefreshing];
@@ -156,7 +162,7 @@
         // app版本
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-        [params setObject:@(1.0) forKey:@"version"];
+        [params setObject:app_Version forKey:@"version"];
         
     }
     
@@ -196,9 +202,20 @@
                         [GFICommonTool login:self];
                     }
                 }else if (type == 3){
-                    int is_new = json[@"is_new"];
-                    if (is_new == 1){
-                        [self updateVersion];
+                    NSString *is_new = [json objectForKey: @"is_new"];
+                    _updateVersion = [json objectForKey: @"app_version"];
+                    if ([is_new integerValue] == 1){
+    
+                        //后台返回的版本和本地储存的比较
+                        if(![[USER_DEFAULT stringForKey:kVersion] isEqualToString:_updateVersion]){
+                            NSString *url = [json objectForKey:@"path_ios"];
+                            if (![url isEqualToString:@""] && url != nil) {
+                                [self updateVersion:url];
+                                
+                            }
+                            
+                        }
+
                     }
                     
                 }
@@ -220,16 +237,25 @@
     
 }
 
-- (void) updateVersion {
+- (void) updateVersion:(NSString *)url {
     // 初始化对话框
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"有新的版本可以更新!!" preferredStyle:UIAlertControllerStyleAlert];
     // 确定注销
-    UIAlertAction *_okAction = [UIAlertAction actionWithTitle:@"确定更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
-        // 跳转appStore 页面
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/fang-kai-na-san-guo/id680465449?mt=8"]];
-       
+    UIAlertAction *_okAction = [UIAlertAction actionWithTitle:@"立即更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
+        //跳转到更新页面
+        DLog(@"升级地址是：%@",url);
+        if (![url isEqualToString:@""] && url != nil) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            
+        }
+        
+        //版本号作为key，可以下一个版本出现是再提示
+        NSUserDefaults *defaults = USER_DEFAULT;
+        [defaults setObject:_updateVersion forKey:kVersion];
+        [defaults synchronize];
+        
     }];
-    UIAlertAction * _cancelAction =[UIAlertAction actionWithTitle:@"取消更新" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * _cancelAction =[UIAlertAction actionWithTitle:@"稍后更新" style:UIAlertActionStyleCancel handler:nil];
     
     [alert addAction:_okAction];
     [alert addAction:_cancelAction];
