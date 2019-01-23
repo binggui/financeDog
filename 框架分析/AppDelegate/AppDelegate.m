@@ -21,6 +21,10 @@
     
     //微信
     [WXApi registerApp:@"wx7e76534c5f78fa8d"];
+    
+    //启动页
+//    [self guideViewShow];
+    
 //    //初始化网络请求配置
 //    [self NetWorkConfig];
 //    

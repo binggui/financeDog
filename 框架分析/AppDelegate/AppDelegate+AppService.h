@@ -11,5 +11,6 @@
 @interface AppDelegate (AppService)
 
 -(void)initWindow;
+- (void)guideViewShow;
 + (AppDelegate *)shareAppDelegate;
 @end

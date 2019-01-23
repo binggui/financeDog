@@ -8,6 +8,7 @@
 
 #import "AppDelegate+AppService.h"
 #import "WRNavigationBar.h"
+#import "DHGuidePageHUD.h"
 
 UIColor *MainNavBarColor = nil;
 UIColor *MainViewColor = nil;
@@ -47,5 +48,21 @@ UIColor *MainViewColor = nil;
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
+- (void)guideViewShow{
+#pragma mark -- 设置引导图
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:BOOLFORKEY]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:BOOLFORKEY];
+        // 静态引导页
+        NSArray *imageNameArray = @[@"1.jpg",@"2.jpg",@"7.jpg",@"8.jpg"];
+        DHGuidePageHUD *guidePage = [[DHGuidePageHUD alloc]dh_initWithFrame:self.window.frame imageNameArray:imageNameArray buttonIsHidden:NO];
+        [self.window addSubview:guidePage];
+        
+    }
+    
+
+        
+    
+}
 
 @end

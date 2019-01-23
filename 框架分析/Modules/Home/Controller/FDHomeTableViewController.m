@@ -70,7 +70,7 @@
         
         NSInteger compareDay = [self compare:currentTime to:expireTime];
         
-        if (compareDay <=5) {
+        if (compareDay <= 5) {
             //过期
             NSUserDefaults *defaults = USER_DEFAULT;
             [defaults removeObjectForKey:kIsLoginScuu];
